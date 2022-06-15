@@ -68,7 +68,7 @@ public class ScannerDriver {
 		 *  this menu should repeat until the user decides to exit
 		 */
 		String checkExit = "0";
-		while (checkExit != "3")  {
+		while (!checkExit.equals("3"))  {
 			StringBuilder sb = new StringBuilder();
 			System.out.println("Menu please enter a number of your choice");
 			System.out.println("1: get a random number");
@@ -80,13 +80,16 @@ public class ScannerDriver {
 			case "1":
 				System.out.println("enter a number");
 				Integer numberInput = scan.nextInt(); 
-				System.out.println("Your number " + numberInput);
+				System.out.println("Your number " + (numberInput *   Math.random()));
 			break;  	
 			case "2":
 				System.out.println("enter a text");
 				String textInput = scan.nextLine();  
 				sb.append(textInput);
 				System.out.println(sb.reverse());
+			break;  
+			case "3":
+				System.out.println("bye");
 			break;  			
  			}				
 		} 
