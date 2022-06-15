@@ -37,6 +37,7 @@ public class ScannerDriver {
 //		loginScreen();
 		
 		menu();
+		//menuKevin();
 	}
 	
 	public static void loginScreen() {
@@ -78,9 +79,7 @@ public class ScannerDriver {
 			checkExit = usernameInput;
 			switch(usernameInput) {
 			case "1":
-				System.out.println("enter a number");
-				Integer numberInput = scan.nextInt(); 
-				System.out.println("Your number " + (numberInput *   Math.random()));
+				System.out.println("Your random number " +  Math.round(Math.random() * 100));
 			break;  	
 			case "2":
 				System.out.println("enter a text");
@@ -96,4 +95,6 @@ public class ScannerDriver {
 	
 		
 	}
+	
+ 
 }
