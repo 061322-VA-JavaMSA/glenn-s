@@ -3,4 +3,9 @@
   <groupId>com.revature</groupId>
   <artifactId>my-first-eclipse-project</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+  <maven.compiler.source>1.8</maven.compiler.source>
+  <maven.compiler.targt>1.8</maven.compiler.targt>
+  </properties>
 </project>
