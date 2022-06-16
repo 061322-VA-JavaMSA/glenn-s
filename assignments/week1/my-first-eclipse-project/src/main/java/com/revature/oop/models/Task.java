@@ -5,10 +5,13 @@ import java.util.Objects;
 
 public class Task {
 
+	private int id;
 	private String description;
 	private boolean completed;
 	private LocalDate dueDate;
-
+	private User userAssigned; //oop way has A relationship
+//	private int userIdAssigned; not the "OOP way"
+	
 	public Task() {
 		//super() => to the Object class constructor
 		dueDate = LocalDate.now().plusDays(5);
@@ -21,6 +24,14 @@ public class Task {
 		this.description = description;
 	}
 
+	public void doTask() {
+		System.out.println("Doing a task.");
+	}
+
+	public void doTask(String speed) {
+		System.out.println("Doing a task.");
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -49,26 +60,21 @@ public class Task {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "Task [description=" + description + ", completed=" + completed + ", dueDate=" + dueDate + "]";
+	public int getId() {
+		return id;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(completed, description, dueDate);
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Task other = (Task) obj;
-		return completed == other.completed && Objects.equals(description, other.description)
-				&& Objects.equals(dueDate, other.dueDate);
+	public User getUserAssigned() {
+		return userAssigned;
 	}
+
+	public void setUserAssigned(User userAssigned) {
+		this.userAssigned = userAssigned;
+	}
+
+
 }
