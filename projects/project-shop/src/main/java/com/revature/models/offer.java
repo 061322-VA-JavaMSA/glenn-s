@@ -1,25 +1,23 @@
 package com.revature.models;
-/*
- *  connects orders to purchase products
- */
-public class conn_order_product {
+
+public class offer {
 	private int id;
-	private int order_id;
+	private int user_id;
 	private int product_id;
 	private float offer_price;	
-	private float remain_payments;
-
+	private boolean rejected;
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getOrder_id() {
-		return order_id;
+	public int getUser_id() {
+		return user_id;
 	}
-	public void setOrder_id(int order_id) {
-		this.order_id = order_id;
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
 	public int getProduct_id() {
 		return product_id;
@@ -33,11 +31,12 @@ public class conn_order_product {
 	public void setOffer_price(float offer_price) {
 		this.offer_price = offer_price;
 	}
-	public float getRemain_payments() {
-		return remain_payments;
+ 
+	public boolean isRejected() {
+		return rejected;
 	}
-	public void setRemain_payments(float remain_payments) {
-		this.remain_payments = remain_payments;
-	}
-
+	public void setRejected(boolean rejected) {
+		this.rejected = rejected;
+	}	
+	
 }
