@@ -33,9 +33,13 @@ public class Calculator {
 	    for (int value : intArr) {
 	        sum += value;
 	    }
-	    if(sum == 0) {
-	    	throw new DivideBy0Exception();
-	    }
 	    return sum;
 	}
+	
+	public int divide(int a, int b) {
+		if(b == 0) {
+			throw new DivideBy0Exception();
+		}	
+	    return a / b;
+	}	
 }

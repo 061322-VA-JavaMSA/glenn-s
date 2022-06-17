@@ -82,10 +82,9 @@ public class CalculatorTest {
 		
 	
 	@Test
-	public void sumArrayZero() {
-        int[] Intarr = {0,0,0,0,0,0,0};
-		   
-		assertThrows(DivideBy0Exception.class, () -> sut.sumOfAnArray(Intarr));
+	public void divideZero() {
+ 		   
+		assertThrows(DivideBy0Exception.class, () -> sut.divide(0, 0));
 	}	
 			
 	
