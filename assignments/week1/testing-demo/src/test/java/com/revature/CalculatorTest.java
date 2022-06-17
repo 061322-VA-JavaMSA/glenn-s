@@ -23,8 +23,8 @@ public class CalculatorTest {
 	 *  - @AfterEach
 	 *  
 	 *  - @Test
-	 *  - @Ignore
-	 *  - @Order
+	 *  - @Ignore ignores test
+	 *  - @Order add below @Order(1)
 	 */
 	
 	// Used to set up the test
