@@ -6,7 +6,8 @@ public class product {
 	private String product_name;
 	private float price;
 	private float offer_price;		
-	private float remain_payments;	
+	private float paid;	
+	private int paid_status;	
 	private int user_id;
 	
 	public int getId() {
@@ -33,17 +34,23 @@ public class product {
 	public void setOffer_price(float offer_price) {
 		this.offer_price = offer_price;
 	}
-	public float getRemain_payments() {
-		return remain_payments;
+	public float getPaid() {
+		return paid;
 	}
-	public void setRemain_payments(float remain_payments) {
-		this.remain_payments = remain_payments;
+	public void setPaid(float paid) {
+		this.paid = paid;
 	}
 	public int getUser_id() {
 		return user_id;
 	}
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
+	}
+	public int getPaid_status() {
+		return paid_status;
+	}
+	public void setPaid_status(int paid_status) {
+		this.paid_status = paid_status;
 	}
 
 
