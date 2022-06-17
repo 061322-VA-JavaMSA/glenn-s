@@ -69,7 +69,14 @@ public class CalculatorTest {
 		assertEquals(expected, actual);
 	}	
 	
- 
+	@Test
+	public void mutiplyOneAndTwo() {
+		int expected = 50;
+		int actual = sut.multiply(5, 10);
+		
+		assertEquals(expected, actual);
+	}	
+	
 	
 	@Test
 	public void sumArray() {
