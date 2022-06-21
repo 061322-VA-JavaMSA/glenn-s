@@ -22,8 +22,13 @@ lastname varchar(30)  not null
 
 
 CREATE table employee_customer (
-employeeid integer references employee(id),
-customerid integer references customer(id),
-constraint id PRIMARY KEY (employeeid, customerid)
+employeeid integer,
+customerid integer,
+PRIMARY KEY (employeeid, customerid)
 );
 
+CREATE table salesoffice_customer (
+salesofficeid integer references salesoffice(id),
+customerid integer references customer(id),
+PRIMARY KEY (salesofficeid, customerid)
+);
