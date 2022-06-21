@@ -10,7 +10,6 @@ CREATE table employee (
 id SERIAL  PRIMARY KEY,
 firstname varchar(30)  not null,
 lastname varchar(30)  not null,
-age INTEGER not null,
 dob date not null,
 salesofficeid integer references salesoffice(id)
 );
