@@ -1,21 +1,23 @@
 package com.revature.services;
 
-import com.revature.daos.UserArrayList;
+import java.util.List;
+
 import com.revature.daos.UserDAO;
+import com.revature.daos.UserPostgres;
 import com.revature.models.User;
 
 public class UserService {
 
-	private UserDAO ud = new UserArrayList();
+	private UserDAO ud = new UserPostgres();
 	
-	public User createUser(User u) {
-		//validation logic to object u being passed in...
-		// business logic
-		return ud.insertUser(u);
+	public List<User> getUsers(){
+		return ud.retrieveUsers();
 	}
 	
-	public User getUserById(int id) {
-		return ud.getById(id);
-	}	
-
+	public User createUser(User u) {
+		// logic to validate u
+		// if ok
+//		u = ud.createUser(u);
+		return ud.createUser(u);
+	}
 }

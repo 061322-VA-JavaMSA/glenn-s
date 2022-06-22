@@ -5,9 +5,8 @@ public class offer {
 	private int user_id;
 	private int product_id;
 	private float offer_price;	
-	private boolean accepted;	
-	private boolean rejected;
-	
+	private int status;	
+ 	
 	public int getId() {
 		return id;
 	}
@@ -32,18 +31,12 @@ public class offer {
 	public void setOffer_price(float offer_price) {
 		this.offer_price = offer_price;
 	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
  
-	public boolean isRejected() {
-		return rejected;
-	}
-	public void setRejected(boolean rejected) {
-		this.rejected = rejected;
-	}
-	public boolean isAccepted() {
-		return accepted;
-	}
-	public void setAccepted(boolean accepted) {
-		this.accepted = accepted;
-	}	
 	
 }
