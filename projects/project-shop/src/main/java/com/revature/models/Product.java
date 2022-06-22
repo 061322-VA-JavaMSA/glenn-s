@@ -1,14 +1,16 @@
 package com.revature.models;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
-public class product {
+public class Product {
 	private int id;
 	private String product_name;
 	private double price;
 	private double offer_price;		
 	private double paid;	
-	private int paid_status;	
+	private int paid_status;
+	private LocalDate paidDate;	
 	private int user_id;
 	
 	public int getId() {
@@ -53,9 +55,15 @@ public class product {
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
+	public LocalDate getPaidDate() {
+		return paidDate;
+	}
+	public void setPaidDate(LocalDate paidDate) {
+		this.paidDate = paidDate;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, offer_price, paid, paid_status, price, product_name, user_id);
+		return Objects.hash(id, offer_price, paid, paidDate, paid_status, price, product_name, user_id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -65,18 +73,20 @@ public class product {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		product other = (product) obj;
+		Product other = (Product) obj;
 		return id == other.id && Double.doubleToLongBits(offer_price) == Double.doubleToLongBits(other.offer_price)
 				&& Double.doubleToLongBits(paid) == Double.doubleToLongBits(other.paid)
-				&& paid_status == other.paid_status
+				&& Objects.equals(paidDate, other.paidDate) && paid_status == other.paid_status
 				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
 				&& Objects.equals(product_name, other.product_name) && user_id == other.user_id;
 	}
 	@Override
 	public String toString() {
-		return "product [id=" + id + ", product_name=" + product_name + ", price=" + price + ", offer_price="
-				+ offer_price + ", paid=" + paid + ", paid_status=" + paid_status + ", user_id=" + user_id + "]";
+		return "Product [id=" + id + ", product_name=" + product_name + ", price=" + price + ", offer_price="
+				+ offer_price + ", paid=" + paid + ", paid_status=" + paid_status + ", paidDate=" + paidDate
+				+ ", user_id=" + user_id + "]";
 	}
+	 
 	 
 
 	

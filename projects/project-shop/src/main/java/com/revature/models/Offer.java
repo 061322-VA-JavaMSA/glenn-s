@@ -1,6 +1,8 @@
 package com.revature.models;
 
-public class offer {
+import java.util.Objects;
+
+public class Offer {
 	private int id;
 	private int user_id;
 	private int product_id;
@@ -36,6 +38,27 @@ public class offer {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, offer_price, product_id, status, user_id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Offer other = (Offer) obj;
+		return id == other.id && Float.floatToIntBits(offer_price) == Float.floatToIntBits(other.offer_price)
+				&& product_id == other.product_id && status == other.status && user_id == other.user_id;
+	}
+	@Override
+	public String toString() {
+		return "offer [id=" + id + ", user_id=" + user_id + ", product_id=" + product_id + ", offer_price="
+				+ offer_price + ", status=" + status + "]";
 	}
  
 	

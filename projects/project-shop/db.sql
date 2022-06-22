@@ -16,6 +16,7 @@ product_name varchar(100)  not null,
 price decimal DEFAULT 0,
 offer_price decimal DEFAULT 0,
 paid decimal  DEFAULT 0,
+paid_date date NULL,
 user_id integer references users(id)
 );
 
