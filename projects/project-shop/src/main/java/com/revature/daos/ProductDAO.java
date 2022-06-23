@@ -10,4 +10,8 @@ public interface ProductDAO  {
 	List<Product> retrieveProducts();
 	boolean updateProduct(Product p);
 	boolean deleteProductById(int id);
+	boolean resetProduct(Product p);
+	boolean payProduct(Product p);
+	Product retrieveProductByUserId(int id);
+	boolean acceptProduct(Product p);
 }

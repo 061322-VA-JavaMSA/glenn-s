@@ -16,7 +16,7 @@ product_name varchar(100)  not null,
 price decimal DEFAULT 0,
 offer_price decimal DEFAULT 0,
 paid decimal  DEFAULT 0,
-paid_date date NULL,
+paid_at timestamp NULL,
 user_id integer references users(id)
 );
 
@@ -25,5 +25,6 @@ id SERIAL  PRIMARY KEY,
 offer_price decimal  DEFAULT 0,
 status integer DEFAULT 0,
 product_id integer references products(id),
+created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 user_id integer references users(id)
 );

@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Offer {
@@ -8,6 +9,7 @@ public class Offer {
 	private int product_id;
 	private float offer_price;	
 	private int status;	
+ 	private Timestamp created_at;
  	
 	public int getId() {
 		return id;
@@ -39,9 +41,15 @@ public class Offer {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	public Timestamp getCreated_at() {
+		return created_at;
+	}
+	public void setCreated_at(Timestamp created_at) {
+		this.created_at = created_at;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, offer_price, product_id, status, user_id);
+		return Objects.hash(created_at, id, offer_price, product_id, status, user_id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -52,14 +60,16 @@ public class Offer {
 		if (getClass() != obj.getClass())
 			return false;
 		Offer other = (Offer) obj;
-		return id == other.id && Float.floatToIntBits(offer_price) == Float.floatToIntBits(other.offer_price)
+		return Objects.equals(created_at, other.created_at) && id == other.id
+				&& Float.floatToIntBits(offer_price) == Float.floatToIntBits(other.offer_price)
 				&& product_id == other.product_id && status == other.status && user_id == other.user_id;
 	}
 	@Override
 	public String toString() {
-		return "offer [id=" + id + ", user_id=" + user_id + ", product_id=" + product_id + ", offer_price="
-				+ offer_price + ", status=" + status + "]";
+		return "Offer [id=" + id + ", user_id=" + user_id + ", product_id=" + product_id + ", offer_price="
+				+ offer_price + ", status=" + status + ", created_at=" + created_at + "]";
 	}
+ 
  
 	
 }

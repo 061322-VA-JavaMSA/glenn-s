@@ -5,9 +5,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.revature.models.Product;
+
 import com.revature.util.ConnectionUtil;
 
 public class ProductPostgres implements ProductDAO {
@@ -48,32 +53,204 @@ public class ProductPostgres implements ProductDAO {
 				product.setPrice(rs.getDouble("price"));
 				product.setOffer_price(rs.getDouble("offer_price"));
 				product.setPaid(rs.getDouble("paid"));
-				product.setPaidDate(rs.getDate("paid_date").toLocalDate());
+				product.setPaid_at(rs.getTimestamp("paid_at")); 
 				product.setUser_id(rs.getInt("user_id"));
 				
 			}
-		} catch (Exception e) {
+		} catch (SQLException | IOException e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
-		return null;
+		return product;
 	}
+
 
 	@Override
 	public List<Product> retrieveProducts() {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from products;";
+		List<Product> products = new ArrayList<>();
+			
+		try(Connection c = ConnectionUtil.getConnectionFromFile()){
+			Statement s = c.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) {
+				// extract each field from rs for each record, map them to a Product object and add them to the products arrayliost
+				Product product = new Product();
+				product.setProduct_name(rs.getString("product_name"));
+				product.setPrice(rs.getDouble("price"));
+				product.setOffer_price(rs.getDouble("offer_price"));
+				product.setPaid(rs.getDouble("paid"));
+				product.setPaid_at(rs.getTimestamp("paid_at")); 
+				product.setUser_id(rs.getInt("user_id"));
+				products.add(product);
+
+			}
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return products;
 	}
 
 	@Override
 	public boolean updateProduct(Product p) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "update products set product_name = ?, price = ? where id = ?;";
+		int rowsChanged = -1;
+		
+		try(Connection c = ConnectionUtil.getConnectionFromFile()){
+			PreparedStatement ps = c.prepareStatement(sql);
+			
+			ps.setString(1, p.getProduct_name());
+			ps.setDouble(2, p.getPrice());
+			ps.setInt(3, p.getId());
+			
+			rowsChanged = ps.executeUpdate();
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(rowsChanged < 1) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean deleteProductById(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "delete from products where id = ?;";
+		int rowsChanged = -1;
+		try(Connection c = ConnectionUtil.getConnectionFromFile()){
+			PreparedStatement ps = c.prepareStatement(sql);
+			
+			ps.setInt(1, id);
+			
+			rowsChanged = ps.executeUpdate();
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if(rowsChanged < 1) {
+			return false;
+		}
+		return true;
 	}
 
+	@Override
+	public boolean acceptProduct(Product p) {
+		String sql = "update products set offer_price = ?, paid = ? , paid_at = ? where id = ?;";
+		int rowsChanged = -1;
+		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+
+		Date date = new Date();
+		Timestamp timestamp2 = new Timestamp(date.getTime());
+		p.setPaid_at(timestamp2);
+		
+		try(Connection c = ConnectionUtil.getConnectionFromFile()){
+			PreparedStatement ps = c.prepareStatement(sql);
+			
+			ps.setDouble(1, p.getOffer_price());
+			ps.setDouble(2, p.getPaid());
+			ps.setTimestamp(3, p.getPaid_at());
+			ps.setInt(4, p.getId());
+			
+			rowsChanged = ps.executeUpdate();
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(rowsChanged < 1) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override	
+	public boolean resetProduct(Product p) {
+		String sql = "update products set offer_price = ?, paid = ? , paid_at = ? where id = ?;";
+		int rowsChanged = -1;
+		
+		p.setOffer_price(0);
+		p.setPaid(0);
+		p.setPaid_at(null);
+		
+		try(Connection c = ConnectionUtil.getConnectionFromFile()){
+			PreparedStatement ps = c.prepareStatement(sql);
+			
+			ps.setDouble(1, p.getOffer_price());
+			ps.setDouble(2, p.getPaid());
+			ps.setTimestamp(3, p.getPaid_at());
+			ps.setInt(4, p.getId());
+			
+			rowsChanged = ps.executeUpdate();
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(rowsChanged < 1) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean payProduct(Product p) {
+		String sql = "update products set paid = ? where id = ?;";
+		int rowsChanged = -1;
+		
+		try(Connection c = ConnectionUtil.getConnectionFromFile()){
+			PreparedStatement ps = c.prepareStatement(sql);
+			
+			ps.setDouble(2, p.getPaid());
+			ps.setInt(4, p.getId());
+			
+			rowsChanged = ps.executeUpdate();
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(rowsChanged < 1) {
+			return false;
+		}
+		return true;
+	}	
+	
+	@Override
+	public Product retrieveProductByUserId(int id) {
+		String sql = "select * from products where user_id = ?";
+		Product product = null;
+		try(Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				product = new Product();
+				product.setProduct_name(rs.getString("product_name"));
+				product.setPrice(rs.getDouble("price"));
+				product.setOffer_price(rs.getDouble("offer_price"));
+				product.setPaid(rs.getDouble("paid"));
+				product.setPaid_at(rs.getTimestamp("paid_at")); 
+				product.setUser_id(rs.getInt("user_id"));
+				
+			}
+		} catch (SQLException | IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return product;
+	}	
+		
 }
