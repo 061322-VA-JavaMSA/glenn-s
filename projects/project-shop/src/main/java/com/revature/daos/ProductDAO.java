@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.revature.models.Product;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public interface ProductDAO  {
 	Product createProduct(Product p);
 	Product retrieveProductById(int id);

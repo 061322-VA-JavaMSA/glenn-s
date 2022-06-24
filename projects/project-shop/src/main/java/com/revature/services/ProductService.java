@@ -7,42 +7,41 @@ import com.revature.daos.ProductPostgres;
 import com.revature.models.Product;
 
 public class ProductService {
-	private ProductDAO  pd = new ProductPostgres();
-	
+	private ProductDAO pd = new ProductPostgres();
+
 	public List<Product> getProducts() {
-		return  pd.retrieveProducts();
-	} 
-	
+		return pd.retrieveProducts();
+	}
+
 	public Product createProduct(Product ps) {
 		return pd.createProduct(ps);
 	}
- 
+
 	public Product getProductByID(int id) {
-		return  pd.retrieveProductById(id);
-	} 	
+		return pd.retrieveProductById(id);
+	}
 
 	public boolean setProduct(Product ps) {
 		return pd.updateProduct(ps);
 	}
 
 	public boolean deleteProductById(int id) {
-		return  pd.deleteProductById(id);
-	} 
-	
-	public boolean acceptProduct(Product ps) {
-		return  pd.acceptProduct(ps);
-	} 	
-	
+		return pd.deleteProductById(id);
+	}
+
+	public boolean setProducttoUser(Product ps) {
+		return pd.setProducttoUser(ps);
+	}
+
 	public boolean resetProduct(Product ps) {
-		return  pd.resetProduct(ps);
-	} 	
-	
-	public Product retrieveProductByUserId(int id) {
-		return  pd.retrieveProductByUserId(id);
-	} 	
-	
-	
+		return pd.resetProduct(ps);
+	}
+
+	public List<Product> retrieveProductByUserId(int id) {
+		return pd.retrieveProductByUserId(id);
+	}
+
 	public boolean payProduct(Product ps) {
-		return  pd.payProduct(ps);
-	} 	
+		return pd.payProduct(ps);
+	}
 }

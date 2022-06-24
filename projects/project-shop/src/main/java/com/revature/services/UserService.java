@@ -1,4 +1,5 @@
 package com.revature.services;
+
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,10 +14,10 @@ public class UserService {
 	private UserDAO ud = new UserPostgres();
 	private static Logger log = LogManager.getLogger(UserService.class);
 
-	public List<User> getUsers(){
+	public List<User> getUsers() {
 		return ud.retrieveUsers();
 	}
-	
+
 	public User createUser(User u) {
 		// logic to validate u
 		// if ok

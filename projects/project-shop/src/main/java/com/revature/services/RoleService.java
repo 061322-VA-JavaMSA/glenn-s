@@ -9,11 +9,9 @@ import com.revature.models.User;
 
 public class RoleService {
 	private RoleDAO rd = new RolePostgres();
-	
-	
-	public List<Role> getRoles(){
+
+	public List<Role> getRoles() {
 		return rd.retrieveRole();
 	}
-		
-	
+
 }
