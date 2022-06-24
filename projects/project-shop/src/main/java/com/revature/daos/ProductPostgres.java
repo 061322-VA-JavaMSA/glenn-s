@@ -143,8 +143,8 @@ public class ProductPostgres implements ProductDAO {
 	}
 
 	@Override
-	public boolean acceptProduct(Product p) {
-		String sql = "update products set offer_price = ?, paid = ? , paid_at = ? where id = ?;";
+	public boolean setProducttoUser(Product p) {
+		String sql = "update products set offer_price = ?, paid = ? , paid_at = ?, user_id = > where id = ?;";
 		int rowsChanged = -1;
 		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 
@@ -158,7 +158,8 @@ public class ProductPostgres implements ProductDAO {
 			ps.setDouble(1, p.getOffer_price());
 			ps.setDouble(2, p.getPaid());
 			ps.setTimestamp(3, p.getPaid_at());
-			ps.setInt(4, p.getId());
+			ps.setInt(4, p.getUser_id());
+			ps.setInt(5, p.getId());
 			
 			rowsChanged = ps.executeUpdate();
 			
@@ -175,12 +176,13 @@ public class ProductPostgres implements ProductDAO {
 
 	@Override	
 	public boolean resetProduct(Product p) {
-		String sql = "update products set offer_price = ?, paid = ? , paid_at = ? where id = ?;";
+		String sql = "update products set offer_price = ?, paid = ? , paid_at = ? , paid_at = ?, user_id = >  where id = ?;";
 		int rowsChanged = -1;
 		
 		p.setOffer_price(0);
 		p.setPaid(0);
 		p.setPaid_at(null);
+		p.setUser_id(0);
 		
 		try(Connection c = ConnectionUtil.getConnectionFromFile()){
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -188,6 +190,8 @@ public class ProductPostgres implements ProductDAO {
 			ps.setDouble(1, p.getOffer_price());
 			ps.setDouble(2, p.getPaid());
 			ps.setTimestamp(3, p.getPaid_at());
+			ps.setInt(4, p.getUser_id());
+
 			ps.setInt(4, p.getId());
 			
 			rowsChanged = ps.executeUpdate();
@@ -228,29 +232,32 @@ public class ProductPostgres implements ProductDAO {
 	}	
 	
 	@Override
-	public Product retrieveProductByUserId(int id) {
+	public List<Product> retrieveProductByUserId(int id) {
+		List<Product> products = new ArrayList<>();
+
 		String sql = "select * from products where user_id = ?";
-		Product product = null;
 		try(Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				product = new Product();
+			while(rs.next()) {
+				// extract each field from rs for each record, map them to a Product object and add them to the products arrayliost
+				Product product = new Product();
 				product.setProduct_name(rs.getString("product_name"));
 				product.setPrice(rs.getDouble("price"));
 				product.setOffer_price(rs.getDouble("offer_price"));
 				product.setPaid(rs.getDouble("paid"));
 				product.setPaid_at(rs.getTimestamp("paid_at")); 
 				product.setUser_id(rs.getInt("user_id"));
-				
+				products.add(product);
+
 			}
 		} catch (SQLException | IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return product;
+		return products;
 	}	
 		
 }

@@ -10,6 +10,6 @@ public interface OfferDAO {
 	List<Offer> retrieveOffers();
 	boolean updateOffer(Offer o);
 	boolean deleteOfferById(int id);
-	Offer retrieveOfferByUserId(int id);
+	List<Offer> retrieveOfferByUserId(int id);
 	boolean acceptOffer(Offer o);
 }

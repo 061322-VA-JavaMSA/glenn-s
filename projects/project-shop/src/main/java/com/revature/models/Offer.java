@@ -7,7 +7,7 @@ public class Offer {
 	private int id;
 	private int user_id;
 	private int product_id;
-	private float offer_price;	
+	private double offer_price;	
 	private int status;	
  	private Timestamp created_at;
  	
@@ -29,12 +29,7 @@ public class Offer {
 	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
 	}
-	public float getOffer_price() {
-		return offer_price;
-	}
-	public void setOffer_price(float offer_price) {
-		this.offer_price = offer_price;
-	}
+ 
 	public int getStatus() {
 		return status;
 	}
@@ -46,6 +41,12 @@ public class Offer {
 	}
 	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
+	}
+	public double getOffer_price() {
+		return offer_price;
+	}
+	public void setOffer_price(double offer_price) {
+		this.offer_price = offer_price;
 	}
 	@Override
 	public int hashCode() {
@@ -61,7 +62,7 @@ public class Offer {
 			return false;
 		Offer other = (Offer) obj;
 		return Objects.equals(created_at, other.created_at) && id == other.id
-				&& Float.floatToIntBits(offer_price) == Float.floatToIntBits(other.offer_price)
+				&& Double.doubleToLongBits(offer_price) == Double.doubleToLongBits(other.offer_price)
 				&& product_id == other.product_id && status == other.status && user_id == other.user_id;
 	}
 	@Override
