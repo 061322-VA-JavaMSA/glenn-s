@@ -3,8 +3,11 @@ package com.revature;
 import java.util.List;
 import java.util.Scanner;
 
+import com.revature.controller.UserController;
 import com.revature.daos.OfferDAO;
 import com.revature.daos.OfferPostgres;
+import com.revature.daos.UserDAO;
+import com.revature.daos.UserPostgres;
 import com.revature.exceptions.LoginException;
 import com.revature.models.Offer;
 import com.revature.models.Product;
@@ -28,10 +31,10 @@ public class DriverTest {
 
 	public static void main(String[] args) {
 		as = new AuthService();
-
 		ps = new ProductService();
  		
-//		us = new UserService();
+		us = new UserService();
+		UserDAO ud = new UserPostgres(); 
 //		List<User> users = us.getUsers();
 //		for(User u : users) {
 //			System.out.println(u);
@@ -80,12 +83,16 @@ public class DriverTest {
 //		password = scan.nextLine();
 //		
 //		try {
-//			log.info(as.login(username, password));
+//			User u = as.login(username, password);
+//			log.info(u);
 //		} catch (LoginException e) {
 //			System.out.println("Invalid credentials.");
 //			log.error("Login exception was thrown: " + e.fillInStackTrace());
 // 		}		
+		UserController u = new UserController();
+		u.login();
 		
+ 
   	}
 	
  

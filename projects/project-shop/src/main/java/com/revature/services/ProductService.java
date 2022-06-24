@@ -13,6 +13,10 @@ public class ProductService {
 		return pd.retrieveProducts();
 	}
 
+	public List<Product> getProducts(int i) {
+		return pd.retrieveProductsOwned(i);
+	}
+	
 	public Product createProduct(Product ps) {
 		return pd.createProduct(ps);
 	}

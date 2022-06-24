@@ -17,7 +17,7 @@ price decimal DEFAULT 0,
 offer_price decimal DEFAULT 0,
 paid decimal  DEFAULT 0,
 paid_at timestamp NULL,
-user_id integer DEFAULT 0 references users(id)
+user_id integer references users(id)
 );
 
 CREATE table offers (

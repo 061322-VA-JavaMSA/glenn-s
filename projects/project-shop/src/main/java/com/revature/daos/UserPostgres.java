@@ -52,9 +52,7 @@ public class UserPostgres implements UserDAO {
 
 			if (rs.next()) {
 				user = new User();
-				user.setId(rs.getInt("id"));
-				user.setUsername(rs.getString("username"));
-				user.setPassword(rs.getString("password"));
+				returnData(rs, user);
 			}
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
@@ -77,9 +75,7 @@ public class UserPostgres implements UserDAO {
 				// extract each field from rs for each record, map them to a User object and add
 				// them to the users arrayliost
 				User u = new User();
-				u.setId(rs.getInt("id"));
-				u.setUsername(rs.getString("username"));
-				u.setPassword(rs.getString("password"));
+				returnData(rs, u);
 
 				users.add(u);
 			}
@@ -102,19 +98,17 @@ public class UserPostgres implements UserDAO {
 			ps.setString(1, username); // this refers to the 1st "?" in the sql string, allows to inject data
 
 			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
+ 
+			if (rs.next()) {
 				u = new User();
-				u.setId(rs.getInt("id"));
-				u.setUsername(rs.getString("username"));
-				u.setPassword(rs.getString("password"));
+			    returnData(rs, u); 
 			}
-
+ 
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+ 
 		return u;
 	}
 
@@ -163,6 +157,22 @@ public class UserPostgres implements UserDAO {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public User returnData(ResultSet rs, User user) {
+		// TODO Auto-generated method stub
+		try {
+			user.setId(rs.getInt("id"));
+			user.setUsername(rs.getString("username"));
+			user.setPassword(rs.getString("password"));		
+			user.setRole_id(rs.getInt("role_id"));		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return user;
 	}
 
 }

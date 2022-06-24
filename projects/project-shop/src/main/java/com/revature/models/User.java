@@ -47,7 +47,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, password, username);
+		return Objects.hash(id, password, role_id, username);
 	}
 
 	@Override
@@ -59,12 +59,16 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return id == other.id && Objects.equals(password, other.password) && Objects.equals(username, other.username);
+		return id == other.id && Objects.equals(password, other.password) && role_id == other.role_id
+				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role_id=" + role_id + "]";
 	}
+
+ 
+ 
 
 }
