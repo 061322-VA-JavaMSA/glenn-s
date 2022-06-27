@@ -1,3 +1,17 @@
+/*
+select concat_ws(' ', street,city,state,zip )  as sales_location, 
+concat_ws(' ', c.firstname,c.lastname  )  as customername, 
+concat_ws( ' ' , e.firstname, e.lastname  ) as sales_representative 
+from salesoffice s 
+left join  salesoffice_customer sc  on  sc.salesofficeid = s.id
+left join customer c  on sc.customerid = c.id
+left join  employee_customer  ec on ec.customerid = c.id
+left join  employee  e on ec.employeeid = e.id
+where c.id IS NOT null order by  s.id;
+
+
+*/
+
 CREATE table salesoffice (
 id SERIAL  PRIMARY KEY,
 street varchar(30)  not null,
@@ -22,8 +36,8 @@ lastname varchar(30)  not null
 
 
 CREATE table employee_customer (
-employeeid integer,
-customerid integer,
+employeeid integer references employee{id),
+customerid integer references customer{id),
 PRIMARY KEY (employeeid, customerid)
 );
 
