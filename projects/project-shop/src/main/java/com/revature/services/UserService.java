@@ -24,4 +24,21 @@ public class UserService {
 //		u = ud.createUser(u);
 		return ud.createUser(u);
 	}
+	
+	public User retrieveUserById(int id) {
+		return ud.retrieveUserById(id);
+	}	
+	
+	public User retrieveUserByUsername(String username) {
+		return ud.retrieveUserByUsername(username);
+	}	
+
+	public boolean updateUser(User u) {
+		return ud.updateUser(u);
+	}	
+	
+
+	public boolean deleteUserById(int id) {
+		return ud.deleteUserById(id);
+	}		
 }

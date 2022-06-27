@@ -12,6 +12,8 @@ public interface OfferDAO {
 	boolean updateOffer(Offer o);
 	boolean deleteOfferById(int id);
 	List<Offer> retrieveOfferByUserId(int id);
-	boolean acceptOffer(Offer o);
-	boolean verifyAcceptOffer(Offer o);
+	boolean acceptOffer(int id, int pid);
+	boolean rejectOffer(int id);
+	boolean verifyAcceptOffer(int pid);
+	boolean deleteOfferByProductId(int id);
 }

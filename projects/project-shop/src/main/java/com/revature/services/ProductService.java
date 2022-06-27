@@ -37,8 +37,8 @@ public class ProductService {
 		return pd.setProducttoUser(ps);
 	}
 
-	public boolean resetProduct(Product ps) {
-		return pd.resetProduct(ps);
+	public boolean resetProduct(int id) {
+		return pd.resetProduct(id);
 	}
 
 	public List<Product> retrieveProductByUserId(int id) {
@@ -48,4 +48,12 @@ public class ProductService {
 	public boolean payProduct(Product ps) {
 		return pd.payProduct(ps);
 	}
-}
+	 
+	public List<Product>  getProductByName(String n) {
+		return pd.retrieveProductByName(n);
+	}
+
+	public Product retrieveProductByNameExact(String n) {
+		return pd.retrieveProductByNameExact(n);
+	}
+ }

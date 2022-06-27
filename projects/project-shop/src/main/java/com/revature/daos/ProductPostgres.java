@@ -50,7 +50,6 @@ public class ProductPostgres implements ProductDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
-
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				product = new Product();
@@ -67,7 +66,7 @@ public class ProductPostgres implements ProductDAO {
 	public List<Product> retrieveProducts() {
 		// TODO Auto-generated method stub
 		String sql = "select * from " + _table + ";";
-		return getProducts(sql);
+		return getPreparedStatement(sql);
 	}
 
 	@Override
@@ -78,7 +77,7 @@ public class ProductPostgres implements ProductDAO {
 			sql = "select * from " + _table + " where user_id is not  null ;";
 
 		}
-		return getProducts(sql);
+		return getPreparedStatement(sql);
 	}
 
 	@Override
@@ -130,20 +129,16 @@ public class ProductPostgres implements ProductDAO {
 
 	@Override
 	public boolean setProducttoUser(Product p) {
-		String sql = "update " + _table + " set offer_price = ?, paid = ? , paid_at = ?, user_id = > where id = ?;";
+		String sql = "update " + _table + " set  user_id = > where id = ?;";
 		int rowsChanged = -1;
-		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+//		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 
-		Date date = new Date();
-		Timestamp timestamp2 = new Timestamp(date.getTime());
-		p.setPaid_at(timestamp2);
+//		Date date = new Date();
+//		Timestamp timestamp2 = new Timestamp(date.getTime());
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
-			ps.setDouble(1, p.getOffer_price());
-			ps.setDouble(2, p.getPaid());
-			ps.setTimestamp(3, p.getPaid_at());
 			ps.setInt(4, p.getUser_id());
 			ps.setInt(5, p.getId());
 
@@ -161,15 +156,15 @@ public class ProductPostgres implements ProductDAO {
 	}
 
 	@Override
-	public boolean resetProduct(Product p) {
+	public boolean resetProduct(int id) {
 		String sql = "update " + _table
-				+ " set offer_price = 0, paid = 0 ,  paid_at = null, user_id = null  where id = ?;";
+				+ " set  user_id = null  where id = ?;";
 		int rowsChanged = -1;
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
-			ps.setInt(1, p.getId());
+			ps.setInt(1, id);
 
 			rowsChanged = ps.executeUpdate();
 
@@ -191,10 +186,7 @@ public class ProductPostgres implements ProductDAO {
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
-
-			ps.setDouble(2, p.getPaid());
 			ps.setInt(4, p.getId());
-
 			rowsChanged = ps.executeUpdate();
 
 		} catch (SQLException | IOException e) {
@@ -233,27 +225,10 @@ public class ProductPostgres implements ProductDAO {
 		return products;
 	}
 
-	@Override
-	public Product returnData(ResultSet rs, Product product) {
-		// TODO Auto-generated method stub
-		try {
-			product.setId(rs.getInt("id"));
-			product.setProduct_name(rs.getString("product_name"));
-			product.setPrice(rs.getDouble("price"));
-			product.setOffer_price(rs.getDouble("offer_price"));
-			product.setPaid(rs.getDouble("paid"));
-			product.setPaid_at(rs.getTimestamp("paid_at"));
-			product.setUser_id(rs.getInt("user_id"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		return product;
-	}
 
 	@Override
-	public List<Product> getProducts(String sql) {
+	public List<Product> getPreparedStatement(String sql) {
 		List<Product> products = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
@@ -276,4 +251,66 @@ public class ProductPostgres implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public Product returnData(ResultSet rs, Product product) {
+		// TODO Auto-generated method stub
+		try {
+			product.setId(rs.getInt("id"));
+			product.setProduct_name(rs.getString("product_name"));
+			product.setPrice(rs.getDouble("price"));
+			product.setUser_id(rs.getInt("user_id"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return product;
+	}
+
+	@Override
+	public List<Product> retrieveProductByName(String n) {
+		// TODO Auto-generated method stub
+		
+		String sql = "select * from " + _table + " where lower(product_name) like ?";
+		List<Product> products = new ArrayList<>();
+
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, "%"+n.trim().toLowerCase()+"%");
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				// extract each field from rs for each record, map them to a Product object and
+				// add them to the products arrayliost
+				Product product = new Product();
+				returnData(rs, product);
+				products.add(product);
+
+			}
+		} catch (SQLException | IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return products;
+	}
+
+	@Override
+	public Product retrieveProductByNameExact(String n) {
+		String sql = "select * from " + _table + " where lower(product_name) like ?";
+		Product product = null;
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, n.trim().toLowerCase());
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				product = new Product();
+				returnData(rs, product);
+			}
+		} catch (SQLException | IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return product;
+	}	
 }

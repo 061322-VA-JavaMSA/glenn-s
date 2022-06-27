@@ -11,15 +11,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserController {
-	static Scanner scan;
-	static UserService us;
-	static AuthService as;
-	static ProductController pc;
+	private Scanner scan;
+	private UserService us;
+	private AuthService as;
+	private ProductController pc;
+	private  EmployeeController ec;
+	private  User currentUser;
 	private static Logger log = LogManager.getLogger(UserController.class);
-	static User currentUser = new User();
-
+ 
 	public void login() {
 		as = new AuthService();
+		ec = new EmployeeController(); 
 
 		scan = new Scanner(System.in);
 
@@ -32,6 +34,9 @@ public class UserController {
 
 		String username = "fclemente1";
 		String password = "R8fiv28oiT10";
+
+//		String username = "bmattiessen0";
+//		String password = "iq063Zx7";
 		
 		try {
 			currentUser = as.login(username, password);
@@ -42,40 +47,10 @@ public class UserController {
 		}
 		System.out.println(currentUser); 
 		if (currentUser.getRole_id() == 1) {
-			employeeStartMenu();
+			ec.employeeStartMenu();
 		} else if (currentUser.getRole_id() == 2) {
 		}
 	}
 
-	public void employeeStartMenu() {
-		pc = new ProductController();
-		scan = new Scanner(System.in);
-		int choice = 0;
-		int done = 0;
 
-		while (done == 0) {
-			System.out.println("Main Menu:");
-			System.out.println("1 = Products");
-			System.out.println("2 = Offers");
-			System.out.println("3 = exit");
-			choice = scan.nextInt();
-			switch (choice) {
-			case 1:
-				pc.startMenu();
-				break;
-			case 2:
-
-				break;
-			case 3:
-				done = 1;	
-				System.err.println("Bye");
-				break;
-			default:
-				System.err.println("Please try again");
-				break;
-			}
-			
-		}
-
-	}
 }

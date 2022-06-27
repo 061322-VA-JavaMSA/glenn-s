@@ -16,10 +16,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class UserPostgres implements UserDAO {
 	private static Logger log = LogManager.getLogger(UserPostgres.class);
-
+	private String _table  = "users";
+	
 	@Override
 	public User createUser(User u) {
-		String sql = "insert into users (username, password) values (?,?) returning id;";
+		String sql = "insert into "+ _table +" (username, password) values (?,?) returning id;";
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, u.getUsername());
@@ -40,7 +41,7 @@ public class UserPostgres implements UserDAO {
 
 	@Override
 	public User retrieveUserById(int id) {
-		String sql = "select * from users where id = ?;";
+		String sql = "select * from "+ _table +" where id = ?;";
 		User user = null;
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
@@ -73,7 +74,7 @@ public class UserPostgres implements UserDAO {
 
 			while (rs.next()) {
 				// extract each field from rs for each record, map them to a User object and add
-				// them to the users arrayliost
+				// them to the user arrayliost
 				User u = new User();
 				returnData(rs, u);
 
@@ -89,7 +90,7 @@ public class UserPostgres implements UserDAO {
 
 	@Override
 	public User retrieveUserByUsername(String username) {
-		String sql = "select * from users where username  = ?;";
+		String sql = "select * from "+ _table +" where username  = ?;";
 		User u = null;
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile();) {
@@ -114,7 +115,7 @@ public class UserPostgres implements UserDAO {
 
 	@Override
 	public boolean updateUser(User u) {
-		String sql = "update users set username = ?, password = ? where id = ?;";
+		String sql = "update "+ _table +" set username = ?, password = ? where id = ?;";
 		int rowsChanged = -1;
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
@@ -139,7 +140,7 @@ public class UserPostgres implements UserDAO {
 
 	@Override
 	public boolean deleteUserById(int id) {
-		String sql = "delete from users where id = ?;";
+		String sql = "delete from "+ _table +" where id = ?;";
 		int rowsChanged = -1;
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);

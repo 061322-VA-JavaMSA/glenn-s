@@ -15,13 +15,15 @@ public interface ProductDAO  {
 	List<Product> retrieveProducts();
 	boolean updateProduct(Product p);
 	boolean deleteProductById(int id);
-	boolean resetProduct(Product p);
+	boolean resetProduct(int id);
 	boolean payProduct(Product p);
 	List<Product>  retrieveProductByUserId(int id);
 	boolean setProducttoUser(Product p);
 	Product returnData(ResultSet rs,Product p);
-	List<Product> getProducts(String sql);
 	List<Product> retrieveProductsOwned(int i);
-	
+	List<Product> getPreparedStatement(String sql);
+	List<Product> retrieveProductByName(String n);
+	Product retrieveProductByNameExact(String n);
+
 
 }

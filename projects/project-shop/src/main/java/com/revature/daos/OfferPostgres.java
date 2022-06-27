@@ -102,7 +102,7 @@ public class OfferPostgres implements OfferDAO {
 	@Override
 	public List<Offer> retrieveOffers(int status) {
 		// TODO Auto-generated method stub
-		String sql = "select * from "+ _table +" where status = ?;";
+		String sql = "select * from "+ _table +" where status = ? order by product_id , offer_price desc;";
 		List<Offer> offers = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
@@ -213,7 +213,7 @@ public class OfferPostgres implements OfferDAO {
 	 * rowsChanged_2 is not verified because when there is only 1 offer
 	 */
 	@Override
-	public boolean acceptOffer(Offer o) {
+	public boolean acceptOffer(int id, int pid) {
  		String sql_1 = "update "+ _table +" set status = 1 where id = ?;";
 		String sql_2 = "update "+ _table +" set status = 2 where id != ? and product_id = ?;";
 		int rowsChanged_1 = -1 , rowsChanged_2 = -1;
@@ -222,12 +222,12 @@ public class OfferPostgres implements OfferDAO {
  
  
 			PreparedStatement ps_1 = c.prepareStatement(sql_1);
-			ps_1.setInt(1, o.getId());
+			ps_1.setInt(1, id);
 			rowsChanged_1 = ps_1.executeUpdate();
 
 			PreparedStatement ps_2 = c.prepareStatement(sql_2);
-			ps_2.setInt(1, o.getId());
-			ps_2.setInt(2, o.getProduct_id());
+			ps_2.setInt(1, id);
+			ps_2.setInt(2, pid);
 			 
 			rowsChanged_2 = ps_2.executeUpdate();
 			
@@ -245,22 +245,68 @@ public class OfferPostgres implements OfferDAO {
      * return true when no other offers accepted   
      */
 	@Override
-	public boolean verifyAcceptOffer(Offer o) {
+	public boolean verifyAcceptOffer( int pid) {
 		// TODO Auto-generated method stub
-		String sql = "select * from "+ _table +" where product_id = ? and status = 1";
+		String sql = "select count(id) as counter from "+ _table +" where product_id = ? and status = 1";
 		Offer offer = null;
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setInt(1, o.getProduct_id());
-
+			ps.setInt(1, pid);
 			ResultSet rs = ps.executeQuery();
+ 
 			if (rs.next()) {
-				return false;
+				int count = rs.getInt("counter");
+				if(count > 0) {
+					return false;
+				}
 			}
 		} catch (SQLException | IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}		
+		return true;
+	}
+
+	@Override
+	public boolean deleteOfferByProductId(int id) {
+		// TODO Auto-generated method stub
+		String sql = "delete from "+ _table +" where product_id = ?;";
+		int rowsChanged = -1;
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ps.setInt(1, id);
+
+			rowsChanged = ps.executeUpdate();
+
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (rowsChanged < 1) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean rejectOffer(int id) {
+ 		String sql_1 = "update "+ _table +" set status = 2 where id = ?;";
+ 		int rowsChanged_1 = -1 ;
+
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps_1 = c.prepareStatement(sql_1);
+			ps_1.setInt(1, id);
+			rowsChanged_1 = ps_1.executeUpdate();
+			 
+			if (rowsChanged_1 < 1) {
+				return false;
+			}			
+		} catch (SQLException | IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return true;
 	}
 

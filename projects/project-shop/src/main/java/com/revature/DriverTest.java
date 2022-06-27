@@ -1,8 +1,15 @@
 package com.revature;
 
+import java.nio.charset.Charset;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
+import com.revature.controller.ProductController;
 import com.revature.controller.UserController;
 import com.revature.daos.OfferDAO;
 import com.revature.daos.OfferPostgres;
@@ -14,6 +21,7 @@ import com.revature.models.Product;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.PaymentConService;
 import com.revature.services.ProductService;
 import com.revature.services.RoleService;
 import com.revature.services.UserService;
@@ -25,6 +33,7 @@ public class DriverTest {
 	static UserService us;
 	static RoleService rs;
 	static ProductService ps;
+	static PaymentConService pcs;
 	static Offer o;
 	private static Logger log = LogManager.getLogger(Driver.class);
 	static AuthService as;
@@ -32,7 +41,7 @@ public class DriverTest {
 	public static void main(String[] args) {
 		as = new AuthService();
 		ps = new ProductService();
- 		
+		pcs = new PaymentConService();
 		us = new UserService();
 		UserDAO ud = new UserPostgres(); 
 //		List<User> users = us.getUsers();
@@ -91,9 +100,45 @@ public class DriverTest {
 // 		}		
 		UserController u = new UserController();
 		u.login();
-		
- 
-  	}
+//		ProductController pc = new ProductController();
+//		pc.searchname();
+//		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+//
+//		Date date = new Date();
+//		Timestamp timestamp2 = new Timestamp(date.getTime());
+//		
+//		
+//		Date d2 = null;
+//		SimpleDateFormat dateFormat  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		try {
+//			d2 = dateFormat.parse("2022-06-20 02:54:19.919");
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		long d1 = System.currentTimeMillis();
+//	 	
+//		long diff =   d1 - d2.getTime(); 
+//		long diffDays = diff / (24 * 60 * 60 * 1000);
+//
+//		System.out.println(diffDays);
+// 		System.out.println(timestamp2);	
+//		System.out.print(diffDays + " days, ");
+//	    int leftLimit = 48; // numeral '0'
+//	    int rightLimit = 122; // letter 'z'
+//	    int targetStringLength = 15;
+//	    Random random = new Random();
+//
+//	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+//	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+//	      .limit(targetStringLength)
+//	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+//	      .toString();
+//
+//	    System.out.println(generatedString);
+//		pcs.resetPaymentConn(10, 52);
+//		ps.resetProduct(10);
+   	}
 	
  
 }
