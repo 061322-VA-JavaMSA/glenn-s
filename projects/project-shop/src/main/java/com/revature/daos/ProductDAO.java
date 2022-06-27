@@ -23,7 +23,9 @@ public interface ProductDAO  {
 	List<Product> retrieveProductsOwned(int i);
 	List<Product> getPreparedStatement(String sql);
 	List<Product> retrieveProductByName(String n);
+	List<Product> retrieveProductByNameCustomer(String n);
 	Product retrieveProductByNameExact(String n);
+	Product retrieveProductByNameExact(String n, int pid);
 
 
 }

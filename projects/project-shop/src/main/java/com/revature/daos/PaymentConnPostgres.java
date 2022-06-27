@@ -156,7 +156,7 @@ public class PaymentConnPostgres implements PaymentConnDAO {
 	@Override
 	public List<PaymentConn> retrievePaymentConnByUserId(int id) {
 		// TODO Auto-generated method stub
-		String sql = "select * from " + _table + " where paymentconn_id = ? and user_id = ?;";
+		String sql = "select * from " + _table + " where user_id = ?;";
 		List<PaymentConn> pc = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {

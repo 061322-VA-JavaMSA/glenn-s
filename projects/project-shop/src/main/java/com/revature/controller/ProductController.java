@@ -3,6 +3,7 @@ package com.revature.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.revature.models.Offer;
 import com.revature.models.Payment;
 import com.revature.models.PaymentConn;
 import com.revature.models.Product;
@@ -104,14 +105,33 @@ public class ProductController {
 	}
 
 	public void edit() {
+		int id = 0;
+		input = new Scanner(System.in);
 		System.out.println("Product edit");
-		System.out.println("Ener name");
-		String pd_name = input.nextLine();
-		System.out.println("Enter price");
-		Double pd_price = input.nextDouble();
-		Product p = new Product();
-		p.setProduct_name(pd_name);
-		p.setPrice(pd_price);
+		System.out.println("Ener Product ID");
+		id = input.nextInt();
+		Product p = ps.getProductByID(id);
+		if (p == null) {
+			System.out.println("Cannot find Product");
+		} else {
+			displayList(p);
+			System.out.println("Ener name");
+			String pd_name = input.next();
+			System.out.println("Enter price");
+			Double pd_price = input.nextDouble();
+			Product product = new Product();
+			product.setProduct_name(pd_name);
+			product.setPrice(pd_price);
+			product.setId(id);;
+			
+			Product psearch = ps.retrieveProductByNameExact(pd_name,id);
+			if (psearch != null) {
+				System.out.println("name already exist");
+			} else {
+				ps.setProduct(product);
+				System.out.println("Successfully edit");
+			}
+		}
 		System.out.println("Press enter to continue");
 		try {
 			System.in.read();
@@ -229,4 +249,84 @@ public class ProductController {
 
 
 	}
+	
+	public void listForCustomer() {
+		List<Product> products = null;
+		System.out.println("Product List");
+		products = ps.getProducts(0);
+		String extra = "";
+		
+		for (Product p : products) {
+			extra = "";
+			Offer offer = os.retrieveMaxOfferByProductId(p.getId());
+			if(offer != null) {
+				extra = " Current Highest Offer: "+offer.getOffer_price();
+			}
+			System.out.println(
+					"ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: " + p.getPrice()+ " "+ extra);
+		}
+		System.out.println("Press enter to continue");
+		try {
+			System.in.read();
+		} catch (Exception e) {
+		}
+
+	}	
+	
+	public void searchnameCustomer() {
+		System.out.println("Product search");
+		System.out.println("Type in Product name");
+		String pd_name = input.nextLine();
+		products = ps.retrieveProductByNameCustomer(pd_name);
+		if (products.size() < 1) {
+			System.out.println("Product not found");
+		}
+		for (Product p : products) {
+			displayList(p);
+		}
+		System.out.println("Press enter to continue");
+		try {
+			System.in.read();
+		} catch (Exception e) {
+		}
+	}	
+	
+
+	public void makeoffer(User cu) {
+		int id = 0;
+		input = new Scanner(System.in);
+		System.out.println("Product edit");
+		System.out.println("Ener Product ID");
+		id = input.nextInt();
+		Product p = ps.getProductByID(id);
+		if (p == null) {
+			System.out.println("Cannot find Product");
+		} else {
+			displayList(p);
+			System.out.println("Enter offer price");
+			Double pd_price = input.nextDouble();
+				if(pd_price >= p.getPrice()) {
+				Offer o = new Offer();
+				o.setOffer_price(pd_price);
+				o.setProduct_id(id);
+				o.setUser_id(cu.getId());
+				Offer checkoffer =  os.retrieveOfferByCustomer(id, cu.getId());
+				if(checkoffer == null) {
+					os.createOffer(o);
+				} else {
+					o.setId(checkoffer.getId());
+					os.setOffer(o);
+				}
+				 
+				System.out.println("Your offer has been created");
+			} else {
+				System.out.println("Offer price cannot be less than current "+p.getPrice());
+			}
+		}
+		System.out.println("Press enter to continue");
+		try {
+			System.in.read();
+		} catch (Exception e) {
+		}
+	}	
 }

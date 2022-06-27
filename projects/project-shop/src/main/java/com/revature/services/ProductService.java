@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.daos.ProductDAO;
 import com.revature.daos.ProductPostgres;
+import com.revature.models.Offer;
 import com.revature.models.Product;
 
 public class ProductService {
@@ -56,4 +57,14 @@ public class ProductService {
 	public Product retrieveProductByNameExact(String n) {
 		return pd.retrieveProductByNameExact(n);
 	}
+	
+	public Product retrieveProductByNameExact(String n, int pid) {
+	return pd.retrieveProductByNameExact(n,pid);
+	}
+
+	public List<Product> retrieveProductByNameCustomer(String n) {
+		return pd.retrieveProductByNameCustomer(n);
+	}
+	
+
  }

@@ -45,7 +45,7 @@ public class OfferServices {
 		return od.deleteOfferById(id);
 	}
 
-	public List<Offer> retrieveProductByUserId(int id) {
+	public List<Offer> retrieveOfferByUserId(int id) {
 		return od.retrieveOfferByUserId(id);
 	}
 
@@ -78,5 +78,13 @@ public class OfferServices {
 	
 	public boolean rejectOffer(int id) {
 		return od.rejectOffer(id);
+	}
+	
+	public Offer retrieveMaxOfferByProductId(int pid) {
+		return od.retrieveMaxOfferByProductId(pid);
+	}	
+	
+	public Offer retrieveOfferByCustomer(int pid, int uid) {
+		return od.retrieveOfferByCustomer(pid,uid);	
 	}
 }

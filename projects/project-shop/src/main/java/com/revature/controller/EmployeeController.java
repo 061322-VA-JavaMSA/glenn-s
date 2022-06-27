@@ -13,12 +13,16 @@ public class EmployeeController {
 	private ProductController pc;
 	private UserController uc;
 	private OfferController oc;
+
 	
 	public EmployeeController() {
 		pc = new ProductController();
 		uc = new UserController();
 		oc = new OfferController();
 	}
+	
+
+	
 	public void employeeStartMenu() {
 		scan = new Scanner(System.in);
 		PaymentController payc = new PaymentController();
@@ -46,7 +50,7 @@ public class EmployeeController {
 			case 4:
 				done = 1;	
 				System.out.println("Bye");
-				 
+				System.exit(0); 
 				break;
 			default:
 				System.err.println("Please try again");
@@ -130,6 +134,7 @@ public class EmployeeController {
 				oc.rejectoffers(); 
 				break;
 			case 4:
+				done = 1;
 				employeeStartMenu();
 				break;
 			default:

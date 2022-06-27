@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.revature.models.Offer;
+import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.OfferServices;
+import com.revature.services.ProductService;
 import com.revature.services.UserService;
 
 public class OfferController {
@@ -14,12 +16,14 @@ public class OfferController {
 	private User u;
 	private UserService us;
 	private Scanner input = null;
+	private ProductService ps;
 
 	public OfferController() {
 		o = new Offer();
 		os = new OfferServices();
 		u = new User();
 		us = new UserService();
+		ps = new ProductService();
 	}
 
 	public void displayoffers() {
@@ -112,4 +116,34 @@ public class OfferController {
 				+ offer.getOffer_price() + " Customer name: " + u.getUsername());
 
 	}
+	
+	public void displayoffersCustomer(User cu) {
+		List<Offer> offers = os.retrieveOfferByUserId(cu.getId());
+		String txt_status = "";
+		Product p = new Product();
+		if (offers != null && offers.size() > 0) {
+			System.out.println("Offers: ");
+
+			for (Offer offer : offers) {
+				txt_status = "";
+				switch (offer.getStatus()) {
+				case 0:
+					 txt_status = "Pending";
+					break;
+				case 1:
+					 txt_status = "Accepted";
+					break;
+				case 2:
+					 txt_status = "Rejected";
+					break;				
+				default:
+					break;
+				}	
+				p = ps.getProductByID(offer.getProduct_id());
+				System.out.println("Product Name: "+ p.getProduct_name() +" Date: " + offer.getCreated_at().toLocalDateTime() + " Your Offer: "
+						+ offer.getOffer_price() + " Status: "+ txt_status);
+			}
+		}
+
+	}	
 }

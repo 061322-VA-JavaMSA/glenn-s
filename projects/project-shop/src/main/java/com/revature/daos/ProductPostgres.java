@@ -45,7 +45,7 @@ public class ProductPostgres implements ProductDAO {
 
 	@Override
 	public Product retrieveProductById(int id) {
-		String sql = "select * from " + _table + " where id = ?";
+		String sql = "select * from " + _table + " where id = ? ";
 		Product product = null;
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -72,9 +72,9 @@ public class ProductPostgres implements ProductDAO {
 	@Override
 	public List<Product> retrieveProductsOwned(int i) {
 		// TODO Auto-generated method stub
-		String sql = "select * from " + _table + " where user_id is null ;";
+		String sql = "select * from " + _table + " where user_id is null  order by id;";
 		if (i == 1) {
-			sql = "select * from " + _table + " where user_id is not  null ;";
+			sql = "select * from " + _table + " where user_id is not  null  order by id;";
 
 		}
 		return getPreparedStatement(sql);
@@ -301,6 +301,54 @@ public class ProductPostgres implements ProductDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, n.trim().toLowerCase());
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				product = new Product();
+				returnData(rs, product);
+			}
+		} catch (SQLException | IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return product;
+	}
+
+	@Override
+	public List<Product> retrieveProductByNameCustomer(String n) {
+		// TODO Auto-generated method stub
+		
+		String sql = "select * from " + _table + " where lower(product_name) like ? and user_id is null order by id";
+		List<Product> products = new ArrayList<>();
+
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, "%"+n.trim().toLowerCase()+"%");
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				// extract each field from rs for each record, map them to a Product object and
+				// add them to the products arrayliost
+				Product product = new Product();
+				returnData(rs, product);
+				products.add(product);
+
+			}
+		} catch (SQLException | IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return products;
+	}
+
+	@Override
+	public Product retrieveProductByNameExact(String n, int pid) {
+		String sql = "select * from " + _table + " where lower(product_name) like ? and id != ?";
+		Product product = null;
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, n.trim().toLowerCase());
+			ps.setInt(2, pid);
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
