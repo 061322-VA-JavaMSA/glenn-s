@@ -42,10 +42,6 @@ public class ProductService {
 	public List<Product> retrieveProductByUserId(int id) {
 		return pd.retrieveProductByUserId(id);
 	}
-
-	public boolean payProduct(Product ps) {
-		return pd.payProduct(ps);
-	}
 	 
 	public List<Product>  getProductByName(String n) {
 		return pd.retrieveProductByName(n);

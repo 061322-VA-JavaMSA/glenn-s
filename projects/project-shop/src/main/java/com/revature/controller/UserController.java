@@ -34,12 +34,12 @@ public class UserController {
 //		password = scan.nextLine();
 
 // employee		
-//		String username = "gcrossingham1p";
-//		String password = "tlaoNFX";
+		String username = "gcrossingham1p";
+		String password = "tlaoNFX";
 
 //customer		
-		String username = "lbarr1r";
-		String password = "TK7TvvxeF81T";
+//		String username = "lbarr1r";
+//		String password = "TK7TvvxeF81T";
 		
 		try {
 			currentUser = as.login(username, password);

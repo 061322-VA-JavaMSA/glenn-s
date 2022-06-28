@@ -7,6 +7,7 @@ CREATE table users (
 id SERIAL  PRIMARY KEY,
 username varchar(30)  not null,
 password varchar(30)  not null,
+status integer NULL DEFAULT 1,
 role_id integer references roles(id)
 );
 

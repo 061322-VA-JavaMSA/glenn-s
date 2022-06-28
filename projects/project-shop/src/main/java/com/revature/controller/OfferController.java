@@ -36,6 +36,8 @@ public class OfferController {
 			for (Offer offer : offers) {
 				singlelist(offer);
 			}
+		} else {
+			System.out.println("No offers");
 		}
 
 	}
@@ -43,7 +45,7 @@ public class OfferController {
 	public void acceptoffers() {
 		input = new Scanner(System.in);
 		int id = 0;
-		System.out.println("Offer Reject");
+		System.out.println("Offer Accept");
 		System.out.println("Ener Offer ID");
 		id = input.nextInt();
 		Offer o = os.getOfferByID(id);
@@ -84,14 +86,20 @@ public class OfferController {
 	public void rejectoffers() {
 		input = new Scanner(System.in);
 		int id = 0;
+		int allow = 1;
 		System.out.println("Offer Reject");
 		System.out.println("Ener Offer ID");
 		id = input.nextInt();
 		Offer o = os.getOfferByID(id);
-
+		if(o.getStatus() == 1) {
+			System.out.println("Cannot reject accepted offer");
+			allow = 0;
+		}
 		if (o == null) {
 			System.out.println("Cannot find offer");
-		} else {
+			allow = 0;
+		} 
+		if(allow == 1){
 			singlelist(o);
 			System.out.println("Do you want to reject this Offer? Y/N");
 			String choice = input.next();

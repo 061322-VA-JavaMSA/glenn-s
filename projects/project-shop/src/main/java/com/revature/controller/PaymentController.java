@@ -42,6 +42,10 @@ public class PaymentController {
 		input = new Scanner(System.in);
 		List<Payment> payments = pys.retrievePayments();
 		String pname = "";
+		
+		if(payments.size() < 1) {
+			System.out.println("There are no Payments");
+		}		
 		for (Payment payment : payments) {
 			pname = "none";
 			PaymentConn paymentconn = pcs.getPaymentConnById(payment.getPayment_connection_id());

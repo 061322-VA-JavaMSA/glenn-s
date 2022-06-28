@@ -16,7 +16,6 @@ public interface ProductDAO  {
 	boolean updateProduct(Product p);
 	boolean deleteProductById(int id);
 	boolean resetProduct(int id);
-	boolean payProduct(Product p);
 	List<Product>  retrieveProductByUserId(int id);
 	boolean setProducttoUser(int id, int uid);
 	Product returnData(ResultSet rs,Product p);
