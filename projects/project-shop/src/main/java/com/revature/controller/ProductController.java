@@ -219,9 +219,6 @@ public class ProductController {
 	 * display product
 	 */
 	public void displayList(Product p) {
-		long diff = 0;
-		long diffDays = 0;
-		long d1 = 0;
 		u = null;
 		PaymentConn pc = null;
 		int usid = 0;
@@ -231,13 +228,7 @@ public class ProductController {
 		List<Payment> payments = null;
 		if (usid > 0) {
 			u = us.retrieveUserById(p.getUser_id());
-//			pc = pcs.getPaymentConnByProductIdUserId(p.getId(), u.getId());
-//			Payment py = pys.retrievefirstPaymentByUserId(pc.getId());
-//			payments = pys.retrievePaymentsByConnID(pc.getId());
-//			diff = d1 - py.getCreated_at().getTime();
-//			diffDays = diff / (24 * 60 * 60 * 1000);
 			extra = " Customer Owned: " + u.getUsername();
-//			extra += (diffDays > 14) ? " Past Due Days: " + (diffDays - 14) : "";
 		}
 		System.out.println("ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: "
 				+ p.getPrice() + extra);
@@ -295,14 +286,18 @@ public class ProductController {
 
 	public void makeoffer(User cu) {
 		int id = 0;
+		int allow = 1;
 		input = new Scanner(System.in);
 		System.out.println("Product edit");
 		System.out.println("Ener Product ID");
 		id = input.nextInt();
 		Product p = ps.getProductByID(id);
-		if (p == null) {
+		if (p == null || p.getUser_id() > 0 ) {
 			System.out.println("Cannot find Product");
-		} else {
+			allow = 0;
+		} 
+	 
+		if(allow == 1){
 			displayList(p);
 			System.out.println("Enter offer price");
 			Double pd_price = input.nextDouble();

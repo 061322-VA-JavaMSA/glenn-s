@@ -356,5 +356,30 @@ public class ProductPostgres implements ProductDAO {
 			e.printStackTrace();
 		}
 		return product;
-	}	
+	}
+
+	@Override
+	public boolean setProductPaid(int id) {
+		// TODO Auto-generated method stub
+		String sql = "update " + _table + " set  paid_status = 1 where id = ?;";
+		int rowsChanged = -1;
+ 
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, id);
+			 
+			rowsChanged = ps.executeUpdate();
+
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (rowsChanged < 1) {
+			return false;
+		}
+		return true;
+	}
+
+ 	
 }

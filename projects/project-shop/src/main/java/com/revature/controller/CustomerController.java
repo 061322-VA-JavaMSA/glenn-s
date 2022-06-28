@@ -112,7 +112,7 @@ public class CustomerController {
 				pyc.allByCustomer(currentUser);
 				break;
 			case 2:
-				 
+				pyc.makepayment(currentUser);
 				break;
  
 			case 3:

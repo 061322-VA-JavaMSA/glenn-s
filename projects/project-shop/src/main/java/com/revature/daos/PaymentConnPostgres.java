@@ -120,6 +120,7 @@ public class PaymentConnPostgres implements PaymentConnDAO {
 			paymentconn.setUser_id(rs.getInt("user_id"));
 			paymentconn.setProduct_id(rs.getInt("product_id"));
 			paymentconn.setOffers_id(rs.getInt("offers_id"));
+			paymentconn.setTransaction_no(rs.getString("transaction_no"));
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

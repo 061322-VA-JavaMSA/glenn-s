@@ -62,6 +62,8 @@ public class ProductService {
 	public List<Product> retrieveProductByNameCustomer(String n) {
 		return pd.retrieveProductByNameCustomer(n);
 	}
-
-
+ 
+	public boolean setProductPaid(int id) {
+		return pd.setProductPaid(id);
+	}
  }
