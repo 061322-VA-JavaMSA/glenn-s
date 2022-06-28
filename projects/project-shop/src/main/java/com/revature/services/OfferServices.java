@@ -52,6 +52,7 @@ public class OfferServices {
 	public boolean acceptOffer(Offer o) {
 		
 		Product p = pd.retrieveProductById(o.getProduct_id());
+		pd.setProducttoUser(o.getProduct_id(), o.getUser_id());
 		PaymentConn paymentconn = new PaymentConn();
 		//offer_price, product_details, user_id, product_id, offers_id
 		paymentconn.setOffer_price(o.getOffer_price());
@@ -65,6 +66,7 @@ public class OfferServices {
 		payment.setPaid((o.getOffer_price()/2) );
 		payment.setPayment_connection_id(paymentconn.getId());
 		payd.createPayment(payment);
+		
 		return od.acceptOffer(o.getId(),o.getProduct_id());
 	}
 

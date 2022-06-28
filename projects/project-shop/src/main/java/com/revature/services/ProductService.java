@@ -33,10 +33,7 @@ public class ProductService {
 	public boolean deleteProductById(int id) {
 		return pd.deleteProductById(id);
 	}
-
-	public boolean setProducttoUser(Product ps) {
-		return pd.setProducttoUser(ps);
-	}
+ 
 
 	public boolean resetProduct(int id) {
 		return pd.resetProduct(id);
@@ -65,6 +62,6 @@ public class ProductService {
 	public List<Product> retrieveProductByNameCustomer(String n) {
 		return pd.retrieveProductByNameCustomer(n);
 	}
-	
+
 
  }

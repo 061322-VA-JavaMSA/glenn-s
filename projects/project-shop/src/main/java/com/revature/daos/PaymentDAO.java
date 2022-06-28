@@ -14,5 +14,5 @@ public interface PaymentDAO {
 	Payment retrievefirstPaymentByUserId(int id);	
 	Payment returnData(ResultSet rs,Payment user);
 	List<Payment> retrievePaymentsByConnID(int cid);
-;
+	double retrievePaymentsSumByPC(int cid);
 }

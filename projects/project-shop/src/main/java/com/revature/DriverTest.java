@@ -13,6 +13,8 @@ import com.revature.controller.ProductController;
 import com.revature.controller.UserController;
 import com.revature.daos.OfferDAO;
 import com.revature.daos.OfferPostgres;
+import com.revature.daos.ProductDAO;
+import com.revature.daos.ProductPostgres;
 import com.revature.daos.UserDAO;
 import com.revature.daos.UserPostgres;
 import com.revature.exceptions.LoginException;
@@ -142,6 +144,7 @@ public class DriverTest {
 //		pcs.resetPaymentConn(10, 52);
 //		ps.resetProduct(10);
 //		os.retrieveOfferByCustomer(106, 1);
+ 
    	}
 	
  

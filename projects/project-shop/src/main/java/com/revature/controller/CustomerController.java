@@ -40,7 +40,7 @@ public class CustomerController {
 				oc.displayoffersCustomer(currentUser);
  				break;
 			case 3:
-				pyc.allByCustomer(currentUser);
+				paymentMenu();
  				break;				
 			case 4:
 				done = 1;	
@@ -67,8 +67,8 @@ public class CustomerController {
 			System.out.println("1 = List");
 			System.out.println("2 = Search by Name");
 			System.out.println("3 = Make An Offer");
-			System.out.println("3 = You own");
-			System.out.println("4 = Main Menu");
+			System.out.println("4 = You own");
+			System.out.println("5 = Main Menu");
 			choice = scan.nextInt();
 			switch (choice) {
 			case 1:
@@ -79,8 +79,11 @@ public class CustomerController {
 				break;
 			case 3:
 				pc.makeoffer(currentUser);
-				break;
+				break;	
 			case 4:
+				pc.listCustomer(currentUser);
+				break;
+			case 5:
 				done = 1;
 				customerStartMenu();
 				break;
@@ -91,4 +94,36 @@ public class CustomerController {
 
 		}
 	}
+	
+	public void paymentMenu() {
+		scan = new Scanner(System.in);
+		int choice = 0;
+		int done = 0;
+ 
+ 
+		while (done == 0) {
+			System.out.println("Payment Menu:");
+			System.out.println("1 = List");
+			System.out.println("2 = Make A Payment");
+			System.out.println("3 = Main Menu");
+			choice = scan.nextInt();
+			switch (choice) {
+			case 1:
+				pyc.allByCustomer(currentUser);
+				break;
+			case 2:
+				 
+				break;
+ 
+			case 3:
+				done = 1;
+				customerStartMenu();
+				break;
+				default:
+				System.err.println("Please try again");
+				break;
+			}
+
+		}
+	}	
 }

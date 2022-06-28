@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,6 +24,7 @@ public class ProductController {
 	private List<Product> products = null;
 	private User u = null;
 	private OfferServices os;
+
 	public ProductController() {
 		ps = new ProductService();
 		os = new OfferServices();
@@ -32,7 +34,6 @@ public class ProductController {
 		input = new Scanner(System.in);
 	}
 
- 
 	public void list() {
 		List<Product> products = null;
 		System.out.println("Product List");
@@ -122,9 +123,10 @@ public class ProductController {
 			Product product = new Product();
 			product.setProduct_name(pd_name);
 			product.setPrice(pd_price);
-			product.setId(id);;
-			
-			Product psearch = ps.retrieveProductByNameExact(pd_name,id);
+			product.setId(id);
+			;
+
+			Product psearch = ps.retrieveProductByNameExact(pd_name, id);
 			if (psearch != null) {
 				System.out.println("name already exist");
 			} else {
@@ -155,8 +157,8 @@ public class ProductController {
 			case "y":
 			case "Y":
 				System.out.println("Product has been deleted");
- 				pcs.paymentConnProductDelete(id, p.getUser_id());
- 				
+				pcs.paymentConnProductDelete(id, p.getUser_id());
+
 				ps.deleteProductById(id);
 				break;
 			case "n":
@@ -229,41 +231,41 @@ public class ProductController {
 		List<Payment> payments = null;
 		if (usid > 0) {
 			u = us.retrieveUserById(p.getUser_id());
-			pc = pcs.getPaymentConnByProductIdUserId(p.getId(), u.getId());
-			Payment py = pys.retrievefirstPaymentByUserId(pc.getId());
-			payments = pys.retrievePaymentsByConnID(pc.getId());
-			diff = d1 - py.getCreated_at().getTime();
-			diffDays = diff / (24 * 60 * 60 * 1000);
+//			pc = pcs.getPaymentConnByProductIdUserId(p.getId(), u.getId());
+//			Payment py = pys.retrievefirstPaymentByUserId(pc.getId());
+//			payments = pys.retrievePaymentsByConnID(pc.getId());
+//			diff = d1 - py.getCreated_at().getTime();
+//			diffDays = diff / (24 * 60 * 60 * 1000);
 			extra = " Customer Owned: " + u.getUsername();
-			extra += (diffDays > 14) ? " Past Due Days: " + (diffDays - 14) : "";
+//			extra += (diffDays > 14) ? " Past Due Days: " + (diffDays - 14) : "";
 		}
 		System.out.println("ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: "
 				+ p.getPrice() + extra);
-		if(payments != null && payments.size() > 0 ) {
+		if (payments != null && payments.size() > 0) {
 			System.out.println("Payments: ");
 			for (Payment payment : payments) {
 
-				System.out.println("Date: " + payment.getCreated_at().toLocalDateTime() + " Paid: " + payment.getPaid());
-			}			
+				System.out.println(
+						"Date: " + new Date(payment.getCreated_at().getTime()) + " Paid: " + payment.getPaid());
+			}
 		}
 
-
 	}
-	
+
 	public void listForCustomer() {
 		List<Product> products = null;
 		System.out.println("Product List");
 		products = ps.getProducts(0);
 		String extra = "";
-		
+
 		for (Product p : products) {
 			extra = "";
 			Offer offer = os.retrieveMaxOfferByProductId(p.getId());
-			if(offer != null) {
-				extra = " Current Highest Offer: "+offer.getOffer_price();
+			if (offer != null) {
+				extra = " Current Highest Offer: " + offer.getOffer_price();
 			}
-			System.out.println(
-					"ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: " + p.getPrice()+ " "+ extra);
+			System.out.println("ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: "
+					+ p.getPrice() + " " + extra);
 		}
 		System.out.println("Press enter to continue");
 		try {
@@ -271,8 +273,8 @@ public class ProductController {
 		} catch (Exception e) {
 		}
 
-	}	
-	
+	}
+
 	public void searchnameCustomer() {
 		System.out.println("Product search");
 		System.out.println("Type in Product name");
@@ -289,8 +291,7 @@ public class ProductController {
 			System.in.read();
 		} catch (Exception e) {
 		}
-	}	
-	
+	}
 
 	public void makeoffer(User cu) {
 		int id = 0;
@@ -305,22 +306,22 @@ public class ProductController {
 			displayList(p);
 			System.out.println("Enter offer price");
 			Double pd_price = input.nextDouble();
-				if(pd_price >= p.getPrice()) {
+			if (pd_price >= p.getPrice()) {
 				Offer o = new Offer();
 				o.setOffer_price(pd_price);
 				o.setProduct_id(id);
 				o.setUser_id(cu.getId());
-				Offer checkoffer =  os.retrieveOfferByCustomer(id, cu.getId());
-				if(checkoffer == null) {
+				Offer checkoffer = os.retrieveOfferByCustomer(id, cu.getId());
+				if (checkoffer == null) {
 					os.createOffer(o);
 				} else {
 					o.setId(checkoffer.getId());
 					os.setOffer(o);
 				}
-				 
+
 				System.out.println("Your offer has been created");
 			} else {
-				System.out.println("Offer price cannot be less than current "+p.getPrice());
+				System.out.println("Offer price cannot be less than current " + p.getPrice());
 			}
 		}
 		System.out.println("Press enter to continue");
@@ -328,5 +329,30 @@ public class ProductController {
 			System.in.read();
 		} catch (Exception e) {
 		}
-	}	
+	}
+	
+	public void listCustomer(User cu) {
+		List<Product> products = null;
+		System.out.println("Product List");
+		products = ps.retrieveProductByUserId(cu.getId());
+		PaymentConn payc = new PaymentConn();
+		double sum = 0;
+		double paid_left = 0;
+		for (Product p : products) {
+			
+			payc = pcs.getPaymentConnByProductIdUserId(p.getId(), cu.getId());
+			sum = pys.retrievePaymentsSumByPC(payc.getId());
+			paid_left = payc.getOffer_price() - sum;
+			System.out.println(
+					"ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Payment Price: " + payc.getOffer_price() + "  Remaining payments " + paid_left );
+		}
+ 
+		System.out.println("Press enter to continue");
+		try {
+			System.in.read();
+		} catch (Exception e) {
+		}
+
+	}
+	
 }

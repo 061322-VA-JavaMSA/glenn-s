@@ -18,7 +18,7 @@ public interface ProductDAO  {
 	boolean resetProduct(int id);
 	boolean payProduct(Product p);
 	List<Product>  retrieveProductByUserId(int id);
-	boolean setProducttoUser(Product p);
+	boolean setProducttoUser(int id, int uid);
 	Product returnData(ResultSet rs,Product p);
 	List<Product> retrieveProductsOwned(int i);
 	List<Product> getPreparedStatement(String sql);

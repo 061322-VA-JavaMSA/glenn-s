@@ -46,7 +46,7 @@ public class PaymentPostgres implements PaymentDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
-			ps.setInt(1, id); // this refers to the 1st ? in the sql String
+			ps.setInt(1, id); 
 
 			ResultSet rs = ps.executeQuery();
 
@@ -122,7 +122,7 @@ public class PaymentPostgres implements PaymentDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
-			ps.setInt(1, id); // this refers to the 1st ? in the sql String
+			ps.setInt(1, id); 
 
 			ResultSet rs = ps.executeQuery();
 
@@ -160,5 +160,29 @@ public class PaymentPostgres implements PaymentDAO {
 		}
 		return payments;
 	}
+
+	@Override
+	public double retrievePaymentsSumByPC(int cid) {
+		String sql = "select sum(paid) as total from " + _table + "  where payment_connection_id = ? ;";
+		double sum_payment = 0;
+
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ps.setInt(1, cid); 
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				sum_payment = rs.getDouble("total");
+			}
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sum_payment;
+	}
+
+	 
 
 }

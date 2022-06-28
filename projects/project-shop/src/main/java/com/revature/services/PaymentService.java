@@ -38,4 +38,9 @@ public class PaymentService {
 	public List<Payment> retrievePaymentsByConnID(int id) {
 		return pd.retrievePaymentsByConnID(id);
 	}
+	
+	
+	public double retrievePaymentsSumByPC(int cid) {
+		return pd.retrievePaymentsSumByPC(cid);
+	}	
 }
