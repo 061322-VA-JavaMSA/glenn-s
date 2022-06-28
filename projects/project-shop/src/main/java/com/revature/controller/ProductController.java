@@ -1,5 +1,8 @@
 package com.revature.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -41,7 +44,7 @@ public class ProductController {
 		for (Product p : products) {
 
 			System.out.println(
-					"ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: " + p.getPrice());
+					"ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: " + p.getPrice());
 		}
 		products = ps.getProducts(1);
 		if (products != null) {
@@ -228,9 +231,9 @@ public class ProductController {
 		List<Payment> payments = null;
 		if (usid > 0) {
 			u = us.retrieveUserById(p.getUser_id());
-			extra = " Customer Owned: " + u.getUsername();
+			extra = " | Customer Owned: " + u.getUsername();
 		}
-		System.out.println("ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: "
+		System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
 				+ p.getPrice() + extra);
 		if (payments != null && payments.size() > 0) {
 			System.out.println("Payments: ");
@@ -253,9 +256,9 @@ public class ProductController {
 			extra = "";
 			Offer offer = os.retrieveMaxOfferByProductId(p.getId());
 			if (offer != null) {
-				extra = " Current Highest Offer: " + offer.getOffer_price();
+				extra = " | Current Highest Offer: " + offer.getOffer_price();
 			}
-			System.out.println("ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Product Price: "
+			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
 					+ p.getPrice() + " " + extra);
 		}
 		System.out.println("Press enter to continue");
@@ -292,12 +295,12 @@ public class ProductController {
 		System.out.println("Ener Product ID");
 		id = input.nextInt();
 		Product p = ps.getProductByID(id);
-		if (p == null || p.getUser_id() > 0 ) {
+		if (p == null || p.getUser_id() > 0) {
 			System.out.println("Cannot find Product");
 			allow = 0;
-		} 
-	 
-		if(allow == 1){
+		}
+
+		if (allow == 1) {
 			displayList(p);
 			System.out.println("Enter offer price");
 			Double pd_price = input.nextDouble();
@@ -325,7 +328,7 @@ public class ProductController {
 		} catch (Exception e) {
 		}
 	}
-	
+
 	public void listCustomer(User cu) {
 		List<Product> products = null;
 		System.out.println("Product List");
@@ -333,15 +336,26 @@ public class ProductController {
 		PaymentConn payc = new PaymentConn();
 		double sum = 0;
 		double paid_left = 0;
+		String extra = "";
+		if (products.size() < 1) {
+			System.out.println("You have No Products");
+		}
 		for (Product p : products) {
-			
+			extra = "";
 			payc = pcs.getPaymentConnByProductIdUserId(p.getId(), cu.getId());
 			sum = pys.retrievePaymentsSumByPC(payc.getId());
+
 			paid_left = payc.getOffer_price() - sum;
-			System.out.println(
-					"ID: " + p.getId() + " Product Name: " + p.getProduct_name() + " Payment Price: " + payc.getOffer_price() + "  Remaining payments " + paid_left );
+			if (p.getPaid_status() == 1) {
+				extra = "Fully Paid";
+			} else {
+				DecimalFormat df = new DecimalFormat("###.##");
+				extra = "  Remaining payments " + df.format(paid_left);
+			}
+			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Payment Price: "
+					+ payc.getOffer_price() + extra);
 		}
- 
+
 		System.out.println("Press enter to continue");
 		try {
 			System.in.read();
@@ -349,5 +363,5 @@ public class ProductController {
 		}
 
 	}
-	
+
 }

@@ -32,6 +32,8 @@ public class CustomerController {
 			System.out.println("3 = Payments");
 			System.out.println("4 = exit");
 			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  		
 			switch (choice) {
 			case 1:
 				productMenu();
@@ -67,9 +69,11 @@ public class CustomerController {
 			System.out.println("1 = List");
 			System.out.println("2 = Search by Name");
 			System.out.println("3 = Make An Offer");
-			System.out.println("4 = You own");
+			System.out.println("4 = Products You own");
 			System.out.println("5 = Main Menu");
 			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  			
 			switch (choice) {
 			case 1:
 				pc.listForCustomer();
@@ -107,6 +111,8 @@ public class CustomerController {
 			System.out.println("2 = Make A Payment");
 			System.out.println("3 = Main Menu");
 			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  			
 			switch (choice) {
 			case 1:
 				pyc.allByCustomer(currentUser);

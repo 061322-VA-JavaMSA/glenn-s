@@ -105,6 +105,7 @@ public class DriverTest {
 // 		}		
 		UserController u = new UserController();
 		u.login();
+//		u.register();;
 //		ProductController pc = new ProductController();
 //		pc.searchname();
 //		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());

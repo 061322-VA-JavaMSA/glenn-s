@@ -116,8 +116,8 @@ public class OfferController {
 	public void singlelist(Offer offer) {
 		u = us.retrieveUserById(offer.getUser_id());
 		 
-		System.out.println("ID: " + offer.getId() + " Date: " + new Date(offer.getCreated_at().getTime())  +" Paid: "
-				+ offer.getOffer_price() + " Customer name: " + u.getUsername());
+		System.out.println("ID: " + offer.getId() + " | Date: " + new Date(offer.getCreated_at().getTime())  +" | Paid: "
+				+ offer.getOffer_price() + " | Customer name: " + u.getUsername());
 
 	}
 	
@@ -144,9 +144,11 @@ public class OfferController {
 					break;
 				}	
 				p = ps.getProductByID(offer.getProduct_id());
-				System.out.println("Product Name: "+ p.getProduct_name() +" Date: " + new Date(offer.getCreated_at().getTime())  + " Your Offer: "
-						+ offer.getOffer_price() + " Status: "+ txt_status);
+				System.out.println("Product Name: "+ p.getProduct_name() +" | Date: " + new Date(offer.getCreated_at().getTime())  + " | Your Offer: "
+						+ offer.getOffer_price() + " | Status: "+ txt_status);
 			}
+		} else {
+			System.out.println("You have No Offers");
 		}
 
 	}	

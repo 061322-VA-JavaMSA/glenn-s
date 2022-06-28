@@ -26,18 +26,20 @@ public class UserController {
 		cc = new CustomerController();
 		scan = new Scanner(System.in);
 
-		String username = null;
-		String password = null;
-		System.out.println("Please enter username:");
-		username = scan.nextLine();
-		System.out.println("Please enter password:");
-		password = scan.nextLine();
+//		String username = null;
+//		String password = null;
+//		System.out.println("Please enter username:");
+//		username = scan.nextLine();
+//		System.out.println("Please enter password:");
+//		password = scan.nextLine();
 
-//		String username = "fclemente1";
-//		String password = "R8fiv28oiT10";
+// employee		
+//		String username = "gcrossingham1p";
+//		String password = "tlaoNFX";
 
-//		String username = "bmattiessen0";
-//		String password = "iq063Zx7";
+//customer		
+		String username = "lbarr1r";
+		String password = "TK7TvvxeF81T";
 		
 		try {
 			currentUser = as.login(username, password);
@@ -46,13 +48,85 @@ public class UserController {
 			System.out.println("Invalid credentials.");
 			// log.error("Login exception was thrown: " + e.fillInStackTrace());
 		}
- 		if (currentUser.getRole_id() == 1) {
-			ec.employeeStartMenu();
-		} else if (currentUser.getRole_id() == 2) {
-			cc.save(currentUser);
-			cc.customerStartMenu(); 
-		} 
-	}
+		if(currentUser != null ) {
+	 		if (currentUser.getRole_id() == 1) {
+				ec.employeeStartMenu();
+			} else if (currentUser.getRole_id() == 2) {
+				cc.save(currentUser);
+				cc.customerStartMenu(); 
+			} 			
+		}
 
+	}
+	
+	public void register() {
+		scan = new Scanner(System.in);
+		us = new UserService();
+		String username = null;
+		String password = null;
+		System.out.println("Please enter username (length must be greater than 5):");
+		username = scan.nextLine();
+		System.out.println("Please enter password (length must be greater than 5):");
+		password = scan.nextLine();
+		if(username.trim().isEmpty() || password.length() < 5  || username.length() < 5) {
+				System.out.println("Unable to create your account please try again.");
+		} else {
+			User checkuser = us.retrieveUserByUsername(username);
+			if(checkuser == null) {
+				User u = new User();
+				u.setUsername(username);
+				u.setPassword(password);
+				u.setRole_id(2);
+				us.createUser(u);
+				System.out.println("Your account has been created.");
+				
+			} else {
+				System.out.println("Account name already exist");
+			}			
+		}
+
+		System.out.println("Press enter to continue");
+		try {
+			System.in.read();
+		} catch (Exception e) {
+		}	
+		
+	}	
+	
+	public void UserStartMenu() {
+		scan = new Scanner(System.in);
+		PaymentController payc = new PaymentController();
+		int choice = 0;
+		int done = 0;
+		 
+		while (done == 0) {
+			System.out.println("Account Menu:");
+			System.out.println("1 = Login");
+			System.out.println("2 = Regsiter");
+			System.out.println("3 = Exit");
+			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  				
+			switch (choice) {
+			case 1:
+				login();
+				break;
+			case 2:
+				register();
+				break;
+			case 3:
+				done = 1;	
+				System.out.println("Bye");
+				System.exit(0); 
+				break;
+			default:
+				System.err.println("Please try again");
+				break;
+			}
+			
+		}
+
+	}		
+ 
 
 }

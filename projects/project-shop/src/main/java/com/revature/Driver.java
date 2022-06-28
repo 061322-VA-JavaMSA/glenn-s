@@ -22,7 +22,7 @@ public class Driver {
 //		hc.home();
 		
 		UserController u = new UserController();
-		u.login();		
+		u.UserStartMenu();		
 	}
 
 }

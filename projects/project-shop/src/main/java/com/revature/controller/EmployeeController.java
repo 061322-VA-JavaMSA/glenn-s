@@ -34,8 +34,10 @@ public class EmployeeController {
 			System.out.println("1 = Products");
 			System.out.println("2 = Offers");
 			System.out.println("3 = Payments");
-			System.out.println("4 = exit");
+			System.out.println("4 = Exit");
 			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  				
 			switch (choice) {
 			case 1:
 				productMenu();
@@ -77,6 +79,8 @@ public class EmployeeController {
 			System.out.println("6 = Reset Ownership");
 			System.out.println("7 = Main Menu");
 			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  				
 			switch (choice) {
 			case 1:
 				pc.list();
@@ -123,6 +127,8 @@ public class EmployeeController {
 			System.out.println("3 = Reject Offer");
 			System.out.println("4 = Main Menu");
 			choice = scan.nextInt();
+			System.out.print("\033[H\033[2J");  
+			System.out.flush();  				
 			switch (choice) {
 			case 1:
 				oc.displayoffers();

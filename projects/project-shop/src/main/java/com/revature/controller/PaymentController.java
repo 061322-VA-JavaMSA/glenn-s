@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -49,8 +50,8 @@ public class PaymentController {
 			if (product != null) {
 				pname = product.getProduct_name();
 			}
-			System.out.println("Date: " + new Date(payment.getCreated_at().getTime()) + " Paid: " + payment.getPaid()
-					+ " Product: " + pname + " Customer name: " + user.getUsername());
+			System.out.println("Date: " + new Date(payment.getCreated_at().getTime()) + " | Paid: " + payment.getPaid()
+					+ " | Product: " + pname + " | Customer name: " + user.getUsername());
 		}
 	}
 
@@ -60,6 +61,9 @@ public class PaymentController {
 		List<Payment> payments = null;
 		List<PaymentConn> paymentconns = pcs.getPaymentConnByUserId(cu.getId());
 		String pname = "";
+		if(paymentconns.size() < 1) {
+			System.out.println("You have No Payments");
+		}
 		for (PaymentConn paymentconn : paymentconns) {
 			payments = pys.retrievePaymentsByConnID(paymentconn.getId());
 			for (Payment payment : payments) {
@@ -68,8 +72,8 @@ public class PaymentController {
 				if (product != null) {
 					pname = product.getProduct_name();
 				}
-				System.out.println("Date: " + new Date(payment.getCreated_at().getTime()) + " Paid: "
-						+ payment.getPaid() + " Product: " + pname);
+				System.out.println("Date: " + new Date(payment.getCreated_at().getTime()) + " | Paid: "
+						+ payment.getPaid() + " | Product: " + pname);
 			}
 		}
 	}
@@ -97,15 +101,16 @@ public class PaymentController {
 			PaymentConn paymentconn = pcs.getPaymentConnByProductIdUserId(id, cu.getId());
 			Double paid = pys.retrievePaymentsSumByPC(paymentconn.getId());
 			Double amount_left = paymentconn.getOffer_price() - paid;
+			amount_left = Math.round(amount_left * 100.0) / 100.0;
 			System.out.println("Enter payment (amount due:"+amount_left+"): ");
 			Double pd_pay = input.nextDouble();
 			if(pd_pay > amount_left && pd_pay > 0) {
+	
 				System.out.println("Cannot pay more than amount due :"+ amount_left);
 			} else {
 				if((pd_pay - amount_left) == 0) {
 					ps.setProductPaid(id);
-					System.out.println("dasdasdasd");
-				}	
+ 				}	
 				Payment py = new Payment();
 				py.setPaid(pd_pay);
 				py.setPayment_connection_id(paymentconn.getId());

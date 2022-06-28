@@ -19,7 +19,7 @@
               <transformers>
                 <transformer>
                   <manifestEntries>
-                    <Main-Class>com.revature.DriverTest</Main-Class>
+                    <Main-Class>com.revature.Driver</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>
