@@ -237,6 +237,7 @@ public class ProductPostgres implements ProductDAO {
 			product.setProduct_name(rs.getString("product_name"));
 			product.setPrice(rs.getDouble("price"));
 			product.setUser_id(rs.getInt("user_id"));
+			product.setPaid_status(rs.getInt("paid_status"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

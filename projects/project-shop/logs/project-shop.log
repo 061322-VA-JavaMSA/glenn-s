@@ -100,3 +100,74 @@
 11:59:26 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 18 and user_id = 26 and active = 1
 11:59:26 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 67
 11:59:26 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:05:23 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'gcrossingham1p'
+12:05:23 [main] INFO  com.revature.controller.UserController - User [id=65, username=gcrossingham1p, password=tlaoNFX, role_id=1, status=1]
+12:05:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where lower(product_name) like 'testpppppp'
+12:05:45 [main] INFO  com.revature.daos.ProductPostgres - insert into products (product_name, price) values ('testpppppp',100.12) returning id
+12:10:56 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'lbarr1r'
+12:10:56 [main] INFO  com.revature.controller.UserController - User [id=67, username=lbarr1r, password=TK7TvvxeF81T, role_id=2, status=1]
+12:11:01 [main] INFO  com.revature.daos.ProductPostgres - select * from products where user_id = 67
+12:11:01 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:11:02 [main] INFO  com.revature.daos.PaymentPostgres - select sum(paid) as total from payment  where payment_connection_id = 11 
+12:11:20 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where user_id = 67
+12:11:20 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 30 
+12:11:33 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 30 
+12:11:33 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 67
+12:11:33 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:11:33 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:11:33 [main] INFO  com.revature.daos.PaymentPostgres - select sum(paid) as total from payment  where payment_connection_id = 11 
+12:11:38 [main] INFO  com.revature.daos.ProductPostgres - update products set  paid_status = 1 where id = 30
+12:11:38 [main] INFO  com.revature.daos.PaymentPostgres - insert into  payment (paid, payment_connection_id) values (5.0,11) returning id
+12:12:02 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 30 
+12:12:02 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 67
+12:12:02 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:12:02 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:12:02 [main] INFO  com.revature.daos.PaymentPostgres - select sum(paid) as total from payment  where payment_connection_id = 11 
+12:13:22 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'lbarr1r'
+12:13:22 [main] INFO  com.revature.controller.UserController - User [id=67, username=lbarr1r, password=TK7TvvxeF81T, role_id=2, status=1]
+12:13:29 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 30 
+12:13:29 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 67
+12:13:29 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:13:29 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:13:29 [main] INFO  com.revature.daos.PaymentPostgres - select sum(paid) as total from payment  where payment_connection_id = 11 
+12:14:29 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 30 
+12:14:29 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 67
+12:14:29 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:14:29 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+12:14:29 [main] INFO  com.revature.daos.PaymentPostgres - select sum(paid) as total from payment  where payment_connection_id = 11 
+12:14:44 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'lbarr1r'
+12:14:44 [main] INFO  com.revature.controller.UserController - User [id=67, username=lbarr1r, password=TK7TvvxeF81T, role_id=2, status=1]
+12:14:48 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 4 order by offer_price desc limit 1
+12:14:48 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 6 order by offer_price desc limit 1
+12:14:48 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 7 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 8 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 9 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 11 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 12 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 13 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 14 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 15 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 16 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 17 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 19 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 20 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 21 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 23 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 24 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 25 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 26 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 27 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 28 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 29 order by offer_price desc limit 1
+12:14:49 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where product_id = 111 order by offer_price desc limit 1
+12:15:00 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 30 
+12:39:44 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'admin'
+12:39:44 [main] INFO  com.revature.controller.UserController - User [id=109, username=admin, password=admin, role_id=3, status=1]
+12:39:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where role_id = 1
+12:39:54 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 102
+12:39:56 [main] INFO  com.revature.daos.UserPostgres - update users set status = 1 where id = 102
+12:39:59 [main] INFO  com.revature.daos.UserPostgres - select * from users where role_id = 1
+12:43:36 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'admin'
+12:43:36 [main] INFO  com.revature.controller.UserController - User [id=109, username=admin, password=admin, role_id=3, status=1]
+12:44:57 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'employeetest'
+12:44:57 [main] INFO  com.revature.daos.UserPostgres - insert into users (username, password, role_id) values ('employeetest','12345',1) returning id

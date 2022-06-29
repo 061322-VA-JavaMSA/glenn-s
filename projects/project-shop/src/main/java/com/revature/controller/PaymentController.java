@@ -100,6 +100,7 @@ public class PaymentController {
 			System.out.println("Cannot find Product");
 			allow = 0;
 		} 
+	 
 		if(p.getPaid_status() == 1) {
 			System.out.println("Product fully paid");
 			allow = 0;
