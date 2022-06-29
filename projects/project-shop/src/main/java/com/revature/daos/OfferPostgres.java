@@ -203,11 +203,11 @@ public class OfferPostgres implements OfferDAO {
 			PreparedStatement ps_1 = c.prepareStatement(sql_1);
 			ps_1.setInt(1, id);
 			rowsChanged_1 = ps_1.executeUpdate();
-
+			log.info(ps_1);
 			PreparedStatement ps_2 = c.prepareStatement(sql_2);
 			ps_2.setInt(1, id);
 			ps_2.setInt(2, pid);
-
+			log.info(ps_2);
 			rowsChanged_2 = ps_2.executeUpdate();
 
 			if (rowsChanged_1 < 1) {
@@ -299,7 +299,7 @@ public class OfferPostgres implements OfferDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, pid);
-
+			log.info(ps);
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
