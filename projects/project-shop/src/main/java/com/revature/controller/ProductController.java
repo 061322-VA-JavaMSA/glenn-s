@@ -43,7 +43,7 @@ public class ProductController {
 		products = ps.getProducts(0);
 		for (Product p : products) {
 
-			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
+			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Minimum Price: "
 					+ p.getPrice());
 		}
 		products = ps.getProducts(1);
@@ -163,18 +163,18 @@ public class ProductController {
 			System.out.println("Do you want to delete this product Y/N");
 			String choice = input.next();
 			switch (choice) {
-			case "y":
-			case "Y":
-				System.out.println("Product has been deleted");
-				pcs.paymentConnProductDelete(id, p.getUser_id());
+				case "y":
+				case "Y":
+					System.out.println("Product has been deleted");
+					pcs.paymentConnProductDelete(id, p.getUser_id());
 
-				ps.deleteProductById(id);
-				break;
-			case "n":
-			case "N":
-			default:
-				System.out.println("Product was not deleted");
-				break;
+					ps.deleteProductById(id);
+					break;
+				case "n":
+				case "N":
+				default:
+					System.out.println("Product was not deleted");
+					break;
 
 			}
 
@@ -201,18 +201,18 @@ public class ProductController {
 			System.out.println("Do you want to reset this product Y/N");
 			String choice = input.next();
 			switch (choice) {
-			case "y":
-			case "Y":
-				System.out.println("Product has been reset");
-				pcs.resetPaymentConn(id, p.getUser_id());
-				os.deleteOfferByProductId(id);
-				ps.resetProduct(id);
-				break;
-			case "n":
-			case "N":
-			default:
-				System.out.println("Product was not reset");
-				break;
+				case "y":
+				case "Y":
+					System.out.println("Product has been reset");
+					pcs.resetPaymentConn(id, p.getUser_id());
+					os.deleteOfferByProductId(id);
+					ps.resetProduct(id);
+					break;
+				case "n":
+				case "N":
+				default:
+					System.out.println("Product was not reset");
+					break;
 
 			}
 
@@ -235,16 +235,16 @@ public class ProductController {
 		extra = "";
 		usid = p.getUser_id();
 		List<Payment> payments = null;
-		
+
 		if (usid > 0) {
 			u = us.retrieveUserById(p.getUser_id());
 			extra = " | Customer Owned: " + u.getUsername();
-			PaymentConn paymentconn = pcs.getPaymentConnByProductIdUserId(p.getId(),p.getUser_id());
+			PaymentConn paymentconn = pcs.getPaymentConnByProductIdUserId(p.getId(), p.getUser_id());
 			payments = pys.retrievePaymentsByConnID(paymentconn.getId());
 
- 		}
+		}
 		System.out.println(" ");
-		System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
+		System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Minimum Price: "
 				+ p.getPrice() + extra);
 		if (payments != null && payments.size() > 0) {
 			System.out.println(" ");
@@ -270,7 +270,7 @@ public class ProductController {
 			if (offer != null) {
 				extra = " | Current Highest Offer: " + offer.getOffer_price();
 			}
-			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
+			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Minimum Price: "
 					+ p.getPrice() + " " + extra);
 		}
 		System.out.println("Press enter to continue");
@@ -302,16 +302,21 @@ public class ProductController {
 	public void makeoffer(User cu) {
 		int id = 0;
 		int allow = 1;
+		int allow_create = 0;
+ 		Offer checkoffer = new  Offer();
 		input = new Scanner(System.in);
 		System.out.println("Product edit");
 		System.out.println("Ener Product ID");
 		id = input.nextInt();
 		Product p = ps.getProductByID(id);
-		if (p == null || p.getUser_id() > 0) {
+		if (p == null  ) {
 			System.out.println("Cannot find Product");
 			allow = 0;
-		}
-
+		} else if( p.getUser_id() > 0) {
+			System.out.println("Cannot find Product");
+			allow = 0;			
+		} 
+	
 		if (allow == 1) {
 			displayList(p);
 			System.out.println("Enter offer price");
@@ -321,12 +326,14 @@ public class ProductController {
 				o.setOffer_price(pd_price);
 				o.setProduct_id(id);
 				o.setUser_id(cu.getId());
-				Offer checkoffer = os.retrieveOfferByCustomer(id, cu.getId());
+
+				checkoffer = os.retrieveOfferByCustomer(id, cu.getId(), 0);
 				if (checkoffer == null) {
-					os.createOffer(o);
+//					os.createOffer(o);
 				} else {
 					o.setId(checkoffer.getId());
 					os.setOffer(o);
+					
 				}
 
 				System.out.println("Your offer has been created");

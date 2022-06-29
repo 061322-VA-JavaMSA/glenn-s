@@ -18,6 +18,6 @@ public interface OfferDAO {
 	boolean verifyAcceptOffer(int pid);
 	boolean deleteOfferByProductId(int id);
 	Offer retrieveMaxOfferByProductId(int pid);
-	Offer retrieveOfferByCustomer(int pid, int uid);
+	Offer retrieveOfferByCustomer(int pid, int uid, int status);
 	Offer returnData(ResultSet rs,Offer o);	
 }

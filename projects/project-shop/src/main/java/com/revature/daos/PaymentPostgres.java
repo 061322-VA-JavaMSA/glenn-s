@@ -168,7 +168,7 @@ public class PaymentPostgres implements PaymentDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
-
+			log.info(ps);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Payment payment = new Payment();

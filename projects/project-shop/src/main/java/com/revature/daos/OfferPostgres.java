@@ -314,14 +314,15 @@ public class OfferPostgres implements OfferDAO {
 	}
 
 	@Override
-	public Offer retrieveOfferByCustomer(int pid, int uid) {
+	public Offer retrieveOfferByCustomer(int pid, int uid, int status ) {
 		// TODO Auto-generated method stub
-		String sql = "select * from " + _table + " where product_id = ? and user_id = ?";
+		String sql = "select * from " + _table + " where product_id = ? and user_id = ? and status = ?";
 		Offer offer = null;
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, pid);
 			ps.setInt(2, uid);
+			ps.setInt(3, status);
 			log.info(ps);
 			ResultSet rs = ps.executeQuery();
 

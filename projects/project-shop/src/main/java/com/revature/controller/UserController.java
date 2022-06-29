@@ -41,8 +41,8 @@ public class UserController {
 //		 String password = "tlaoNFX";
 
 		// customer
-//		 String username = "lbarr1r";
-//		 String password = "TK7TvvxeF81T";
+//		 String username = "aledgister0";
+//		 String password = "2juvlMU";
 
 		// manager
 //		 String username = "admin";
@@ -56,17 +56,20 @@ public class UserController {
 			System.out.println("Invalid credentials.");
 			// log.error("Login exception was thrown: " + e.fillInStackTrace());
 		}
-		if (currentUser.getRole_id() == 1 && currentUser.getStatus() == 2) {
-			System.out.println("You are no longer employed.");
-		} else if (currentUser != null) {
-			if (currentUser.getRole_id() == 1) {
-				ec.employeeStartMenu();
-			} else if (currentUser.getRole_id() == 2) {
-				cc.save(currentUser);
-				cc.customerStartMenu();
-			} else if (currentUser.getRole_id() == 3) {
-				mc.managerStartMenu();
-			}
+		if (currentUser != null) {
+			if (currentUser.getRole_id() == 1 && currentUser.getStatus() == 2) {
+				System.out.println("You are no longer employed.");
+			} else {
+				if (currentUser.getRole_id() == 1) {
+					ec.employeeStartMenu();
+				} else if (currentUser.getRole_id() == 2) {
+					cc.save(currentUser);
+					cc.customerStartMenu();
+				} else if (currentUser.getRole_id() == 3) {
+					mc.managerStartMenu();
+				}				
+			}			
+
 		}
 
 	}

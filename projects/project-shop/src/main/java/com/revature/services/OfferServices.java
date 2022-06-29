@@ -86,7 +86,7 @@ public class OfferServices {
 		return od.retrieveMaxOfferByProductId(pid);
 	}	
 	
-	public Offer retrieveOfferByCustomer(int pid, int uid) {
-		return od.retrieveOfferByCustomer(pid,uid);	
+	public Offer retrieveOfferByCustomer(int pid, int uid, int status) {
+		return od.retrieveOfferByCustomer(pid,uid,status);	
 	}
 }

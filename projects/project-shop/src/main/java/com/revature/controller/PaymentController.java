@@ -96,12 +96,13 @@ public class PaymentController {
 		id = input.nextInt();
 		Product p = ps.getProductByID(id);
  
-		if (p == null || p.getUser_id() != cu.getId() ) {
+		if (p == null ) {
 			System.out.println("Cannot find Product");
 			allow = 0;
-		} 
-	 
-		if(p.getPaid_status() == 1) {
+		} else if(p.getUser_id() != cu.getId()) {
+			System.out.println("Cannot find Product");
+			allow = 0;		
+		}  else if (p.getPaid_status() == 1) {
 			System.out.println("Product fully paid");
 			allow = 0;
 		}

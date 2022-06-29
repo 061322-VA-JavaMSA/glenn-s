@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
 	<Appenders>
-		<Console name="Console" target="SYSTEM_OUT">
-		 			<PatternLayout
-				pattern="" />
-		</Console>	
-		<File name="File" fileName="logs/project-shop.log">
+
+		<File name="LogToFile" fileName="logs/project-shop.log">
 			<PatternLayout
 				pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
-		</File>
+		</File>	
 	</Appenders>
 	<Loggers>
 		<Root level="all">
-			<AppenderRef ref="Console" />
-			<AppenderRef ref="File" level="info"/>
+			<AppenderRef ref="LogToFile"/>
 		</Root>
 	</Loggers>
 </Configuration>
