@@ -29,24 +29,24 @@ public class UserController {
 		mc = new ManagerController();
 		scan = new Scanner(System.in);
 
-		String username = null;
-		String password = null;
-		System.out.println("Please enter username:");
-		username = scan.nextLine();
-		System.out.println("Please enter password:");
-		password = scan.nextLine();
+//		String username = null;
+//		String password = null;
+//		System.out.println("Please enter username:");
+//		username = scan.nextLine();
+//		System.out.println("Please enter password:");
+//		password = scan.nextLine();
 
 		// employee
-		// String username = "gcrossingham1p";
-		// String password = "tlaoNFX";
+		 String username = "gcrossingham1p";
+		 String password = "tlaoNFX";
 
 		// customer
 		// String username = "lbarr1r";
 		// String password = "TK7TvvxeF81T";
 
 		// manager
-		// String username = "admin";
-		// String password = "admin";
+//		 String username = "admin";
+//		 String password = "admin";
 
 		try {
 			currentUser = as.login(username, password);

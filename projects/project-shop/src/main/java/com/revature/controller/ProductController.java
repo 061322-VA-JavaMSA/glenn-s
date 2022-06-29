@@ -235,18 +235,24 @@ public class ProductController {
 		extra = "";
 		usid = p.getUser_id();
 		List<Payment> payments = null;
+		
 		if (usid > 0) {
 			u = us.retrieveUserById(p.getUser_id());
 			extra = " | Customer Owned: " + u.getUsername();
-		}
+			PaymentConn paymentconn = pcs.getPaymentConnByProductIdUserId(p.getId(),p.getUser_id());
+			payments = pys.retrievePaymentsByConnID(paymentconn.getId());
+
+ 		}
+		System.out.println(" ");
 		System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
 				+ p.getPrice() + extra);
 		if (payments != null && payments.size() > 0) {
+			System.out.println(" ");
 			System.out.println("Payments: ");
 			for (Payment payment : payments) {
 
 				System.out.println(
-						"Date: " + new Date(payment.getCreated_at().getTime()) + " Paid: " + payment.getPaid());
+						"Date: " + new Date(payment.getCreated_at().getTime()) + " | Paid: " + payment.getPaid());
 			}
 		}
 

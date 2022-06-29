@@ -32,12 +32,7 @@ public class UserService {
 	public User retrieveUserByUsername(String username) {
 		return ud.retrieveUserByUsername(username);
 	}	
-
-	public boolean updateUser(User u) {
-		return ud.updateUser(u);
-	}	
-	
-
+ 
 	public boolean deleteUserById(int id) {
 		return ud.deleteUserById(id);
 	}		

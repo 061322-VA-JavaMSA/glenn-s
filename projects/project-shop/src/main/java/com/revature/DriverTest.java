@@ -26,7 +26,6 @@ import com.revature.services.AuthService;
 import com.revature.services.OfferServices;
 import com.revature.services.PaymentConService;
 import com.revature.services.ProductService;
-import com.revature.services.RoleService;
 import com.revature.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

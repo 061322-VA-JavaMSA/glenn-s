@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,26 +23,31 @@ public class UserServiceTest {
 
 	@BeforeAll
 	public static void setUp() {
-//		uservice = new UserService();
-//		currentuser = new User();
-//		userid = 0;
+		uservice = new UserService();
+ 		userid = 0;
 	}
 
 	// createUser, retrieveUserById, deleteUserById
 	@Test
-	public void addUser() {
-
+	public void add() {
 		User cu = new User();
 		cu.setUsername("test");
 		cu.setPassword("test");
 		cu.setRole_id(2);
 		User actual = uservice.createUser(cu);
-		User currentuser = actual;
-		userid = cu.getId();
-		User expected = new User();
-		expected = uservice.retrieveUserById(cu.getId());
-		assertEquals(expected, actual);
-		uservice.deleteUserById(cu.getId());
+ 		assertNotNull(actual);
+		uservice.deleteUserById(actual.getId());
 	}
 
+	@Test
+	public void retrieveById() {		
+		User actual =  uservice.retrieveUserById(100);
+		assertNull(actual);
+ 	}	
+ 
+	@Test
+	public void deleteById() {
+		Boolean actual =  uservice.deleteUserById(0);
+		assertFalse(actual);
+ 	}	
 }

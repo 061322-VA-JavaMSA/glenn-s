@@ -38,4 +38,14 @@ public class SampleTest {
  		
  		
  	}
+   	public void addUser() {
+//		User cu = new User();
+//		cu.setUsername("test");
+//		cu.setPassword("test");
+//		cu.setRole_id(2);
+//		User actual = uservice.createUser(cu);
+// 		assertNotNull(actual);
+//		uservice.deleteUserById(actual.getId());
+	}
+
 }
