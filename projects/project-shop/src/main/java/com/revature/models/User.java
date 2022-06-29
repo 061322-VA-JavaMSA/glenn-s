@@ -7,6 +7,7 @@ public class User {
 	private String username;
 	private String password;
 	private int role_id;
+	private int status;
 
 	public User() {
 		super();
@@ -45,9 +46,17 @@ public class User {
 		this.role_id = role_id;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, password, role_id, username);
+		return Objects.hash(id, password, role_id, status, username);
 	}
 
 	@Override
@@ -60,13 +69,16 @@ public class User {
 			return false;
 		User other = (User) obj;
 		return id == other.id && Objects.equals(password, other.password) && role_id == other.role_id
-				&& Objects.equals(username, other.username);
+				&& status == other.status && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role_id=" + role_id + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role_id=" + role_id
+				+ ", status=" + status + "]";
 	}
+
+ 
 
  
  

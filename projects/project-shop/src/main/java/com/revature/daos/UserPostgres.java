@@ -27,7 +27,7 @@ public class UserPostgres implements UserDAO {
 		String sql = "insert into " + _table + " (username, password, role_id) values (?,?,?) returning id;";
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, u.getUsername().trim());
+			ps.setString(1, u.getUsername().trim().toLowerCase());
 			ps.setString(2, u.getPassword());
 			ps.setInt(3, u.getRole_id());
 			log.info(ps);
@@ -95,13 +95,14 @@ public class UserPostgres implements UserDAO {
 
 	@Override
 	public User retrieveUserByUsername(String username) {
-		String sql = "select * from " + _table + " where username  = ?;";
+		String sql = "select * from " + _table + " where LOWER(username)  = ?;";
 		User u = null;
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile();) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
-			ps.setString(1, username); // this refers to the 1st "?" in the sql string, allows to inject data
+			ps.setString(1, username.toLowerCase()); // this refers to the 1st "?" in the sql string, allows to inject
+														// data
 			log.info(ps);
 			ResultSet rs = ps.executeQuery();
 
@@ -126,7 +127,7 @@ public class UserPostgres implements UserDAO {
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
-			ps.setString(1, u.getUsername());
+			ps.setString(1, u.getUsername().toLowerCase());
 			ps.setString(2, u.getPassword());
 			ps.setInt(3, u.getId());
 			log.info(ps);
@@ -173,12 +174,64 @@ public class UserPostgres implements UserDAO {
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("password"));
 			user.setRole_id(rs.getInt("role_id"));
+			user.setStatus(rs.getInt("status"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return user;
+	}
+
+	@Override
+	public boolean updateUserStatus(int uid, int status) {
+		String sql = "update " + _table + " set status = ? where id = ?;";
+		int rowsChanged = -1;
+
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ps.setInt(1, status);
+			ps.setInt(2, uid);
+			log.info(ps);
+			rowsChanged = ps.executeUpdate();
+
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (rowsChanged < 1) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<User> retrieveUsersByRoleid(int rid) {
+		String sql = "select * from " + _table + " where role_id = ?;";
+		List<User> users = new ArrayList<>();
+
+		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ps.setInt(1, rid); // this refers to the 1st ? in the sql String
+			log.info(ps);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				// extract each field from rs for each record, map them to a User object and add
+				// them to the user arrayliost
+				User u = new User();
+				returnData(rs, u);
+
+				users.add(u);
+			}
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 }

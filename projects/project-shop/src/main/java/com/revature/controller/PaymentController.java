@@ -39,7 +39,6 @@ public class PaymentController {
 	}
 	
 	public void allByEmplyee() {
-		input = new Scanner(System.in);
 		List<Payment> payments = pys.retrievePayments();
 		String pname = "";
 		
@@ -57,6 +56,11 @@ public class PaymentController {
 			System.out.println("Date: " + new Date(payment.getCreated_at().getTime()) + " | Paid: " + payment.getPaid()
 					+ " | Product: " + pname + " | Customer name: " + user.getUsername());
 		}
+		System.out.println("Press enter to continue");
+		try {
+			System.in.read();
+		} catch (Exception e) {
+		}	
 	}
 
 	public void allByCustomer(User cu) {

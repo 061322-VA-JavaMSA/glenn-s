@@ -47,7 +47,7 @@ public class ProductPostgres implements ProductDAO {
 	public Product retrieveProductById(int id) {
 		String sql = "select * from " + _table + " where id = ? ";
 		Product product = null;
-		
+
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -133,12 +133,12 @@ public class ProductPostgres implements ProductDAO {
 	public boolean setProducttoUser(int id, int uid) {
 		String sql = "update " + _table + " set  user_id = ? where id = ?;";
 		int rowsChanged = -1;
- 
+
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, uid);
 			ps.setInt(2, id);
-			log.info(ps); 
+			log.info(ps);
 			rowsChanged = ps.executeUpdate();
 
 		} catch (SQLException | IOException e) {
@@ -201,8 +201,6 @@ public class ProductPostgres implements ProductDAO {
 		return products;
 	}
 
-
-
 	@Override
 	public List<Product> getPreparedStatement(String sql) {
 		List<Product> products = new ArrayList<>();
@@ -246,13 +244,13 @@ public class ProductPostgres implements ProductDAO {
 	@Override
 	public List<Product> retrieveProductByName(String n) {
 		// TODO Auto-generated method stub
-		
+
 		String sql = "select * from " + _table + " where lower(product_name) like ?";
 		List<Product> products = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, "%"+n.trim().toLowerCase()+"%");
+			ps.setString(1, "%" + n.trim().toLowerCase() + "%");
 			log.info(ps);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -293,13 +291,13 @@ public class ProductPostgres implements ProductDAO {
 	@Override
 	public List<Product> retrieveProductByNameCustomer(String n) {
 		// TODO Auto-generated method stub
-		
+
 		String sql = "select * from " + _table + " where lower(product_name) like ? and user_id is null order by id";
 		List<Product> products = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, "%"+n.trim().toLowerCase()+"%");
+			ps.setString(1, "%" + n.trim().toLowerCase() + "%");
 			log.info(ps);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -343,11 +341,11 @@ public class ProductPostgres implements ProductDAO {
 		// TODO Auto-generated method stub
 		String sql = "update " + _table + " set  paid_status = 1 where id = ?;";
 		int rowsChanged = -1;
- 
+
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
-			log.info(ps); 
+			log.info(ps);
 			rowsChanged = ps.executeUpdate();
 
 		} catch (SQLException | IOException e) {
@@ -361,5 +359,4 @@ public class ProductPostgres implements ProductDAO {
 		return true;
 	}
 
- 	
 }

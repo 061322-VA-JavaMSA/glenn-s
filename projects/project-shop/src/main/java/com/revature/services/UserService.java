@@ -41,4 +41,12 @@ public class UserService {
 	public boolean deleteUserById(int id) {
 		return ud.deleteUserById(id);
 	}		
+	
+	public boolean updateUserStatus(int uid, int status) {
+		return ud.updateUserStatus(uid,status);
+	}
+	
+	public List<User> retrieveUsersByRoleid(int rid) {
+		return ud.retrieveUsersByRoleid(rid);
+	}
 }

@@ -13,5 +13,7 @@ public interface UserDAO {
 	boolean updateUser(User u);
 	boolean deleteUserById(int id);
 	User returnData(ResultSet rs,User user);
+	boolean updateUserStatus(int uid, int status );
+	List<User> retrieveUsersByRoleid(int rid);
 
 }

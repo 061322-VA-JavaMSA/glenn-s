@@ -43,8 +43,8 @@ public class ProductController {
 		products = ps.getProducts(0);
 		for (Product p : products) {
 
-			System.out.println(
-					"ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: " + p.getPrice());
+			System.out.println("ID: " + p.getId() + " | Product Name: " + p.getProduct_name() + " | Product Price: "
+					+ p.getPrice());
 		}
 		products = ps.getProducts(1);
 		if (products != null) {
@@ -96,6 +96,9 @@ public class ProductController {
 		Product psearch = ps.retrieveProductByNameExact(pd_name);
 		if (psearch != null) {
 			System.out.println("name already exist");
+		} else if (pd_price < 1) {
+			System.out.println("price cannot be lesser than 1");
+
 		} else {
 			ps.createProduct(p);
 			System.out.println("Successfully added");
@@ -130,8 +133,11 @@ public class ProductController {
 			;
 
 			Product psearch = ps.retrieveProductByNameExact(pd_name, id);
+
 			if (psearch != null) {
 				System.out.println("name already exist");
+			} else if (pd_price < 1) {
+				System.out.println("price cannot be lesser than 1");
 			} else {
 				ps.setProduct(product);
 				System.out.println("Successfully edit");
