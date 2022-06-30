@@ -309,7 +309,7 @@ public class ProductController {
 		int allow_create = 0;
  		Offer checkoffer = new  Offer();
 		input = new Scanner(System.in);
-		System.out.println("Product edit");
+		System.out.println("Product Offer");
 		System.out.println("Ener Product ID");
 		id = input.nextInt();
 		Product p = ps.getProductByID(id);
