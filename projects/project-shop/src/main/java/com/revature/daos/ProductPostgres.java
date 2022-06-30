@@ -69,7 +69,7 @@ public class ProductPostgres implements ProductDAO {
 	@Override
 	public List<Product> retrieveProducts() {
 		// TODO Auto-generated method stub
-		String sql = "select * from " + _table + ";";
+		String sql = "select * from " + _table + " ORDER by id;";
 		return getPreparedStatement(sql);
 	}
 
@@ -183,7 +183,7 @@ public class ProductPostgres implements ProductDAO {
 	public List<Product> retrieveProductByUserId(int id) {
 		List<Product> products = new ArrayList<>();
 
-		String sql = "select * from " + _table + " where user_id = ?";
+		String sql = "select * from " + _table + " where user_id = ? ORDER by id";
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -250,7 +250,7 @@ public class ProductPostgres implements ProductDAO {
 	public List<Product> retrieveProductByName(String n) {
 		// TODO Auto-generated method stub
 
-		String sql = "select * from " + _table + " where lower(product_name) like ?";
+		String sql = "select * from " + _table + " where lower(product_name) like ? ORDER by id";
 		List<Product> products = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {

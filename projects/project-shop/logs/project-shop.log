@@ -1,0 +1,60 @@
+21:09:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'testemployee'
+21:10:04 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'testemployee'
+21:10:04 [main] INFO  com.revature.controller.UserController - User [id=135, username=testemployee, password=12345, role_id=1, status=1]
+21:10:08 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where status = 0 order by product_id , offer_price desc  ORDER by id
+21:25:35 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'testemployee'
+21:25:35 [main] INFO  com.revature.controller.UserController - User [id=137, username=testemployee, password=12345, role_id=1, status=1]
+21:25:37 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where status = 0 order by product_id , offer_price desc  ORDER by id
+21:34:30 [main] INFO  com.revature.daos.UserPostgres - select * from users where LOWER(username)  = 'testemployee'
+21:34:30 [main] INFO  com.revature.controller.UserController - User [id=139, username=testemployee, password=12345, role_id=1, status=1]
+21:34:33 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 26
+21:34:33 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 18 and user_id = 26 and active = 1
+21:34:33 [main] INFO  com.revature.daos.PaymentPostgres - select * from payment where payment_connection_id = 12 order by created_at asc
+21:34:33 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 67
+21:34:33 [main] INFO  com.revature.daos.PaymentConnDAO - select * from payment_connection where product_id = 30 and user_id = 67 and active = 1
+21:34:33 [main] INFO  com.revature.daos.PaymentPostgres - select * from payment where payment_connection_id = 11 order by created_at asc
+21:34:44 [main] INFO  com.revature.daos.OfferPostgres - select * from offers where status = 0 order by product_id , offer_price desc
+21:34:44 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 138
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 65
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 24
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 25
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 50
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 11
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 97
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 58
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 82
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 71
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:45 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 68
+21:34:45 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 43
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 61
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 61
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 6
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 9
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 38
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 55
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 85
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 30
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 4 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 26
+21:34:46 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 17 
+21:34:46 [main] INFO  com.revature.daos.UserPostgres - select * from users where id = 138
+21:34:47 [main] INFO  com.revature.daos.ProductPostgres - select * from products where id = 29 

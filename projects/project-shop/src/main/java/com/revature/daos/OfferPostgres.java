@@ -65,7 +65,7 @@ public class OfferPostgres implements OfferDAO {
 	@Override
 	public List<Offer> retrieveOffers() {
 		// TODO Auto-generated method stub
-		String sql = "select * from " + _table + ";";
+		String sql = "select * from " + _table + " ORDER by id;";
 		List<Offer> offers = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
@@ -166,7 +166,7 @@ public class OfferPostgres implements OfferDAO {
 	@Override
 	public List<Offer> retrieveOfferByUserId(int id) {
 		// TODO Auto-generated method stub
-		String sql = "select * from " + _table + " where user_id = ?";
+		String sql = "select * from " + _table + " where user_id = ? ORDER by id";
 		List<Offer> offers = new ArrayList<>();
 
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
@@ -226,7 +226,7 @@ public class OfferPostgres implements OfferDAO {
 	@Override
 	public boolean verifyAcceptOffer(int pid) {
 		// TODO Auto-generated method stub
-		String sql = "select count(id) as counter from " + _table + " where product_id = ? and status = 1";
+		String sql = "select count(id) as counter from " + _table + " where product_id = ? and status = 1 ";
 		Offer offer = null;
 		try (Connection c = ConnectionUtil.getConnectionFromFile()) {
 			PreparedStatement ps = c.prepareStatement(sql);

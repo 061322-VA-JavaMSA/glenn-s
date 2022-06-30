@@ -123,9 +123,9 @@ public class OfferController {
 
 	public void singlelist(Offer offer) {
 		u = us.retrieveUserById(offer.getUser_id());
-		 
+		Product p = ps.getProductByID(offer.getProduct_id());
 		System.out.println("ID: " + offer.getId() + " | Date: " + new Date(offer.getCreated_at().getTime())  +" | Paid: "
-				+ offer.getOffer_price() + " | Customer name: " + u.getUsername());
+				+ offer.getOffer_price() + " | Customer name: " + u.getUsername() + " | Product Name: "+ p.getProduct_name());
 
 	}
 	

@@ -174,7 +174,7 @@ public class ManagerController {
 	}
 	
 	public void HireEmployee() {
-		System.out.println("Fire employee");
+		System.out.println("Hire employee");
 		System.out.println("Ener employee id:");
 		int id = scan.nextInt();
 		User employee = uservice.retrieveUserById(id);
