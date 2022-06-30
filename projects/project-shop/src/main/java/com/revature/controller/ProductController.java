@@ -333,7 +333,7 @@ public class ProductController {
 
 				checkoffer = os.retrieveOfferByCustomer(id, cu.getId(), 0);
 				if (checkoffer == null) {
-//					os.createOffer(o);
+					os.createOffer(o);
 				} else {
 					o.setId(checkoffer.getId());
 					os.setOffer(o);
