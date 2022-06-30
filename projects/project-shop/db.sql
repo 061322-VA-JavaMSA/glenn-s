@@ -43,6 +43,8 @@ created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 user_id integer references users(id)
 );
 
+insert into offers (offer_price, product_id, user_id) values  ('18.09', (select id from users where username = 'customer'), (select id from products p  where product_name  = 'cards'));
+
 drop table if exists payment_connection  Cascade;
 CREATE table if not exists  payment_connection (
 id SERIAL  PRIMARY KEY,
