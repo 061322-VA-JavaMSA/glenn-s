@@ -31,12 +31,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DriverTest {
-	// static Scanner scan;
-	// static UserService us;
-	// static RoleService rs;
-	// static ProductService ps;
-	// static PaymentConService pcs;
-	// static Offer o;
+	 static Scanner scan;
+	 static UserService us;
+ 	 static ProductService ps;
+	 static PaymentConService pcs;
+	 static Offer o;
 	static OfferServices os;
 	private static Logger log = LogManager.getLogger(Driver.class);
 	static AuthService as;
@@ -44,10 +43,10 @@ public class DriverTest {
 	public static void main(String[] args) {
 		as = new AuthService();
 		os = new OfferServices();
-		// ps = new ProductService();
-		// pcs = new PaymentConService();
-		// us = new UserService();
-		// UserDAO ud = new UserPostgres();
+		 ps = new ProductService();
+		 pcs = new PaymentConService();
+		 us = new UserService();
+		 UserDAO ud = new UserPostgres();
 		// List<User> users = us.getUsers();
 		// for(User u : users) {
 		// System.out.println(u);
@@ -145,7 +144,7 @@ public class DriverTest {
 		// pcs.resetPaymentConn(10, 52);
 		// ps.resetProduct(10);
 		// os.retrieveOfferByCustomer(106, 1);
-
+ 
 	}
 
 }

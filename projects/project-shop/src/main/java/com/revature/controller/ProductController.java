@@ -82,7 +82,7 @@ public class ProductController {
 	}
 
 	public void add() {
-
+		input = new Scanner(System.in);
 		System.out.println("Product add");
 
 		System.out.println("Ener name");
@@ -120,6 +120,8 @@ public class ProductController {
 		Product p = ps.getProductByID(id);
 		if (p == null) {
 			System.out.println("Cannot find Product");
+		} else if (p.getUser_id() > 0) {
+			System.out.println("Cannot Delete Product that been paid");		
 		} else {
 			displayList(p);
 			System.out.println("Ener name");
@@ -156,8 +158,11 @@ public class ProductController {
 		System.out.println("Ener Product ID");
 		id = input.nextInt();
 		Product p = ps.getProductByID(id);
+	 
 		if (p == null) {
 			System.out.println("Cannot find Product");
+		} else if (p.getUser_id() >= 1) {
+				System.out.println("Cannot Delete Product that been paid");	
 		} else {
 			displayList(p);
 			System.out.println("Do you want to delete this product Y/N");
@@ -166,8 +171,7 @@ public class ProductController {
 				case "y":
 				case "Y":
 					System.out.println("Product has been deleted");
-					pcs.paymentConnProductDelete(id, p.getUser_id());
-
+//					os.deleteOfferByProductId(id);
 					ps.deleteProductById(id);
 					break;
 				case "n":
@@ -186,43 +190,43 @@ public class ProductController {
 		}
 	}
 
-	public void resetProduct() {
-		int id = 0;
-		System.out.println("Product Reset Ownership");
-		System.out.println("Ener Product ID");
-		id = input.nextInt();
-		Product p = ps.getProductByID(id);
-		if (p == null) {
-			System.out.println("Cannot find product");
-		} else if (p.getUser_id() < 1) {
-			System.out.println("Product has no user");
-		} else {
-			displayList(p);
-			System.out.println("Do you want to reset this product Y/N");
-			String choice = input.next();
-			switch (choice) {
-				case "y":
-				case "Y":
-					System.out.println("Product has been reset");
-					pcs.resetPaymentConn(id, p.getUser_id());
-					os.deleteOfferByProductId(id);
-					ps.resetProduct(id);
-					break;
-				case "n":
-				case "N":
-				default:
-					System.out.println("Product was not reset");
-					break;
-
-			}
-
-		}
-		System.out.println("Press enter to continue");
-		try {
-			System.in.read();
-		} catch (Exception e) {
-		}
-	}
+//	public void resetProduct() {
+//		int id = 0;
+//		System.out.println("Product Reset Ownership");
+//		System.out.println("Ener Product ID");
+//		id = input.nextInt();
+//		Product p = ps.getProductByID(id);
+//		if (p == null) {
+//			System.out.println("Cannot find product");
+//		} else if (p.getUser_id() < 1) {
+//			System.out.println("Product has no user");
+//		} else {
+//			displayList(p);
+//			System.out.println("Do you want to reset this product Y/N");
+//			String choice = input.next();
+//			switch (choice) {
+//				case "y":
+//				case "Y":
+//					System.out.println("Product has been reset");
+//					pcs.resetPaymentConn(id, p.getUser_id());
+//					os.deleteOfferByProductId(id);
+//					ps.resetProduct(id);
+//					break;
+//				case "n":
+//				case "N":
+//				default:
+//					System.out.println("Product was not reset");
+//					break;
+//
+//			}
+//
+//		}
+//		System.out.println("Press enter to continue");
+//		try {
+//			System.in.read();
+//		} catch (Exception e) {
+//		}
+//	}
 
 	/*
 	 * display product
@@ -366,7 +370,7 @@ public class ProductController {
 
 			paid_left = payc.getOffer_price() - sum;
 			if (p.getPaid_status() == 1) {
-				extra = "Fully Paid";
+				extra = " Fully Paid";
 			} else {
 				DecimalFormat df = new DecimalFormat("###.##");
 				extra = "  Remaining payments " + df.format(paid_left);

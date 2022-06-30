@@ -76,8 +76,7 @@ public class EmployeeController {
 			System.out.println("3 = Add");
 			System.out.println("4 = Edit");
 			System.out.println("5 = Delete");
-			System.out.println("6 = Reset Ownership");
-			System.out.println("7 = Main Menu");
+			System.out.println("6 = Main Menu");
 			choice = scan.nextInt();
 			System.out.print("\033[H\033[2J");  
 			System.out.flush();  				
@@ -98,13 +97,9 @@ public class EmployeeController {
 				pc.delete();
 				break;
 			case 6:
-				pc.resetProduct();
-				break;
-			case 7:
 				done = 1;
 				employeeStartMenu();
 				break;
-
 			default:
 				System.err.println("Please try again");
 				break;
