@@ -13,22 +13,18 @@ public class test2 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] nums = { 3,3};
-		int target = 6;
-		int[] result = new int[2];
-
-		for (int i = 0; i < nums.length; i++) {
-			for (int x = (i + 1 ); x < nums.length; x++) {
-				if ((nums[i] + nums[x]) == target) {
-					result[0] = i;
-					result[1] = x;
-
-				}
-
+		int x = 121;
+		String st = (new Integer(x).toString());
+		String[] num_str =   st.split("");
+		boolean bl = false;
+		String st_outputString = "";
+		if(num_str[0].equals(num_str[(num_str.length - 1)])) {
+			for(int i=(num_str.length-1);i>=0;i--) {
+				st_outputString = st_outputString + num_str[i];
 			}
-				
-		}
-		System.out.println(result[0]+ " " + result[1] );
-	}
+		} 
+		System.out.println(st_outputString);	
+		
+   	}
 
 }
