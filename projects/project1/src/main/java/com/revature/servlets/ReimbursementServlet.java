@@ -10,11 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.exceptions.ReimbursementNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Reimbursement;
+import com.revature.models.User;
 import com.revature.services.ReimbursementService;
+import com.revature.services.UserService;
 
 public class ReimbursementServlet extends HttpServlet {
 	ReimbursementService rs = new ReimbursementService();
+	UserService us = new UserService();
+	
 	ObjectMapper om = new ObjectMapper();
 
 	@Override
@@ -22,7 +28,7 @@ public class ReimbursementServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
 		String pathInfo = req.getPathInfo();
-		if(pathInfo == null) {
+ 		if(pathInfo == null) {
  
 			List<Reimbursement> reimburse = rs.getReimburse(); 
  			
@@ -31,7 +37,23 @@ public class ReimbursementServlet extends HttpServlet {
 			pw.close();
 			
 			
-		}		
+		} else {
+			//this is just a test 
+			int id = Integer.parseInt(pathInfo.substring(1));
+			try (PrintWriter pw = resp.getWriter()){
+				User u = us.getUserById(id);
+				List<Reimbursement> reimburse = rs.getByAuthor(u);
+				System.out.println(reimburse); 
+		//				ReimbursementDTO userDTO = new ReimbursementDTO(u);
+				pw.write(om.writeValueAsString(reimburse));
+//				pw.write(om.writeValueAsString(userDTO));
+			} catch (ReimbursementNotFoundException | UserNotFoundException e) {
+				// TODO: handle exception
+				resp.setStatus(404);
+				e.printStackTrace();
+			}
+			
+		} 		
 	}
 
 	@Override

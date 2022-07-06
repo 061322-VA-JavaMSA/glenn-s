@@ -36,8 +36,8 @@ submitted timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 resolved timestamp NULL,
 description varchar(250)  null,
 receipt varchar(250)  null,
-author integer references users(id),
-resolver integer references users(id),
+author_id integer references users(id),
+resolver_id integer references users(id),
 reim_status_id integer references reimbursement_status(id),
 reimb_type_id integer references reimbursement_type(id)
 );

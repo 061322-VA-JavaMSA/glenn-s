@@ -33,13 +33,13 @@ public class Reimbursement {
 	
 	@Column
 	private String receipt;
-	
+
 	@ManyToOne 
-	@JoinColumn(name = "author")	
+	@JoinColumn(name = "author_id")	
 	private User author;
 	
 	@ManyToOne 
-	@JoinColumn(name = "resolver")		
+	@JoinColumn(name = "resolver_id")		
 	private User resolver;	
 
 	@ManyToOne 
@@ -90,37 +90,37 @@ public class Reimbursement {
 		this.receipt = receipt;
 	}
 
-	public User getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-	public User getResolver() {
-		return resolver;
-	}
-
-	public void setResolver(User resolver) {
-		this.resolver = resolver;
-	}
-
-	public ReimbursementStatus getReims_tatus() {
-		return reims_tatus;
-	}
-
-	public void setReims_tatus(ReimbursementStatus reims_tatus) {
-		this.reims_tatus = reims_tatus;
-	}
-
-	public ReimbursementType getReim_type() {
-		return reim_type;
-	}
-
-	public void setReim_type(ReimbursementType reim_type) {
-		this.reim_type = reim_type;
-	}
+//	public User getAuthor() {
+//		return author;
+//	}
+//
+//	public void setAuthor(User author) {
+//		this.author = author;
+//	}
+//
+//	public User getResolver() {
+//		return resolver;
+//	}
+//
+//	public void setResolver(User resolver) {
+//		this.resolver = resolver;
+//	}
+//
+//	public ReimbursementStatus getReims_tatus() {
+//		return reims_tatus;
+//	}
+//
+//	public void setReims_tatus(ReimbursementStatus reims_tatus) {
+//		this.reims_tatus = reims_tatus;
+//	}
+//
+//	public ReimbursementType getReim_type() {
+//		return reim_type;
+//	}
+//
+//	public void setReim_type(ReimbursementType reim_type) {
+//		this.reim_type = reim_type;
+//	}
 
 	@Override
 	public int hashCode() {

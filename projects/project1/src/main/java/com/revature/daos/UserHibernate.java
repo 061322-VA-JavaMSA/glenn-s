@@ -11,6 +11,8 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.revature.models.User;
 import com.revature.util.HibernateUtil;
+
+import jakarta.persistence.Query;
  
 public class UserHibernate implements UserDAO {
 	
@@ -44,7 +46,10 @@ public class UserHibernate implements UserDAO {
 		User user = null;
 		
 		try(Session s = HibernateUtil.getSessionFactory().openSession();){
-			user = s.get(User.class, username);
+			String hql = "FROM User u WHERE u.username =  :username ";
+				Query query = s.createQuery(hql);
+				query.setParameter("username",username);
+				user = (User) query.getSingleResult();
 		}
 		
 		return user;

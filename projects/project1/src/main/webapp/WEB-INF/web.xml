@@ -25,4 +25,12 @@
 		<servlet-name>test-servlet</servlet-name>
 		<url-pattern>/test/*</url-pattern>
 	</servlet-mapping>	
+	<servlet>
+		<servlet-name>auth-servlet</servlet-name>
+		<servlet-class>com.revature.servlets.AuthServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>auth-servlet</servlet-name>
+		<url-pattern>/auth</url-pattern>
+	</servlet-mapping>	
 </web-app>
