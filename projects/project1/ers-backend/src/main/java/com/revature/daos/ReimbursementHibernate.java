@@ -11,7 +11,11 @@ import com.revature.models.Reimbursement;
 import com.revature.models.User;
 import com.revature.util.HibernateUtil;
 
-import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
  
 public class ReimbursementHibernate implements ReimbursementDAO{
 
@@ -32,11 +36,22 @@ public class ReimbursementHibernate implements ReimbursementDAO{
 		// TODO Auto-generated method stub
 		List<Reimbursement> reimburse = null;
 		try(Session s = HibernateUtil.getSessionFactory().openSession();){
-			String hql = "FROM Reimbursement r WHERE r.author =  :author order by id ";
-
-				Query query = s.createQuery(hql);
-				query.setParameter("author",u);
-				reimburse = (List<Reimbursement>) query.getResultList();
+//			String hql = "FROM Reimbursement r WHERE r.author =  :author order by id ";
+//				Query query = s.createQuery(hql);
+//				query.setParameter("author",u);
+//				reimburse = (List<Reimbursement>) query.getResultList();
+			CriteriaBuilder cb = s.getCriteriaBuilder();
+			CriteriaQuery<Reimbursement> cq = cb.createQuery(Reimbursement.class);
+			// define entity to be searched
+			Root<Reimbursement> root = cq.from(Reimbursement.class);
+			
+			//define conditions
+			Predicate predicateForReimbursementname = cb.equal(root.get("author"), u);
+ 
+			cq.select(root).where(predicateForReimbursementname);
+			cq.orderBy(cb.asc(root.get("id"))) ;
+			
+			reimburse = (List<Reimbursement>)  s.createQuery(cq).getResultList();			
 		}
 				
 		return reimburse;
