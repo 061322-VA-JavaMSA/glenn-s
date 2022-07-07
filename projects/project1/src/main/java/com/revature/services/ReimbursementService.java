@@ -20,6 +20,5 @@ public class ReimbursementService {
 	public List<Reimbursement>  getByAuthor(User u) throws ReimbursementNotFoundException {
 		List<Reimbursement> reimburse = rd.getByAuthor(u);
 		return reimburse;
-
 	}
 }

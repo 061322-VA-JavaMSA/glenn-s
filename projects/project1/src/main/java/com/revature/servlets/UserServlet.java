@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dto.ReimbursementDTO;
 import com.revature.dto.UserDTO;
 import com.revature.exceptions.ReimbursementNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
@@ -24,6 +25,7 @@ import com.revature.models.Reimbursement;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
+import com.revature.util.CorsFix;
 
 /**
  *
@@ -37,6 +39,8 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+
 		String pathInfo = req.getPathInfo();
 
 		if(pathInfo == null) {
@@ -64,9 +68,12 @@ public class UserServlet extends HttpServlet {
 				try (PrintWriter pw = resp.getWriter()){
 					User u = us.getUserById(id);
 					List<Reimbursement> reimburse = rs.getByAuthor(u);
- //				ReimbursementDTO userDTO = new ReimbursementDTO(u);
-					pw.write(om.writeValueAsString(reimburse));
-//					pw.write(om.writeValueAsString(userDTO));
+					List<ReimbursementDTO> reimDTO = new ArrayList<>();
+					reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
+ 					pw.write(om.writeValueAsString(reimDTO));
+					pw.close();
+					resp.setStatus(200);
+
 				} catch (ReimbursementNotFoundException | UserNotFoundException e) {
 					// TODO: handle exception
 					resp.setStatus(404);
@@ -77,7 +84,8 @@ public class UserServlet extends HttpServlet {
 					try (PrintWriter pw = resp.getWriter()){
 						User u = us.getUserById(id);
 						UserDTO userDTO = new UserDTO(u);
-						
+						resp.setStatus(200);
+
 						pw.write(om.writeValueAsString(userDTO));
 					} catch (UserNotFoundException e) {
 						// TODO: handle exception

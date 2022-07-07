@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.revature.dto.UserDTO;
 import com.revature.exceptions.ReimbursementNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Reimbursement;
@@ -33,17 +34,20 @@ public class Driver {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		List<Reimbursement> reimburse = rs.getReimburse(); 
-		System.out.println(reimburse);
+//		List<Reimbursement> reimburse = rs.getReimburse(); 
+//		System.out.println(reimburse);
 
-//		try {
-//			User u = us.getUserById(12);
-//			List<Reimbursement> reimburse = rs.getByAuthor(u);
-//			System.out.println(reimburse);
-//		} catch (ReimbursementNotFoundException | UserNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			User u = us.getUserById(12);
+			List<Reimbursement> reimburse = rs.getByAuthor(u);
+			
+//			users.forEach(u -> usersDTO.add(new UserDTO(u)));
+
+			System.out.println(reimburse);
+		} catch (ReimbursementNotFoundException | UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //        String regex = "[0-9]/[\breim]";
 //
 //		String patString = "23/task";

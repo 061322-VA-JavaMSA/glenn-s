@@ -42,7 +42,7 @@ public class UserServiceTest {
 	@Test
 	public void retrieveById() {		
 		User actual =  uservice.retrieveUserById(100);
-		assertNull(actual);
+		assertNotNull(actual);
  	}	
  
 	@Test

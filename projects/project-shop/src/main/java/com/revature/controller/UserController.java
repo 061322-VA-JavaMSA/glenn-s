@@ -36,18 +36,6 @@ public class UserController {
 		System.out.println("Please enter password:");
 		password = scan.nextLine();
 
-		// employee
-//		 String username = "gcrossingham1p";
-//		 String password = "tlaoNFX";
-
-		// customer
-//		 String username = "aledgister0";
-//		 String password = "2juvlMU";
-
-		// manager
-//		 String username = "admin";
-//		 String password = "admin";
-
 		try {
 			currentUser = as.login(username, password);
 			log.info(currentUser);

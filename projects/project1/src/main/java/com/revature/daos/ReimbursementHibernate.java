@@ -32,7 +32,7 @@ public class ReimbursementHibernate implements ReimbursementDAO{
 		// TODO Auto-generated method stub
 		List<Reimbursement> reimburse = null;
 		try(Session s = HibernateUtil.getSessionFactory().openSession();){
-			String hql = "FROM Reimbursement r WHERE r.author =  :author ";
+			String hql = "FROM Reimbursement r WHERE r.author =  :author order by id ";
 
 				Query query = s.createQuery(hql);
 				query.setParameter("author",u);

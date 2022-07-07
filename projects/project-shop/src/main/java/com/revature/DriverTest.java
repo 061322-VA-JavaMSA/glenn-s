@@ -101,8 +101,8 @@ public class DriverTest {
 		// System.out.println("Invalid credentials.");
 		// log.error("Login exception was thrown: " + e.fillInStackTrace());
 		// }
-		UserController u = new UserController();
-		u.login();
+//		UserController u = new UserController();
+//		u.login();
 		// u.register();;
 		// ProductController pc = new ProductController();
 		// pc.searchname();
@@ -144,7 +144,8 @@ public class DriverTest {
 		// pcs.resetPaymentConn(10, 52);
 		// ps.resetProduct(10);
 		// os.retrieveOfferByCustomer(106, 1);
- 
+		List<User> users = us.getUsers(); 	
+		System.out.println(users); 
 	}
 
 }
