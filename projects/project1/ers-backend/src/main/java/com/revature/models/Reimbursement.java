@@ -33,7 +33,10 @@ public class Reimbursement {
 	
 	@Column
 	private String receipt;
-
+	
+	@Column
+	private String description;
+	
 	@ManyToOne 
 	@JoinColumn(name = "author_id")	
 	private User author;
@@ -122,29 +125,27 @@ public class Reimbursement {
 		this.reim_type = reim_type;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(amount, id, receipt, resolved, submitted);
+
+
+	public String getDescription() {
+		return description;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Reimbursement other = (Reimbursement) obj;
-		return Double.doubleToLongBits(amount) == Double.doubleToLongBits(other.amount) && id == other.id
-				&& Objects.equals(receipt, other.receipt) && Objects.equals(resolved, other.resolved)
-				&& Objects.equals(submitted, other.submitted);
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	@Override
-	public String toString() {
-		return "Reimbursement [id=" + id + ", amount=" + amount + ", submitted=" + submitted + ", resolved=" + resolved
-				+ ", receipt=" + receipt + "]";
-	}
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(amount, id, receipt, resolved, submitted);
+//	}
+//	
+//	@Override
+//	public String toString() {
+//		return "Reimbursement [id=" + id + ", amount=" + amount + ", submitted=" + submitted + ", resolved=" + resolved
+//				+ ", receipt=" + receipt + ", description=" + description + ", author=" + author + ", resolver="
+//				+ resolver + ", reim_status=" + reim_status + ", reim_type=" + reim_type + "]";
+//	}
+ 
 	
 }

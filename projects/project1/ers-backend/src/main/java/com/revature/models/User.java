@@ -116,10 +116,11 @@ public class User {
 				&& Objects.equals(last_name, other.last_name) && Objects.equals(password, other.password)
 				&& Objects.equals(role, other.role) && Objects.equals(username, other.username);
 	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", first_name=" + first_name
 				+ ", last_name=" + last_name + ", email=" + email + ", role=" + role + "]";
 	}
-
+ 
 }

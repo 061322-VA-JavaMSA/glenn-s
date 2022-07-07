@@ -12,4 +12,5 @@ import com.revature.models.User;
 public interface ReimbursementDAO {
 	List<Reimbursement> getReimbursements();
 	List<Reimbursement>  getByAuthor(User u);
+	Reimbursement insertReimbursement(Reimbursement r);
 }

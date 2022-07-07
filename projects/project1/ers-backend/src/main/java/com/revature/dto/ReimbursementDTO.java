@@ -16,6 +16,8 @@ public class ReimbursementDTO {
 	
 	private String receipt;
 
+	private String description;
+
 	private UserDTO author;
 	
 	private UserDTO resolver;	
@@ -42,9 +44,10 @@ public class ReimbursementDTO {
 		resolved = (r.getResolved() == null) ? "":r.getResolved().toString();
 		receipt = r.getReceipt();
 		author = new UserDTO(r.getAuthor());
-		resolver = new UserDTO(r.getResolver());
+		resolver = (r.getResolver() == null) ? null:new UserDTO(r.getResolver());
 		reim_status = r.getReim_status();
 		reim_type = r.getReim_type();
+		description = r.getDescription();
 	}
 
 	public int getId() {
@@ -117,6 +120,14 @@ public class ReimbursementDTO {
 
 	public void setReim_type(ReimbursementType reim_type) {
 		this.reim_type = reim_type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

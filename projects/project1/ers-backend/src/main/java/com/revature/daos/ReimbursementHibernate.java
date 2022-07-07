@@ -6,6 +6,8 @@ package com.revature.daos;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.Transaction;
 
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
@@ -13,10 +15,9 @@ import com.revature.util.HibernateUtil;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
- 
+  
 public class ReimbursementHibernate implements ReimbursementDAO{
 
 	@Override
@@ -55,6 +56,21 @@ public class ReimbursementHibernate implements ReimbursementDAO{
 		}
 				
 		return reimburse;
+	}
+
+	@Override
+	public Reimbursement insertReimbursement(Reimbursement r) {
+		r.setId(-1);
+		try(Session s = HibernateUtil.getSessionFactory().openSession()){
+			Transaction tx = s.beginTransaction();
+			int id = (int) s.save(r);
+			r.setId(id);
+			tx.commit();	
+		} catch(ConstraintViolationException e) {
+			//log it
+		}
+		return r;
+ 
 	}
 
 }

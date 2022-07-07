@@ -45,7 +45,7 @@ public class UserServlet extends HttpServlet {
 
 		if(pathInfo == null) {
 			HttpSession session = req.getSession();
-			System.out.println(session.getAttribute("userRole"));
+//			System.out.println(session.getAttribute("userRole"));
 			List<User> users = us.getUsers(); 
 			List<UserDTO> usersDTO = new ArrayList<>();
 			
@@ -61,13 +61,14 @@ public class UserServlet extends HttpServlet {
 
  	         Pattern pattern = Pattern.compile(regex);
 	         Matcher matcher = pattern.matcher(pathInfo);
-	         if(matcher.find()) {
+ 	         if(matcher.find()) {
 	        	 String[] pathParts = pathInfo.split("/");
 	        	 
 	 			int id = Integer.parseInt(pathParts[1]);
-				try (PrintWriter pw = resp.getWriter()){
+ 
+ 				try (PrintWriter pw = resp.getWriter()){
 					User u = us.getUserById(id);
-					List<Reimbursement> reimburse = rs.getByAuthor(u);
+ 					List<Reimbursement> reimburse = rs.getByAuthor(u);
 					List<ReimbursementDTO> reimDTO = new ArrayList<>();
 					reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
  					pw.write(om.writeValueAsString(reimDTO));

@@ -3,7 +3,7 @@
 async function reimbursement() {
 
 
-
+    console.log(`${apiUrl}/users/${principal.id}/reim`);
     let response = await fetch(`${apiUrl}/users/${principal.id}/reim`, {
         method: 'GET',
         credentials: 'include',
@@ -70,13 +70,16 @@ function tableReim(list) {
         td.innerHTML = list[i].amount;
         tr.appendChild(td);
         td = document.createElement('td');
+        td.innerHTML = list[i].description;
+        tr.appendChild(td);
+        td = document.createElement('td');
         td.innerHTML = list[i].submitted.substring(0, 16);
         tr.appendChild(td);
         td = document.createElement('td');
         td.innerHTML = (list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "";
         tr.appendChild(td);
         td = document.createElement('td');
-        td.innerHTML = list[i].resolver.username;
+        td.innerHTML = (list[i].resolver != null) ? list[i].resolver.username : "";
         tr.appendChild(td);
         td = document.createElement('td');
         td.innerHTML = list[i].reim_status.reimb_status;
