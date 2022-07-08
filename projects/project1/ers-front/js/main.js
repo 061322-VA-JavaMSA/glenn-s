@@ -13,13 +13,13 @@ if (principalString) {
 
     if (principal.role.user_role === 'manager') {
         createNavElement('Users', nav_left, './users.html', null);
+    } else {
+        createNavElement('List Reimbursement ', nav_left, './reimbursement.html', null);
+        createNavElement('Add Reimbursement', nav_left, './reim-add.html', null);
     }
 
-    createNavElement('List Reimbursement ', nav_left, './reimbursement.html', null);
-    createNavElement('Add Reimbursement', nav_left, './reim-add.html', null);
-
     createNavElement('Profile', nav_right, './profile.html', null);
-    createNavElement("Hello " + principal.username + ",", nav_right, null, null);
+    createNavElement("Hello " + principal.first_name + ",", nav_right, null, null);
     createNavElement('Logout', nav_right, null, logout);
 } else {
     createNavElement('Login', nav_right, './login.html', null);
@@ -72,4 +72,12 @@ async function logout() {
     } else {
         console.log('Unable to logout.')
     }
+}
+
+
+function createTableData(text) {
+    td = document.createElement('td');
+    td.innerHTML = text;
+    tr.appendChild(td);
+    return tr;
 }

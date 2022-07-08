@@ -24,6 +24,8 @@ async function login() {
             'password': `${password}`
         })
     });
+    document.getElementById("waiting").style.display = "block";
+    document.getElementById("login-form").style.display = "none";
 
     if (response.status == 200) {
         let data = await response.json();
@@ -33,9 +35,16 @@ async function login() {
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
         sessionStorage.setItem('principal', JSON.stringify(data));
-
+        document.getElementById("waiting").style.display = "none";
         window.location.href = "./index.html";
+        document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">
+        login Successful
+    </div>`;
     } else {
-        console.log('Unable to login.')
+        document.getElementById("login-form").style.display = "block";
+        document.getElementById("waiting").style.display = "none";
+        document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
+        Login Failed.
+    </div>`;
     }
 }

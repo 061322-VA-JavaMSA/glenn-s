@@ -26,8 +26,9 @@ async function profileLoad() {
         document.getElementById('last_name').value = profileData.last_name;
         document.getElementById('email').value = profileData.email;
         document.getElementById('password').value = '';
+        document.getElementById("profile_form").style.display = "block";
+        document.getElementById("waiting").style.display = "none";
     } else {
-        console.log('Unable to login.')
     }
 }
 profileLoad();

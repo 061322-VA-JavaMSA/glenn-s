@@ -19,6 +19,7 @@ async function reimbursement() {
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
         var list = data;
+        document.getElementById("waiting").style.display = "none";
 
 
         tableReim(list);
@@ -32,33 +33,19 @@ function tableReim(list) {
     let x = 1;
     for (i in list) {
         tr = document.createElement('tr');
-        td = document.createElement('td');
-        td.innerHTML = x;
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = list[i].amount;
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = list[i].description;
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = list[i].submitted.substring(0, 16);
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = (list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "";
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = (list[i].resolver != null) ? list[i].resolver.username : "";
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = list[i].reim_status.reimb_status;
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.innerHTML = list[i].reim_type.reimb_type;
-        tr.appendChild(td);
+
+        td = createTableData(x);
+        td = createTableData(list[i].amount);
+        td = createTableData(list[i].description);
+        td = createTableData(list[i].submitted.substring(0, 16));
+        td = createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;");
+        td = createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;");
+        td = createTableData(list[i].reim_status.reimb_status);
+        td = createTableData(list[i].reim_type.reimb_type);
 
 
         x++;
         document.getElementById('reim_body').appendChild(tr);
     }
 }
+
