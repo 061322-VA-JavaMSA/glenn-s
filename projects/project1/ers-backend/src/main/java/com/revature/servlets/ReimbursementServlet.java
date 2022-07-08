@@ -76,7 +76,6 @@ public class ReimbursementServlet extends HttpServlet {
 		InputStream reqBody = req.getInputStream();
          
 		ReqReimbursementDTO newReimbursementDTO = om.readValue(reqBody, ReqReimbursementDTO.class);
-		System.out.println(newReimbursementDTO.toString());
 		Reimbursement newReimbursement = new Reimbursement();
  		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 

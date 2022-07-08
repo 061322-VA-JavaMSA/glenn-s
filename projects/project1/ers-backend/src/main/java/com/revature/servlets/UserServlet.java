@@ -4,6 +4,7 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.ProfileDTO;
 import com.revature.dto.ReimbursementDTO;
-import com.revature.dto.UserDTO;
 import com.revature.exceptions.ReimbursementNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.exceptions.UserNotUpdatedException;
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
@@ -104,13 +104,35 @@ public class UserServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		super.doPost(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+
 	}
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doPut(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+ 		InputStream reqBody = req.getInputStream();
+
+		String pathInfo = req.getPathInfo();
+
+		if(pathInfo != null) {
+			int id = Integer.parseInt(pathInfo.substring(1));
+	         
+			User u = om.readValue(reqBody, User.class);
+			
+			try {
+				boolean bool = us.updatetUser(u);
+				try(PrintWriter pw = resp.getWriter()){
+					pw.write(om.writeValueAsString(bool));
+					resp.setStatus(200);
+				}				
+			} catch (UserNotUpdatedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
 	}
 
 	@Override

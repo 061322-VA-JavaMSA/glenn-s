@@ -9,6 +9,7 @@ import com.revature.daos.UserDAO;
 import com.revature.daos.UserHibernate;
 import com.revature.exceptions.UserNotCreatedException;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.exceptions.UserNotUpdatedException;
 import com.revature.models.User;
 
 /**
@@ -40,6 +41,10 @@ public class UserService {
 	public List<User> getUsers() {
 		List<User> users = ud.getUsers();
 		return users;
+	}
+	
+	public boolean updatetUser(User u) throws UserNotUpdatedException {
+		return updatetUser(u);
 	}
 
 }

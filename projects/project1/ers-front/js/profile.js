@@ -31,11 +31,11 @@ async function profileLoad() {
     }
 }
 profileLoad();
-// Setting up event listener for add button
+// Setting up event listener for update button
 let addButton = document.getElementById('submitButton');
-addButton.addEventListener('click', add);
+addButton.addEventListener('click', update);
 
-async function add() {
+async function update() {
 
     let first_name = document.getElementById('first_name').value;
     let last_name = document.getElementById('last_name').value;
@@ -43,7 +43,7 @@ async function add() {
     let password = document.getElementById('password').value;
 
     let response = await fetch(`${apiUrl}/user/${principal.id}`, {
-        method: 'PUT',
+        method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
