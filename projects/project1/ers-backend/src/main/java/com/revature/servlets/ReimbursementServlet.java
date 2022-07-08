@@ -74,7 +74,7 @@ public class ReimbursementServlet extends HttpServlet {
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 
 		InputStream reqBody = req.getInputStream();
-         
+
 		ReqReimbursementDTO newReimbursementDTO = om.readValue(reqBody, ReqReimbursementDTO.class);
 		Reimbursement newReimbursement = new Reimbursement();
  		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
@@ -89,7 +89,8 @@ public class ReimbursementServlet extends HttpServlet {
 			newReimbursement.setSubmitted(timestamp1);
 			Reimbursement newR =  rs.insertReimbursement(newReimbursement);
 			try(PrintWriter pw = resp.getWriter()){
-				pw.write(om.writeValueAsString(newR));
+//				pw.write(om.writeValueAsString(newR));
+				pw.write(1);
 				resp.setStatus(200);
 			}
 		} catch (ReimbursementNotCreatedException | UserNotFoundException | ReimbursementStatusNotFoundException | ReimbursementTypeNotFoundException e) {

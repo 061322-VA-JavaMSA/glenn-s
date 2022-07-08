@@ -19,6 +19,7 @@ if (principalString) {
     createNavElement('Add Reimbursement', nav_left, './reim-add.html', null);
 
     createNavElement('Profile', nav_right, './profile.html', null);
+    createNavElement("Hello " + principal.username + ",", nav_right, null, null);
     createNavElement('Logout', nav_right, null, logout);
 } else {
     createNavElement('Login', nav_right, './login.html', null);

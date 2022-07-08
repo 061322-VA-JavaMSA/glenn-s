@@ -42,8 +42,8 @@ async function update() {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
 
-    let response = await fetch(`${apiUrl}/user/${principal.id}`, {
-        method: 'POST',
+    let response = await fetch(`${apiUrl}/users/${principal.id}`, {
+        method: 'PUT',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -57,7 +57,7 @@ async function update() {
     });
 
     if (response.status == 200) {
-        let data = await response.json();
+        // let data = await response.json();
 
         /*
             persisting the User object sent back to session storage for use in other pages
@@ -65,13 +65,13 @@ async function update() {
          */
 
         document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">
-        Added Successfully
-    </div>`;
+            Updated Successfully
+        </div>`;
 
 
     } else {
         document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
-        Unable to add.
+        Unable to update.
     </div>`;
     }
 }

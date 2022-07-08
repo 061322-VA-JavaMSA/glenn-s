@@ -44,7 +44,7 @@ public class UserService {
 	}
 	
 	public boolean updatetUser(User u) throws UserNotUpdatedException {
-		return updatetUser(u);
+		return ud.updatetUser(u);
 	}
 
 }

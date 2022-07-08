@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.ProfileDTO;
@@ -32,6 +33,14 @@ import com.revature.util.CorsFix;
  *
  */
 public class UserServlet extends HttpServlet {
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+ 		super.doOptions(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+
+	}
+
 	UserService us = new UserService();
 	ObjectMapper om = new ObjectMapper();
 	ReimbursementService rs = new ReimbursementService();
@@ -113,32 +122,35 @@ public class UserServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		super.doPut(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+		 
  		InputStream reqBody = req.getInputStream();
 
 		String pathInfo = req.getPathInfo();
-
-		if(pathInfo != null) {
-			int id = Integer.parseInt(pathInfo.substring(1));
-	         
+//
+ 			int id = Integer.parseInt(pathInfo.substring(1));
+	        
 			User u = om.readValue(reqBody, User.class);
-			
+			u.setId(id);
+//          working  			
+//			HttpSession session = req.getSession();
+//			System.out.println(session.getAttribute("userName"));
 			try {
 				boolean bool = us.updatetUser(u);
 				try(PrintWriter pw = resp.getWriter()){
-					pw.write(om.writeValueAsString(bool));
+					pw.write(om.writeValueAsString(u));
 					resp.setStatus(200);
 				}				
 			} catch (UserNotUpdatedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}		
-	}
+ 	}
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doDelete(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 	}
 
 }
