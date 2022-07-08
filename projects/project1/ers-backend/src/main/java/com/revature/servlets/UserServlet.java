@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dto.ProfileDTO;
 import com.revature.dto.ReimbursementDTO;
 import com.revature.dto.UserDTO;
 import com.revature.exceptions.ReimbursementNotFoundException;
@@ -44,14 +45,14 @@ public class UserServlet extends HttpServlet {
 		String pathInfo = req.getPathInfo();
 
 		if(pathInfo == null) {
-			HttpSession session = req.getSession();
+//			HttpSession session = req.getSession();
 //			System.out.println(session.getAttribute("userRole"));
 			List<User> users = us.getUsers(); 
-			List<UserDTO> usersDTO = new ArrayList<>();
-			
-			users.forEach(u -> usersDTO.add(new UserDTO(u)));
+			List<ProfileDTO> profileDTO = new ArrayList<>();
+//			
+			users.forEach(u -> profileDTO.add(new ProfileDTO(u)));
 	 		PrintWriter pw = resp.getWriter();
-			pw.write(om.writeValueAsString(usersDTO));
+			pw.write(om.writeValueAsString(profileDTO));
 			pw.close();
 			
 			
@@ -84,10 +85,10 @@ public class UserServlet extends HttpServlet {
 	 				int id = Integer.parseInt(pathInfo.substring(1));
 					try (PrintWriter pw = resp.getWriter()){
 						User u = us.getUserById(id);
-						UserDTO userDTO = new UserDTO(u);
+						ProfileDTO profileDTO = new ProfileDTO(u);
 						resp.setStatus(200);
 
-						pw.write(om.writeValueAsString(userDTO));
+						pw.write(om.writeValueAsString(profileDTO));
 					} catch (UserNotFoundException e) {
 						// TODO: handle exception
 						resp.setStatus(404);

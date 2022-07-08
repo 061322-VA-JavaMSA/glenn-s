@@ -1,4 +1,3 @@
-// Checks if a user is already logged in, if yes redirect to homepage
 
 async function reimbursement() {
 
@@ -12,7 +11,6 @@ async function reimbursement() {
         },
 
     });
-    console.log(response.status);
     if (response.status == 200) {
         let data = await response.json();
 

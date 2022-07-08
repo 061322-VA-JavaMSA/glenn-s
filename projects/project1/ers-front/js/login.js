@@ -33,7 +33,6 @@ async function login() {
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
         sessionStorage.setItem('principal', JSON.stringify(data));
-        console.log("test");
 
         window.location.href = "./index.html";
     } else {
