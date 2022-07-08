@@ -25,6 +25,7 @@ import com.revature.services.ReimbursementService;
 import com.revature.services.ReimbursementStatusService;
 import com.revature.services.ReimbursementTypeService;
 import com.revature.services.UserService;
+import com.revature.util.CorsFix;
 
 public class ReimbursementServlet extends HttpServlet {
 	ReimbursementService rs = new ReimbursementService();
@@ -70,13 +71,14 @@ public class ReimbursementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doPost(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+
 		InputStream reqBody = req.getInputStream();
+         
 		ReqReimbursementDTO newReimbursementDTO = om.readValue(reqBody, ReqReimbursementDTO.class);
-		Reimbursement newReimbursement = new Reimbursement();
 		System.out.println(newReimbursementDTO.toString());
-// 		HttpSession session = req.getSession();
-//		int id = (int) session.getAttribute("userId");
-		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+		Reimbursement newReimbursement = new Reimbursement();
+ 		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 
  
  		try {
@@ -86,9 +88,14 @@ public class ReimbursementServlet extends HttpServlet {
 			newReimbursement.setReim_status(rss.getReimbursementStatusById(1));
 			newReimbursement.setReim_type(rt.getReimbursementTypeById(newReimbursementDTO.getReimb_type_id()));
 			newReimbursement.setSubmitted(timestamp1);
-			rs.insertReimbursement(newReimbursement);
+			Reimbursement newR =  rs.insertReimbursement(newReimbursement);
+			try(PrintWriter pw = resp.getWriter()){
+				pw.write(om.writeValueAsString(newR));
+				resp.setStatus(200);
+			}
 		} catch (ReimbursementNotCreatedException | UserNotFoundException | ReimbursementStatusNotFoundException | ReimbursementTypeNotFoundException e) {
 			// TODO Auto-generated catch block
+			resp.setStatus(404);
 			e.printStackTrace();
 		}
 	}

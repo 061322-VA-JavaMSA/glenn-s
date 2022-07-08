@@ -15,7 +15,8 @@ if (principalString) {
         createNavElement('Users', nav_left, './users.html', null);
     }
 
-    createNavElement('reimbursement ', nav_left, './reimbursement.html', null);
+    createNavElement('List Reimbursement ', nav_left, './reimbursement.html', null);
+    createNavElement('Add Reimbursement', nav_left, './reim-add.html', null);
 
     createNavElement('Logout', nav_right, null, logout);
 } else {

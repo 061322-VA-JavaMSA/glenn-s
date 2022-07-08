@@ -30,35 +30,6 @@ async function reimbursement() {
 }
 reimbursement();
 function tableReim(list) {
-    // "id": 3,
-    // "amount": 14.25,
-    // "submitted": 1657075563396,
-    // "resolved": null,
-    // "receipt": null,
-    // "author": {
-    //   "id": 1,
-    //   "username": "mike",
-    //   "role": {
-    //     "id": 1,
-    //     "user_role": "employee"
-    //   }
-    // },
-    // "resolver": {
-    //   "id": 30,
-    //   "username": "mwaumsleyq",
-    //   "role": {
-    //     "id": 2,
-    //     "user_role": "manager"
-    //   }
-    // },
-    // "reim_status": {
-    //   "id": 2,
-    //   "reimb_status": "approved"
-    // },
-    // "reim_type": {
-    //   "id": 1,
-    //   "reimb_type": "lodging"
-    // }
 
     let x = 1;
     for (i in list) {

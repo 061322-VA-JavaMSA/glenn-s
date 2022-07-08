@@ -82,5 +82,12 @@ public class ReqReimbursementDTO {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "ReqReimbursementDTO [id=" + id + ", amount=" + amount + ", receipt=" + receipt + ", author_id="
+				+ author_id + ", resolver_id=" + resolver_id + ", reim_status_id=" + reim_status_id + ", reimb_type_id="
+				+ reimb_type_id + ", description=" + description + "]";
+	}
+
  
 }
