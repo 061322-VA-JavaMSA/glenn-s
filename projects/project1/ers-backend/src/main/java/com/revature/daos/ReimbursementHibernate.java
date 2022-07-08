@@ -26,7 +26,7 @@ public class ReimbursementHibernate implements ReimbursementDAO{
 		List<Reimbursement> reimburse = null;
 		
 		try(Session s = HibernateUtil.getSessionFactory().openSession()){
-			reimburse = s.createQuery("from Reimbursement", Reimbursement.class).list();
+			reimburse = s.createQuery("from Reimbursement Order by reim_status ASC", Reimbursement.class).list();
  		}
 		
 		return reimburse;

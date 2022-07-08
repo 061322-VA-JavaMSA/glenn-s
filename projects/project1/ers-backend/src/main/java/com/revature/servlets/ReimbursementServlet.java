@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dto.ReimbursementDTO;
 import com.revature.dto.ReqReimbursementDTO;
 import com.revature.exceptions.ReimbursementNotCreatedException;
 import com.revature.exceptions.ReimbursementNotFoundException;
@@ -36,17 +38,32 @@ public class ReimbursementServlet extends HttpServlet {
 	ObjectMapper om = new ObjectMapper();
 
 	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+ 		super.doOptions(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+
+	}
+	
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+
 		String pathInfo = req.getPathInfo();
 		if (pathInfo == null) {
 
 			List<Reimbursement> reimburse = rs.getReimburse();
-
+ 
 			PrintWriter pw = resp.getWriter();
-			pw.write(om.writeValueAsString(reimburse));
+//			pw.write(om.writeValueAsString(reimburse));
+//			pw.close();
+			List<ReimbursementDTO> reimDTO = new ArrayList<>();
+			reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
+			pw.write(om.writeValueAsString(reimDTO));
 			pw.close();
+			resp.setStatus(200);			
 
 		} else {
 			// this is just a test

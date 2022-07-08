@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
+import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.util.HibernateUtil;
 
@@ -63,9 +64,13 @@ public class UserHibernate implements UserDAO {
 	@Override
 	public List<User> getUsers() {
 		List<User> users = null;
-
+		Role role = new Role();
+		role.setId(1);
 		try (Session s = HibernateUtil.getSessionFactory().openSession()) {
-			users = s.createQuery("from User", User.class).list();
+			Query  query = s.createQuery("from User u where role = :role", User.class);
+			query.setParameter("role", role );
+
+			users = query.getResultList();
 		}
 
 		return users;

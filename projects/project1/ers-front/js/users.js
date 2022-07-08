@@ -3,7 +3,7 @@ async function usersList() {
 
 
     console.log(`${apiUrl}/users`);
-    let response = await fetch(`${apiUrl}/users/${principal.id}/reim`, {
+    let response = await fetch(`${apiUrl}/users`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -33,7 +33,6 @@ function tableReim(list) {
     let x = 1;
     for (i in list) {
         tr = document.createElement('tr');
-
         td = createTableData(x);
         td = createTableData(list[i].first_name);
         td = createTableData(list[i].last_name);
