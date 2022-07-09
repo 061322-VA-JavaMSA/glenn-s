@@ -61,20 +61,6 @@ public class UserHibernate implements UserDAO {
 		return user;
 	}
 
-	@Override
-	public List<User> getUsers() {
-		List<User> users = null;
-		Role role = new Role();
-		role.setId(1);
-		try (Session s = HibernateUtil.getSessionFactory().openSession()) {
-			Query  query = s.createQuery("from User u where role = :role", User.class);
-			query.setParameter("role", role );
-
-			users = query.getResultList();
-		}
-
-		return users;
-	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -104,4 +90,18 @@ public class UserHibernate implements UserDAO {
 		}
 		return true;
 	}
+
+	@Override
+	public List<User> getByRole(Role role) {
+		List<User> users = null;
+		try (Session s = HibernateUtil.getSessionFactory().openSession()) {
+			Query  query = s.createQuery("from User u where role = :role", User.class);
+			query.setParameter("role", role );
+
+			users = query.getResultList();
+		}
+
+		return users;
+	}
+
 }

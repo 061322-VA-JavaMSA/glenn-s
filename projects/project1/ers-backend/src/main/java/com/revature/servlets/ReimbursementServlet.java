@@ -11,10 +11,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.ReimbursementDTO;
+import com.revature.dto.ReqReimStatusDTO;
 import com.revature.dto.ReqReimbursementDTO;
 import com.revature.exceptions.ReimbursementNotCreatedException;
 import com.revature.exceptions.ReimbursementNotFoundException;
@@ -22,7 +22,6 @@ import com.revature.exceptions.ReimbursementStatusNotFoundException;
 import com.revature.exceptions.ReimbursementTypeNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Reimbursement;
-import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import com.revature.services.ReimbursementStatusService;
 import com.revature.services.ReimbursementTypeService;
@@ -57,8 +56,6 @@ public class ReimbursementServlet extends HttpServlet {
 			List<Reimbursement> reimburse = rs.getReimburse();
  
 			PrintWriter pw = resp.getWriter();
-//			pw.write(om.writeValueAsString(reimburse));
-//			pw.close();
 			List<ReimbursementDTO> reimDTO = new ArrayList<>();
 			reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
 			pw.write(om.writeValueAsString(reimDTO));
@@ -68,16 +65,13 @@ public class ReimbursementServlet extends HttpServlet {
 		} else {
 			// this is just a test
 			int id = Integer.parseInt(pathInfo.substring(1));
-			try (PrintWriter pw = resp.getWriter()) {
-				User u = us.getUserById(id);
-				List<Reimbursement> reimburse = rs.getByAuthor(u);
-				System.out.println(reimburse);
-				// ReimbursementDTO userDTO = new ReimbursementDTO(u);
-				pw.write(om.writeValueAsString(reimburse));
-//				pw.write(om.writeValueAsString(userDTO));
-			} catch (ReimbursementNotFoundException | UserNotFoundException e) {
-				// TODO: handle exception
-				resp.setStatus(404);
+			try {
+				ReimbursementDTO reimDTO =  new ReimbursementDTO(rs.getByID(id));
+				PrintWriter pw = resp.getWriter();
+				pw.write(om.writeValueAsString(reimDTO));
+				pw.close();
+ 			} catch (ReimbursementNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -87,7 +81,6 @@ public class ReimbursementServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		super.doPost(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 
 		InputStream reqBody = req.getInputStream();
@@ -106,7 +99,6 @@ public class ReimbursementServlet extends HttpServlet {
 			newReimbursement.setSubmitted(timestamp1);
 			Reimbursement newR =  rs.insertReimbursement(newReimbursement);
 			try(PrintWriter pw = resp.getWriter()){
-//				pw.write(om.writeValueAsString(newR));
 				pw.write(1);
 				resp.setStatus(200);
 			}
@@ -120,7 +112,27 @@ public class ReimbursementServlet extends HttpServlet {
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		super.doPut(req, resp);
+//		super.doPut(req, resp);
+		CorsFix.addCorsHeader(req.getRequestURI(), resp);
+		String pathInfo = req.getPathInfo();
+		InputStream reqBody = req.getInputStream();		
+		
+		ReqReimStatusDTO statusDTO = om.readValue(reqBody, ReqReimStatusDTO.class);
+		
+		int id = Integer.parseInt(pathInfo.substring(1));
+		statusDTO.setId(id);
+  		try {
+			rs.setStatusByID(statusDTO.getId(),statusDTO.getUser_id(),statusDTO.getStatus()) ;
+			try(PrintWriter pw = resp.getWriter()){
+				pw.write(1);
+				resp.setStatus(200);
+			}			
+		} catch (ReimbursementNotFoundException e) {
+			// TODO Auto-generated catch block
+			resp.setStatus(404);
+
+			e.printStackTrace();
+		}		
 	}
 
 	@Override

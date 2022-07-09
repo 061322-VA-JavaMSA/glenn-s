@@ -54,11 +54,10 @@ public class UserServlet extends HttpServlet {
 		String pathInfo = req.getPathInfo();
 
 		if(pathInfo == null) {
-//			HttpSession session = req.getSession();
-//			System.out.println(session.getAttribute("userRole"));
-			List<User> users = us.getUsers(); 
+			HttpSession session = req.getSession();
+			System.out.println(session.getAttribute("userRole"));
+			List<User> users = us.getByRole("employee");
 			List<ProfileDTO> profileDTO = new ArrayList<>();
-//			
 			users.forEach(u -> profileDTO.add(new ProfileDTO(u)));
 	 		PrintWriter pw = resp.getWriter();
 			pw.write(om.writeValueAsString(profileDTO));
@@ -66,8 +65,7 @@ public class UserServlet extends HttpServlet {
 			
 			
 		} else {
-//			
-	        String regex = "[0-9]/[\breim]";
+ 	        String regex = "[0-9]/[\breim]";
 
  	         Pattern pattern = Pattern.compile(regex);
 	         Matcher matcher = pattern.matcher(pathInfo);

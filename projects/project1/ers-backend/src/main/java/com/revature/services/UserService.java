@@ -5,11 +5,14 @@ package com.revature.services;
 
 import java.util.List;
 
+import com.revature.daos.RoleDAO;
+import com.revature.daos.RoleHibernate;
 import com.revature.daos.UserDAO;
 import com.revature.daos.UserHibernate;
 import com.revature.exceptions.UserNotCreatedException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.UserNotUpdatedException;
+import com.revature.models.Role;
 import com.revature.models.User;
 
 /**
@@ -18,8 +21,7 @@ import com.revature.models.User;
 public class UserService {
 
 	private UserDAO ud = new UserHibernate();
-//	private UserDAO ud = new UserPostgres();
-	
+ 	
 	public User createUser(User u) throws UserNotCreatedException {
 		// by default, created account will be basic Users
  		
@@ -38,8 +40,10 @@ public class UserService {
 		return u;
 	}	
 	
-	public List<User> getUsers() {
-		List<User> users = ud.getUsers();
+	public List<User> getByRole(String role_name) {
+		RoleDAO rh = new RoleHibernate();
+		Role r = rh.getByName(role_name);
+ 		List<User> users = ud.getByRole(r);
 		return users;
 	}
 	

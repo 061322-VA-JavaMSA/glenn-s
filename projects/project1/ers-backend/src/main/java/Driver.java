@@ -1,11 +1,5 @@
-import java.util.List;
-
-import com.revature.daos.UserDAO;
-import com.revature.daos.UserHibernate;
-import com.revature.models.Reimbursement;
-import com.revature.models.User;
+import com.revature.exceptions.ReimbursementNotFoundException;
 import com.revature.services.ReimbursementService;
-import com.revature.services.UserService;
 
  
 public class Driver {
@@ -15,7 +9,7 @@ public class Driver {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		ReimbursementService rs = new ReimbursementService();
+		ReimbursementService rs = new ReimbursementService();
 //		List<Reimbursement> reim = rs.getReimburse();
 //		UserService us = new UserService();
 //		List<User> users = us.getUsers(); 
@@ -55,14 +49,38 @@ public class Driver {
 //         } else {
 //            System.out.println("Match not occurred");
 //         }         
-		UserDAO uh = new UserHibernate();
-
-		User u = new User();
-		u.setId(1);
-		u.setFirst_name("firstname");
-		u.setLast_name("lastname");
-		u.setEmail("miketest@rrrr.om");
-		uh.updatetUser(u) ;
+//		UserDAO uh = new UserHibernate();
+//
+//		User u = new User();
+//		u.setId(1);
+//		u.setFirst_name("firstname");
+//		u.setLast_name("lastname");
+//		u.setEmail("miketest@rrrr.om");
+//		uh.updatetUser(u) ;
+//		ReimbursementTypeDAO rthDao = new ReimbursementTypeHibernate();
+//		ReimbursementType rt = rthDao.getByName("lodging");
+//		System.out.println(rt);
+		
+//		RoleDAO rh = new RoleHibernate();
+//		Role r = rh.getByName("employee");
+//		System.out.println(r);
+		
+//		
+//		List<User> users = us.getByRole("employee");
+//		System.out.println(users);
+//		ReimbursementStatusDAO rsh = new ReimbursementStatusHibernate();
+//		ReimbursementStatus rs = rsh.getByName("approved");
+//		System.out.println(rs);
+		
+//		ReimbursementDAO rh = new ReimbursementHibernate();
+//		rh.setStatusByID();
+		
+//		try {
+//			rs.setStatusByID(2,32,"approved") ;
+//		} catch (ReimbursementNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
  	}
 
 }
