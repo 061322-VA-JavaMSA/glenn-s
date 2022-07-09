@@ -124,7 +124,9 @@ public class ReimbursementServlet extends HttpServlet {
   		try {
 			rs.setStatusByID(statusDTO.getId(),statusDTO.getUser_id(),statusDTO.getStatus()) ;
 			try(PrintWriter pw = resp.getWriter()){
-				pw.write(1);
+				ReimbursementDTO reimDTO =  new ReimbursementDTO(rs.getByID(id));
+ 				pw.write(om.writeValueAsString(reimDTO));
+				pw.close();				
 				resp.setStatus(200);
 			}			
 		} catch (ReimbursementNotFoundException e) {

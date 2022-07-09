@@ -18,7 +18,7 @@ async function reimbursement() {
             persisting the User object sent back to session storage for use in other pages
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
-        var list = data;
+        let list = data;
         document.getElementById("waiting").style.display = "none";
 
 
@@ -34,15 +34,22 @@ function tableReim(list) {
     for (i in list) {
         tr = document.createElement('tr');
 
-        td = createTableData(x);
-        td = createTableData(list[i].amount);
-        td = createTableData(list[i].description);
-        td = createTableData(list[i].submitted.substring(0, 16));
-        td = createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;");
-        td = createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;");
-        td = createTableData(list[i].reim_status.reimb_status);
-        td = createTableData(list[i].reim_type.reimb_type);
-
+        // td = createTableData(x);
+        // td = createTableData(list[i].amount);
+        // td = createTableData(list[i].description);
+        // td = createTableData(list[i].submitted.substring(0, 16));
+        // td = createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;");
+        // td = createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;");
+        // td = createTableData(list[i].reim_status.reimb_status);
+        // td = createTableData(list[i].reim_type.reimb_type);
+        tr.appendChild(createTableData(x));
+        tr.appendChild(createTableData(list[i].amount));
+        tr.appendChild(createTableData(list[i].description));
+        tr.appendChild(createTableData(list[i].submitted.substring(0, 16)));
+        tr.appendChild(createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;"));
+        tr.appendChild(createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;"));
+        tr.appendChild(createTableData(list[i].reim_status.reimb_status));
+        tr.appendChild(createTableData(list[i].reim_type.reimb_type));
 
         x++;
         document.getElementById('reim_body').appendChild(tr);

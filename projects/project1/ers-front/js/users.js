@@ -34,10 +34,15 @@ function tableReim(list) {
     for (i in list) {
         tr = document.createElement('tr');
         td = createTableData(x);
+        tr.appendChild(td);
         td = createTableData(list[i].first_name);
+        tr.appendChild(td);
         td = createTableData(list[i].last_name);
+        tr.appendChild(td);
         td = createTableData(list[i].email);
+        tr.appendChild(td);
         td = createTableData(list[i].username);
+        tr.appendChild(td);
         x++;
         document.getElementById('reim_body').appendChild(tr);
     }

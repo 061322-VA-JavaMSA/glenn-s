@@ -79,6 +79,5 @@ async function logout() {
 function createTableData(text) {
     td = document.createElement('td');
     td.innerHTML = text;
-    tr.appendChild(td);
-    return tr;
+    return td;
 }

@@ -72,8 +72,7 @@ public class Driver {
 //		ReimbursementStatus rs = rsh.getByName("approved");
 //		System.out.println(rs);
 		
-//		ReimbursementDAO rh = new ReimbursementHibernate();
-//		rh.setStatusByID();
+ 
 		
 //		try {
 //			rs.setStatusByID(2,32,"approved") ;
