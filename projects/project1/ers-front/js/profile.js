@@ -27,7 +27,7 @@ async function profileLoad() {
         document.getElementById('email').value = profileData.email;
         document.getElementById('password').value = '';
         document.getElementById("profile_form").style.display = "block";
-        document.getElementById("waiting").style.display = "none";
+        document.getElementById("waiting").setAttribute('class', 'd-flex justify-content-center d-none');
     } else {
     }
 }

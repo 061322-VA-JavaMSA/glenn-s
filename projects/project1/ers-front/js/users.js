@@ -19,7 +19,7 @@ async function usersList() {
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
         var list = data;
-        document.getElementById("waiting").style.display = "none";
+        document.getElementById("waiting").setAttribute('class', 'd-flex justify-content-center d-none');
 
 
         tableReim(list);

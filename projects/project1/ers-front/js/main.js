@@ -7,7 +7,9 @@ let principal = null;
 
 let nav_right = document.getElementById("nav-right");
 let nav_left = document.getElementById("nav-left");
-if (principalString) {
+
+if (principalString && principalString !== null) {
+    console.log(principalString);
     // converts the JSON string back to a JS object and assigns it to principal
     principal = JSON.parse(principalString);
 

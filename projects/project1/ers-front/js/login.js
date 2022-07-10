@@ -1,7 +1,6 @@
-principal = "";
 // Checks if a user is already logged in, if yes redirect to homepage
 if (principal) {
-    // window.location.href = "./index.html";
+    window.location.href = "./index.html";
 }
 
 // Setting up event listener for login button
@@ -13,6 +12,9 @@ async function login() {
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
 
+    document.getElementById('submitButton').style.display = "none";
+    document.getElementById('loadButton').style.display = "block";
+
     let response = await fetch(`${apiUrl}/auth`, {
         method: 'POST',
         credentials: 'include',
@@ -23,9 +25,9 @@ async function login() {
             'username': `${username}`,
             'password': `${password}`
         })
+
     });
-    document.getElementById("waiting").style.display = "block";
-    document.getElementById("login-form").style.display = "none";
+
 
     if (response.status == 200) {
         let data = await response.json();
@@ -34,15 +36,16 @@ async function login() {
             persisting the User object sent back to session storage for use in other pages
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
+        document.getElementById('submitButton').style.display = "block";
+        document.getElementById('loadButton').style.display = "none";
         sessionStorage.setItem('principal', JSON.stringify(data));
-        document.getElementById("waiting").style.display = "none";
         window.location.href = "./index.html";
         document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">
         login Successful
     </div>`;
     } else {
-        document.getElementById("login-form").style.display = "block";
-        document.getElementById("waiting").style.display = "none";
+        document.getElementById('submitButton').style.display = "block";
+        document.getElementById('loadButton').style.display = "none";
         document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
         Login Failed.
     </div>`;

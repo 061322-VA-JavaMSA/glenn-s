@@ -13,7 +13,12 @@ async function add() {
     let amount = document.getElementById('amount').value;
     let description = document.getElementById('description').value;
     let author_id = principal.id;
-
+    if (amount < 1 || description == '' || reimb_type_id == '') {
+        document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
+        Unable to add. 
+    </div>`;
+        return false;
+    }
     let response = await fetch(`${apiUrl}/reim`, {
         method: 'POST',
         credentials: 'include',

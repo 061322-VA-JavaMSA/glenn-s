@@ -1,3 +1,7 @@
+// Checks if a user is already logged in, if yes redirect to homepage
+if (!principal) {
+    window.location.href = "./index.html";
+}
 
 async function reimbursement() {
 
@@ -18,7 +22,7 @@ async function reimbursement() {
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
         var list = data;
-        document.getElementById("waiting").style.display = "none";
+        document.getElementById("waiting").setAttribute('class', 'd-flex justify-content-center d-none');
 
 
         tableReim(list);
@@ -67,7 +71,7 @@ function tableReim(list) {
 function approveButton(id, tr, x) {
     /* <button type="button" class="btn btn-success">Approve</button> */
     let button = document.createElement('button');
-    button.setAttribute('class', 'btn btn-success mr-1');
+    button.setAttribute('class', 'btn btn-success me-1');
     button.innerHTML = "Approve";
     button.addEventListener('click', appoveSend.bind(null, id, tr, x));
     return button;
@@ -76,7 +80,7 @@ function approveButton(id, tr, x) {
 function denyButton(id, tr, x) {
     /* <button type="button" class="btn btn-danger">Deny</button> */
     let button = document.createElement('button');
-    button.setAttribute('class', 'btn btn-danger mr-1');
+    button.setAttribute('class', 'btn btn-danger me-1');
     button.addEventListener('click', denySend.bind(null, id, tr, x));
 
     button.innerHTML = "Deny";
