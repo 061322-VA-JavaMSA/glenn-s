@@ -1,4 +1,7 @@
-
+// Checks if a user is already logged in, if yes redirect to homepage
+if (!principal) {
+    window.location.href = "./index.html";
+}
 async function reimbursement() {
 
 
@@ -13,18 +16,15 @@ async function reimbursement() {
     });
     if (response.status == 200) {
         let data = await response.json();
-
-        /*
-            persisting the User object sent back to session storage for use in other pages
-            Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
-         */
         let list = data;
         document.getElementById("waiting").setAttribute('class', 'd-flex justify-content-center d-none');
-
-
         tableReim(list);
-    } else {
-        console.log('Unable to login.')
+    } else if (response.status == 404) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There was an issue',
+        });
     }
 }
 reimbursement();

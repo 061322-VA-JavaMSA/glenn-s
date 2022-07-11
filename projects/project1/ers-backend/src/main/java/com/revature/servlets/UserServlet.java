@@ -25,8 +25,10 @@ import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.UserNotUpdatedException;
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
+import com.revature.services.AuthService;
 import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
+import com.revature.services.ValidateService;
 import com.revature.util.CorsFix;
 
 /**
@@ -36,14 +38,16 @@ public class UserServlet extends HttpServlet {
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
- 		super.doOptions(req, resp);
+		super.doOptions(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 
 	}
 
-	UserService us = new UserService();
-	ObjectMapper om = new ObjectMapper();
-	ReimbursementService rs = new ReimbursementService();
+	private UserService us = new UserService();
+	private ObjectMapper om = new ObjectMapper();
+	private ReimbursementService rs = new ReimbursementService();
+	private AuthService as = new AuthService();
+	private ValidateService vs = new ValidateService();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,60 +56,64 @@ public class UserServlet extends HttpServlet {
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 
 		String pathInfo = req.getPathInfo();
+		HttpSession session = req.getSession();
 
-		if(pathInfo == null) {
-			HttpSession session = req.getSession();
-			System.out.println(session.getAttribute("userRole"));
-			List<User> users = us.getByRole("employee");
-			List<ProfileDTO> profileDTO = new ArrayList<>();
-			users.forEach(u -> profileDTO.add(new ProfileDTO(u)));
-	 		PrintWriter pw = resp.getWriter();
-			pw.write(om.writeValueAsString(profileDTO));
-			pw.close();
-			
-			
+		if (pathInfo == null) {
+			if(vs.checkManager(req, resp)) {
+				List<User> users = us.getByRole("employee");
+				List<ProfileDTO> profileDTO = new ArrayList<>();
+				users.forEach(u -> profileDTO.add(new ProfileDTO(u)));
+				PrintWriter pw = resp.getWriter();
+				pw.write(om.writeValueAsString(profileDTO));
+				pw.close();
+			}
+
 		} else {
- 	        String regex = "[0-9]/[\breim]";
+			String regex = "[0-9]/[\breim]";
 
- 	         Pattern pattern = Pattern.compile(regex);
-	         Matcher matcher = pattern.matcher(pathInfo);
- 	         if(matcher.find()) {
-	        	 String[] pathParts = pathInfo.split("/");
-	        	 
-	 			int id = Integer.parseInt(pathParts[1]);
- 
- 				try (PrintWriter pw = resp.getWriter()){
-					User u = us.getUserById(id);
- 					List<Reimbursement> reimburse = rs.getByAuthor(u);
-					List<ReimbursementDTO> reimDTO = new ArrayList<>();
-					reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
- 					pw.write(om.writeValueAsString(reimDTO));
-					pw.close();
-					resp.setStatus(200);
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(pathInfo);
+			if (matcher.find()) {
+				String[] pathParts = pathInfo.split("/");
 
-				} catch (ReimbursementNotFoundException | UserNotFoundException e) {
-					// TODO: handle exception
-					resp.setStatus(404);
-					e.printStackTrace();
-				}
-	         } else {
-	 				int id = Integer.parseInt(pathInfo.substring(1));
-					try (PrintWriter pw = resp.getWriter()){
+				int id = Integer.parseInt(pathParts[1]);
+				
+				if(vs.checkUserId(req, resp, id)) {
+					try (PrintWriter pw = resp.getWriter()) {
 						User u = us.getUserById(id);
-						ProfileDTO profileDTO = new ProfileDTO(u);
+						List<Reimbursement> reimburse = rs.getByAuthor(u);
+						List<ReimbursementDTO> reimDTO = new ArrayList<>();
+						reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
+						pw.write(om.writeValueAsString(reimDTO));
+						pw.close();
 						resp.setStatus(200);
 
-						pw.write(om.writeValueAsString(profileDTO));
-					} catch (UserNotFoundException e) {
+					} catch (ReimbursementNotFoundException | UserNotFoundException e) {
 						// TODO: handle exception
-						resp.setStatus(404);
+ 						vs.messageWrite(req, resp, 404);
 						e.printStackTrace();
-					}	
-	         }        
-			
- 			
+					}			
+				}
 
-		} 		
+
+			} else {
+				int id = Integer.parseInt(pathInfo.substring(1));
+				try (PrintWriter pw = resp.getWriter()) {
+					User u = us.getUserById(id);
+					ProfileDTO profileDTO = new ProfileDTO(u);
+					resp.setStatus(200);
+
+					pw.write(om.writeValueAsString(profileDTO));
+					pw.close();
+				} catch (UserNotFoundException e) {
+					// TODO: handle exception
+					vs.messageWrite(req, resp, 404);
+					e.printStackTrace();
+				}
+				
+			}
+
+		}
 	}
 
 	@Override
@@ -120,29 +128,34 @@ public class UserServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		super.doPut(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
-		 
- 		InputStream reqBody = req.getInputStream();
+
+		InputStream reqBody = req.getInputStream();
 
 		String pathInfo = req.getPathInfo();
 //
- 			int id = Integer.parseInt(pathInfo.substring(1));
-	        
-			User u = om.readValue(reqBody, User.class);
-			u.setId(id);
-//          working  			
-//			HttpSession session = req.getSession();
-//			System.out.println(session.getAttribute("userName"));
+		int id = Integer.parseInt(pathInfo.substring(1));
+
+		User u = om.readValue(reqBody, User.class);
+		u.setId(id);
+
+		HttpSession session = req.getSession();
+		if(vs.checkUserId(req, resp, id)) {
 			try {
 				boolean bool = us.updatetUser(u);
-				try(PrintWriter pw = resp.getWriter()){
+				try (PrintWriter pw = resp.getWriter()) {
 					pw.write(om.writeValueAsString(u));
 					resp.setStatus(200);
-				}				
+					pw.close();
+				}
 			} catch (UserNotUpdatedException e) {
 				// TODO Auto-generated catch block
+				vs.messageWrite(req, resp, 404);
 				e.printStackTrace();
-			}
- 	}
+			}			
+		}
+
+
+	}
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

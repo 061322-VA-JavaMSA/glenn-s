@@ -34,20 +34,18 @@ async function add() {
     });
 
     if (response.status == 200) {
-
-        /*
-            persisting the User object sent back to session storage for use in other pages
-            Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
-         */
-
-        document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">
-        Added Successfully
-    </div>`;
-
-
+        Swal.fire({
+            icon: 'success',
+            text: 'Succesfully Saved',
+        });
+        document.getElementById('reimb_type_id').value = '';
+        document.getElementById('amount').value = '';
+        document.getElementById('description').value = '';
     } else {
-        document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
-        Unable to add.
-    </div>`;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Unable to add',
+        });
     }
 }

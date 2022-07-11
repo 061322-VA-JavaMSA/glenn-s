@@ -1,4 +1,7 @@
-
+// Checks if a user is already logged in, if yes redirect to homepage
+if (!principal) {
+    window.location.href = "./index.html";
+}
 async function usersList() {
 
 
@@ -23,8 +26,18 @@ async function usersList() {
 
 
         tableReim(list);
-    } else {
-        console.log('Unable to login.')
+    } else if (response.status == 404) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There was an issue',
+        });
+    } else if (response.status == 401) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Not Authorized',
+        });
     }
 }
 usersList();

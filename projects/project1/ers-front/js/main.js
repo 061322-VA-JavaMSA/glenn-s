@@ -9,7 +9,6 @@ let nav_right = document.getElementById("nav-right");
 let nav_left = document.getElementById("nav-left");
 
 if (principalString && principalString !== null) {
-    console.log(principalString);
     // converts the JSON string back to a JS object and assigns it to principal
     principal = JSON.parse(principalString);
 
@@ -73,7 +72,11 @@ async function logout() {
         principal = null;
         window.location.href = "./index.html";
     } else {
-        console.log('Unable to logout.')
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Unable to logout.',
+        });
     }
 }
 

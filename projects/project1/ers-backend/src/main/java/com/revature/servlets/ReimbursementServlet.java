@@ -22,60 +22,66 @@ import com.revature.exceptions.ReimbursementStatusNotFoundException;
 import com.revature.exceptions.ReimbursementTypeNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Reimbursement;
+import com.revature.services.AuthService;
 import com.revature.services.ReimbursementService;
 import com.revature.services.ReimbursementStatusService;
 import com.revature.services.ReimbursementTypeService;
 import com.revature.services.UserService;
+import com.revature.services.ValidateService;
 import com.revature.util.CorsFix;
 
 public class ReimbursementServlet extends HttpServlet {
-	ReimbursementService rs = new ReimbursementService();
-	ReimbursementStatusService rss = new ReimbursementStatusService();
-	ReimbursementTypeService rt = new ReimbursementTypeService();
-	UserService us = new UserService();
-
-	ObjectMapper om = new ObjectMapper();
+	private ReimbursementService rs = new ReimbursementService();
+	private ReimbursementStatusService rss = new ReimbursementStatusService();
+	private ReimbursementTypeService rt = new ReimbursementTypeService();
+	private UserService us = new UserService();
+	private AuthService as = new AuthService();
+	private ValidateService vs = new ValidateService();
+	private ObjectMapper om = new ObjectMapper();
 
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
- 		super.doOptions(req, resp);
+		super.doOptions(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
-
 		String pathInfo = req.getPathInfo();
-		if (pathInfo == null) {
+		if (vs.checkManager(req, resp) == true) {
+ 			if (pathInfo == null) {
 
-			List<Reimbursement> reimburse = rs.getReimburse();
- 
-			PrintWriter pw = resp.getWriter();
-			List<ReimbursementDTO> reimDTO = new ArrayList<>();
-			reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
-			pw.write(om.writeValueAsString(reimDTO));
-			pw.close();
-			resp.setStatus(200);			
+				List<Reimbursement> reimburse = rs.getReimburse();
 
-		} else {
-			// this is just a test
-			int id = Integer.parseInt(pathInfo.substring(1));
-			try {
-				ReimbursementDTO reimDTO =  new ReimbursementDTO(rs.getByID(id));
 				PrintWriter pw = resp.getWriter();
+				List<ReimbursementDTO> reimDTO = new ArrayList<>();
+				reimburse.forEach(r -> reimDTO.add(new ReimbursementDTO(r)));
 				pw.write(om.writeValueAsString(reimDTO));
 				pw.close();
- 			} catch (ReimbursementNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				resp.setStatus(200);
 
+			} else {
+				// this is just a test
+				int id = Integer.parseInt(pathInfo.substring(1));
+				try {
+					ReimbursementDTO reimDTO = new ReimbursementDTO(rs.getByID(id));
+					PrintWriter pw = resp.getWriter();
+					pw.write(om.writeValueAsString(reimDTO));
+					pw.close();
+				} catch (ReimbursementNotFoundException e) {
+					// TODO Auto-generated catch block
+					vs.messageWrite(req, resp, 404);
+					e.printStackTrace();
+				}
+
+			}
 		}
+
 	}
 
 	@Override
@@ -87,24 +93,24 @@ public class ReimbursementServlet extends HttpServlet {
 
 		ReqReimbursementDTO newReimbursementDTO = om.readValue(reqBody, ReqReimbursementDTO.class);
 		Reimbursement newReimbursement = new Reimbursement();
- 		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 
- 
- 		try {
+		try {
 			newReimbursement.setAmount(newReimbursementDTO.getAmount());
 			newReimbursement.setDescription(newReimbursementDTO.getDescription());
 			newReimbursement.setAuthor(us.getUserById(newReimbursementDTO.getAuthor_id()));
 			newReimbursement.setReim_status(rss.getReimbursementStatusById(1));
 			newReimbursement.setReim_type(rt.getReimbursementTypeById(newReimbursementDTO.getReimb_type_id()));
 			newReimbursement.setSubmitted(timestamp1);
-			Reimbursement newR =  rs.insertReimbursement(newReimbursement);
-			try(PrintWriter pw = resp.getWriter()){
+			Reimbursement newR = rs.insertReimbursement(newReimbursement);
+			try (PrintWriter pw = resp.getWriter()) {
 				pw.write(1);
 				resp.setStatus(200);
 			}
-		} catch (ReimbursementNotCreatedException | UserNotFoundException | ReimbursementStatusNotFoundException | ReimbursementTypeNotFoundException e) {
+		} catch (ReimbursementNotCreatedException | UserNotFoundException | ReimbursementStatusNotFoundException
+				| ReimbursementTypeNotFoundException e) {
 			// TODO Auto-generated catch block
-			resp.setStatus(404);
+			vs.messageWrite(req, resp, 404);
 			e.printStackTrace();
 		}
 	}
@@ -115,26 +121,39 @@ public class ReimbursementServlet extends HttpServlet {
 //		super.doPut(req, resp);
 		CorsFix.addCorsHeader(req.getRequestURI(), resp);
 		String pathInfo = req.getPathInfo();
-		InputStream reqBody = req.getInputStream();		
-		
-		ReqReimStatusDTO statusDTO = om.readValue(reqBody, ReqReimStatusDTO.class);
-		
-		int id = Integer.parseInt(pathInfo.substring(1));
-		statusDTO.setId(id);
-  		try {
-			rs.setStatusByID(statusDTO.getId(),statusDTO.getUser_id(),statusDTO.getStatus()) ;
-			try(PrintWriter pw = resp.getWriter()){
-				ReimbursementDTO reimDTO =  new ReimbursementDTO(rs.getByID(id));
- 				pw.write(om.writeValueAsString(reimDTO));
-				pw.close();				
-				resp.setStatus(200);
-			}			
-		} catch (ReimbursementNotFoundException e) {
-			// TODO Auto-generated catch block
-			resp.setStatus(404);
+		InputStream reqBody = req.getInputStream();
 
-			e.printStackTrace();
-		}		
+		if (vs.checkManager(req, resp) == true) {
+			ReqReimStatusDTO statusDTO = om.readValue(reqBody, ReqReimStatusDTO.class);
+
+ 			int id = Integer.parseInt(pathInfo.substring(1));
+ 			if (vs.checkManager(req, resp) == true) {
+				statusDTO.setId(id);
+			
+				try {
+					ReimbursementDTO reimDTO = new ReimbursementDTO(rs.getByID(id));
+				 
+   					if(reimDTO.getReim_status().getReimb_status().equals("pending")) {
+ 						rs.setStatusByID(statusDTO.getId(), statusDTO.getUser_id(), statusDTO.getStatus());
+ 						try (PrintWriter pw = resp.getWriter()) {
+ 							reimDTO = new ReimbursementDTO(rs.getByID(id));
+ 							pw.write(om.writeValueAsString(reimDTO));
+ 							resp.setStatus(200);
+ 							pw.close();
+ 						}
+ 					} else {
+ 						vs.messageWrite(req, resp, 409);
+ 					}					
+				} catch (ReimbursementNotFoundException e) {
+					// TODO Auto-generated catch block
+					vs.messageWrite(req, resp, 404);
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+
 	}
 
 	@Override

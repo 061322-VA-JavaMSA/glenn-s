@@ -14,20 +14,24 @@ async function reimbursement() {
         },
 
     });
+
     if (response.status == 200) {
         let data = await response.json();
-
-        /*
-            persisting the User object sent back to session storage for use in other pages
-            Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
-         */
         var list = data;
         document.getElementById("waiting").setAttribute('class', 'd-flex justify-content-center d-none');
-
-
         tableReim(list);
-    } else {
-        console.log('Unable to login.')
+    } else if (response.status == 404) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There was an issue',
+        });
+    } else if (response.status == 401) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Not Authorized',
+        });
     }
 }
 reimbursement();
@@ -36,31 +40,6 @@ function tableReim(list) {
     let x = 1;
     for (i in list) {
         tr = document.createElement('tr');
-
-        // td = createTableData(x);
-        // tr.appendChild(td);
-        // td = createTableData(list[i].amount);
-        // tr.appendChild(td);
-        // td = createTableData(list[i].description);
-        // tr.appendChild(td);
-        // td = createTableData(list[i].submitted.substring(0, 16));
-        // tr.appendChild(td);
-        // td = createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;");
-        // tr.appendChild(td);
-        // td = createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;");
-        // tr.appendChild(td);
-        // td = createTableData(list[i].reim_status.reimb_status);
-        // tr.appendChild(td);
-        // td = createTableData(list[i].reim_type.reimb_type);
-        // tr.appendChild(td);
-        // td = document.createElement('td');
-        // if (list[i].reim_status.reimb_status == 'pending') {
-        //     td.appendChild(approveButton(list[i].id, tr, x));
-        //     td.appendChild(denyButton(list[i].id, tr, x));
-        // }
-        // td.appendChild(viewButton(list[i].id));
-        // td.style.width = '20%';
-        // tr.appendChild(td);
         createList(x, list[i], tr);
         x++;
         document.getElementById('reim_body').appendChild(tr);
@@ -73,7 +52,7 @@ function approveButton(id, tr, x) {
     let button = document.createElement('button');
     button.setAttribute('class', 'btn btn-success me-1');
     button.innerHTML = "Approve";
-    button.addEventListener('click', appoveSend.bind(null, id, tr, x));
+    button.addEventListener('click', appoveSendConfirm.bind(null, id, tr, x));
     return button;
 }
 
@@ -81,7 +60,7 @@ function denyButton(id, tr, x) {
     /* <button type="button" class="btn btn-danger">Deny</button> */
     let button = document.createElement('button');
     button.setAttribute('class', 'btn btn-danger me-1');
-    button.addEventListener('click', denySend.bind(null, id, tr, x));
+    button.addEventListener('click', denySendConfirm.bind(null, id, tr, x));
 
     button.innerHTML = "Deny";
     // button.addEventListener('click', test(principal.id));
@@ -99,8 +78,26 @@ function viewButton(id) {
 
 
 
-async function appoveSend(id, tr, x) {
+function appoveSendConfirm(id, tr, x) {
 
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Please confirm if you wish to continue",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            appoveSend(id, tr, x);
+
+        }
+    })
+}
+
+async function appoveSend(id, tr, x) {
+    console.log(principal.id);
     let response = await fetch(`${apiUrl}/reim/${id}`, {
         method: 'PUT',
         credentials: 'include',
@@ -117,10 +114,49 @@ async function appoveSend(id, tr, x) {
         let data = await response.json();
         let list = data;
         tr.innerHTML = "";
-        createList(x, list, tr);
-    } else {
+        Swal.fire({
+            icon: 'success',
+            text: 'Accepted',
+        });
 
+        createList(x, list, tr);
+    } else if (response.status == 404) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There was an issue',
+        });
+    } else if (response.status == 401) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Not Authorized',
+        });
+    } else if (response.status == 409) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Status has already been changed',
+        });
     }
+}
+
+function denySendConfirm(id, tr, x) {
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Please confirm if you wish to continue",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            denySend(id, tr, x);
+
+        }
+    })
 }
 
 async function denySend(id, tr, x) {
@@ -141,9 +177,30 @@ async function denySend(id, tr, x) {
         let data = await response.json();
         let list = data;
         tr.innerHTML = "";
-        createList(x, list, tr);
-    } else {
+        Swal.fire({
+            icon: 'success',
+            text: 'Denied',
+        });
 
+        createList(x, list, tr);
+    } else if (response.status == 404) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There was an issue',
+        });
+    } else if (response.status == 401) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Not Authorized',
+        });
+    } else if (response.status == 409) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Status has already been changed',
+        });
     }
 }
 
@@ -185,7 +242,18 @@ async function viewSend(id) {
         single.append(ul);
         document.getElementById("main-table").style.display = "none";
         document.getElementById("view-single").style.display = "block";
-    } else {
+    } else if (response.status == 404) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There was an issue',
+        });
+    } else if (response.status == 401) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Not Authorized',
+        });
     }
 }
 

@@ -64,15 +64,15 @@ async function update() {
             persisting the User object sent back to session storage for use in other pages
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
-
-        document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">
-            Updated Successfully
-        </div>`;
-
-
+        Swal.fire({
+            icon: 'success',
+            text: 'Profile Saved',
+        });
     } else {
-        document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
-        Unable to update.
-    </div>`;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Unable to save',
+        });
     }
 }

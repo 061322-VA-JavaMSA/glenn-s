@@ -39,15 +39,23 @@ async function login() {
         document.getElementById('submitButton').style.display = "block";
         document.getElementById('loadButton').style.display = "none";
         sessionStorage.setItem('principal', JSON.stringify(data));
-        window.location.href = "./index.html";
-        document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">
-        login Successful
-    </div>`;
+        Swal.fire({
+            icon: 'success',
+            text: 'Login Successful',
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = "./index.html";
+            }
+        })
+
     } else {
         document.getElementById('submitButton').style.display = "block";
         document.getElementById('loadButton').style.display = "none";
-        document.getElementById('message').innerHTML = `<div class="alert alert-danger" role="alert">
-        Login Failed.
-    </div>`;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Login Failed',
+        });
     }
 }
