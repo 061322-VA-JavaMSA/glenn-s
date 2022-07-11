@@ -1,5 +1,7 @@
 package com.revature.daos;
 
+import java.util.List;
+
 import org.hibernate.Session;
 
 import com.revature.models.ReimbursementType;
@@ -42,6 +44,18 @@ public class ReimbursementTypeHibernate implements ReimbursementTypeDAO{
 			type = (ReimbursementType) s.createQuery(cq).getSingleResult();
 		}	
 		return type;
+	}
+
+	@Override
+	public List<ReimbursementType> getReimbursementType() {
+		// TODO Auto-generated method stub
+		List<ReimbursementType> reimburseType = null;
+		
+		try(Session s = HibernateUtil.getSessionFactory().openSession()){
+			reimburseType = s.createQuery("from ReimbursementType Order by id ASC", ReimbursementType.class).list();
+ 		}
+		
+		return reimburseType;
 	}
 
 }

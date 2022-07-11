@@ -33,4 +33,12 @@
 		<servlet-name>auth-servlet</servlet-name>
 		<url-pattern>/auth</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>reimtype-servlet</servlet-name>
+		<servlet-class>com.revature.servlets.ReimTypeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>reimtype-servlet</servlet-name>
+		<url-pattern>/type</url-pattern>
+	</servlet-mapping>
 </web-app>

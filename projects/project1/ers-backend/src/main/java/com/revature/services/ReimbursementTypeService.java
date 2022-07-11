@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import com.revature.daos.ReimbursementTypeDAO;
 import com.revature.daos.ReimbursementTypeHibernate;
 import com.revature.exceptions.ReimbursementTypeNotFoundException;
@@ -12,4 +14,9 @@ public class ReimbursementTypeService {
 		ReimbursementType type = rt.getReimbursementTypeById(id);
 		return type;
 	}
+	
+	public List<ReimbursementType> getReimbursementType() {
+		return rt.getReimbursementType();
+	} 
 }
+
