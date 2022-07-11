@@ -40,14 +40,14 @@ async function login() {
         document.getElementById('loadButton').style.display = "none";
         sessionStorage.setItem('principal', JSON.stringify(data));
         Swal.fire({
+            title: 'Login Success',
+            text: 'Redirecting...',
             icon: 'success',
-            text: 'Login Successful',
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                window.location.href = "./index.html";
-            }
-        })
+            timer: 2000,
+            buttons: false,
+        }).then(() => {
+            window.location.href = "./index.html";
+        });
 
     } else {
         document.getElementById('submitButton').style.display = "block";

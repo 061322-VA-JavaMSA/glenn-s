@@ -37,6 +37,7 @@ async function add() {
         Swal.fire({
             icon: 'success',
             text: 'Succesfully Saved',
+            timer: 2000,
         });
         document.getElementById('reimb_type_id').value = '';
         document.getElementById('amount').value = '';

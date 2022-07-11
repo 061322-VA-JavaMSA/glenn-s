@@ -1,0 +1,5 @@
+https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/4.0.1
+ctrl + shift o auto import
+https://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServlet.html
+http://localhost:8080/
+http://localhost:8080/servlet-demo/hello

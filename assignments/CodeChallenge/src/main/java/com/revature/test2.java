@@ -3,28 +3,35 @@
  */
 package com.revature;
 
+import java.util.Scanner;
+
 /**
  *
  */
 public class test2 {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int x = 121;
-		String st = (new Integer(x).toString());
-		String[] num_str =   st.split("");
-		boolean bl = false;
-		String st_outputString = "";
-		if(num_str[0].equals(num_str[(num_str.length - 1)])) {
-			for(int i=(num_str.length-1);i>=0;i--) {
-				st_outputString = st_outputString + num_str[i];
-			}
-		} 
-		System.out.println(st_outputString);	
-		
-   	}
+ 
+	  public static void main (String[]args)
+	  {
+	 
+ 
+		    //INPUT [uncomment & modify if required]
+		    int N = 26 ;
+		    int P = 5;
+		    int Q = 4;
+		    int P_tmp = 0;
+		    int Q_tmp = 0;
+		    int total = 0;
+		    int i = 0;
+		    while (total < N) {
+		    	P_tmp = P_tmp + P;
+		    	Q_tmp = Q_tmp + Q;		    	
+		    	total = Q_tmp + P_tmp;
+		    	i++;
+		    }  
+		    Q_tmp = Q_tmp - Q;
+ 		    System.out.println(N - Q_tmp);
+	    
+	  }
 
 }

@@ -67,12 +67,14 @@ async function update() {
         Swal.fire({
             icon: 'success',
             text: 'Profile Saved',
+            timer: 2000,
         });
     } else {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'Unable to save',
+            timer: 2000,
         });
     }
 }
