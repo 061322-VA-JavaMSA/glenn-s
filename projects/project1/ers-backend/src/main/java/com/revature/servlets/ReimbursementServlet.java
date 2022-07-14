@@ -23,6 +23,7 @@ import com.revature.exceptions.ReimbursementTypeNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Reimbursement;
 import com.revature.services.AuthService;
+import com.revature.services.ReimbursementNotUpdatedException;
 import com.revature.services.ReimbursementService;
 import com.revature.services.ReimbursementStatusService;
 import com.revature.services.ReimbursementTypeService;
@@ -153,7 +154,7 @@ public class ReimbursementServlet extends HttpServlet {
  					} else {
  						vs.messageWrite(req, resp, 409);
  					}					
-				} catch (ReimbursementNotFoundException e) {
+				} catch (ReimbursementNotFoundException | ReimbursementNotUpdatedException e) {
 					// TODO Auto-generated catch block
 					log.info("Update Reimbursement Not Found");	
 					vs.messageWrite(req, resp, 404);

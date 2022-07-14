@@ -45,8 +45,11 @@ public class UserService {
 	
 	public boolean updatetUser(User u) throws UserNotUpdatedException {
 		log.info(u);
-
-		return ud.updatetUser(u);
+		boolean checkUpdate =ud.updatetUser(u);
+		if (checkUpdate == false) {
+			throw new UserNotUpdatedException();
+		}
+		return checkUpdate;
 	}
 
 }

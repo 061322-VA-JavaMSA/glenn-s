@@ -43,12 +43,19 @@ public class ReimbursementService {
 	public Reimbursement getByID(int id) throws ReimbursementNotFoundException {
 		log.info(id);
 		Reimbursement reimburse =  rd.getByID(id);
+		if (reimburse == null) {
+			throw new ReimbursementNotFoundException();
+		}		
 		return reimburse;
 	}
 	
-	public boolean setStatusByID(int id, int user_id, String status_txt) throws ReimbursementNotFoundException {
+	public boolean setStatusByID(int id, int user_id, String status_txt) throws ReimbursementNotUpdatedException {
 		ReimbursementStatus rs = rsh.getByName(status_txt);
 		User user = ud.getUserById(user_id);
-		return rd.setStatusByID(id, user, rs);
+		 boolean checkUpdate = rd.setStatusByID(id, user, rs);
+		if (checkUpdate == false) {
+			throw new ReimbursementNotUpdatedException();
+		}		 
+		return checkUpdate;
 	}
 }

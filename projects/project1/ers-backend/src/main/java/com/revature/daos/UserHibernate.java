@@ -66,8 +66,8 @@ public class UserHibernate implements UserDAO {
 	@Override
 	public boolean updatetUser(User u) {
 		// TODO Auto-generated method stub
-		int rowsChanged = -1;
-		try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+		boolean validate = false;
+ 		try (Session s = HibernateUtil.getSessionFactory().openSession();) {
 			Transaction trans = s.beginTransaction();
 			String passwordString = u.getPassword();			
 		      	User user = getUserById(u.getId());
@@ -78,13 +78,11 @@ public class UserHibernate implements UserDAO {
 			    }		      	
 		      	s.update(user);
 		      	trans.commit();
- 		        s.close();			
-//			if (rowsChanged < 1) {
-//				return false;
-//			}
+ 		        s.close();	
+ 		       validate =  true;
 		}
-		return true;
-	}
+ 		return validate;
+ 	}
 
 	@Override
 	public List<User> getByRole(Role role) {
