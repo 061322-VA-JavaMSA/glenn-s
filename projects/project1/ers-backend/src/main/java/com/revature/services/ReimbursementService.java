@@ -15,11 +15,16 @@ import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.User;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ReimbursementService {
 	private ReimbursementDAO rd = new ReimbursementHibernate();
 	private ReimbursementStatusDAO rsh = new ReimbursementStatusHibernate();
 	private UserDAO ud = new UserHibernate();
-	
+	private static Logger log = LogManager.getLogger(ReimbursementService.class);
+
 	public List<Reimbursement> getReimburse() {
 		List<Reimbursement> reimburse = rd.getReimbursements();
 		return reimburse;
@@ -36,6 +41,7 @@ public class ReimbursementService {
 	}
 	
 	public Reimbursement getByID(int id) throws ReimbursementNotFoundException {
+		log.info(id);
 		Reimbursement reimburse =  rd.getByID(id);
 		return reimburse;
 	}

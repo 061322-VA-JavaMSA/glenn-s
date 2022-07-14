@@ -5,7 +5,6 @@ if (!principal) {
 async function profileLoad() {
 
 
-    console.log(`${apiUrl}/users/${principal.id}`);
     let response = await fetch(`${apiUrl}/users/${principal.id}`, {
         method: 'GET',
         credentials: 'include',

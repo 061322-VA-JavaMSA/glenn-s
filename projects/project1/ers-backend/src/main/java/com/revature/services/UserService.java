@@ -15,24 +15,20 @@ import com.revature.exceptions.UserNotUpdatedException;
 import com.revature.models.Role;
 import com.revature.models.User;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  */
 public class UserService {
 
 	private UserDAO ud = new UserHibernate();
- 	
-	public User createUser(User u) throws UserNotCreatedException {
-		// by default, created account will be basic Users
- 		
-		User createdUser = ud.insertUser(u);
-		if(createdUser.getId() == -1) {
-			throw new UserNotCreatedException();
-		}
-		return createdUser;
-	}
+	private static Logger log = LogManager.getLogger(UserService.class);
 	
 	public User getUserById(int id) throws UserNotFoundException {
+		log.info(id);
 		User u = ud.getUserById(id);
 		if (u == null) {
 			throw new UserNotFoundException();
@@ -48,6 +44,8 @@ public class UserService {
 	}
 	
 	public boolean updatetUser(User u) throws UserNotUpdatedException {
+		log.info(u);
+
 		return ud.updatetUser(u);
 	}
 

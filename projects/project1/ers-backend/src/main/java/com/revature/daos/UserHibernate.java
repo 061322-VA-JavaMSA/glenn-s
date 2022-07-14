@@ -69,24 +69,19 @@ public class UserHibernate implements UserDAO {
 		int rowsChanged = -1;
 		try (Session s = HibernateUtil.getSessionFactory().openSession();) {
 			Transaction trans = s.beginTransaction();
-
-			CriteriaBuilder cb = s.getCriteriaBuilder();
-			CriteriaUpdate<User> cu = cb.createCriteriaUpdate(User.class);
-			Root<User> root  = cu.from(User.class);
-			String passwordString = u.getPassword();
-			
-			cu.set(root.get("first_name"), u.getFirst_name());
-			cu.set(root.get("last_name"), u.getLast_name());
-			cu.set(root.get("email"), u.getEmail());
-			
-			if(passwordString != null && !passwordString.isEmpty()) {
-				cu.set(root.get("password"), passwordString);
-			}
-			cu.where(cb.equal(root.get("id"),u.getId()));
- 			rowsChanged =s.createQuery(cu).executeUpdate();
-			if (rowsChanged < 1) {
-				return false;
-			}
+			String passwordString = u.getPassword();			
+		      	User user = getUserById(u.getId());
+		      	user.setFirst_name(u.getFirst_name());
+		      	user.setLast_name(u.getLast_name());
+				if(passwordString != null && !passwordString.isEmpty()) {
+					user.setPassword(passwordString);
+			    }		      	
+		      	s.update(user);
+		      	trans.commit();
+ 		        s.close();			
+//			if (rowsChanged < 1) {
+//				return false;
+//			}
 		}
 		return true;
 	}

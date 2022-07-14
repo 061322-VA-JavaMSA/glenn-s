@@ -1,17 +1,28 @@
-import com.revature.exceptions.ReimbursementNotFoundException;
-import com.revature.services.ReimbursementService;
+import java.util.List;
 
+import com.revature.exceptions.ReimbursementNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
+import com.revature.models.Reimbursement;
+import com.revature.models.User;
+import com.revature.services.ReimbursementService;
+import com.revature.services.UserService;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
  
 public class Driver {
  
 	/**
 	 * @param args
 	 */
+	private static Logger log = LogManager.getLogger(Driver.class);
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ReimbursementService rs = new ReimbursementService();
+//		ReimbursementService rs = new ReimbursementService();
 //		List<Reimbursement> reim = rs.getReimburse();
-//		UserService us = new UserService();
+		UserService us = new UserService();
+		
 //		List<User> users = us.getUsers(); 
 //		AuthService as = new AuthService();
 //		try {
@@ -31,9 +42,9 @@ public class Driver {
 //		try {
 //			User u = us.getUserById(12);
 //			List<Reimbursement> reimburse = rs.getByAuthor(u);
-//			
-////			users.forEach(u -> usersDTO.add(new UserDTO(u)));
-//
+			
+//			users.forEach(u -> usersDTO.add(new UserDTO(u)));
+
 //			System.out.println(reimburse);
 //		} catch (ReimbursementNotFoundException | UserNotFoundException e) {
 //			// TODO Auto-generated catch block
@@ -80,6 +91,16 @@ public class Driver {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		User u = new User();
+		try {
+			u = us.getUserById(1);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(u);
+//		log.warn("fdsfsddfdsfs");
+//		log.info("info");
  	}
 
 }

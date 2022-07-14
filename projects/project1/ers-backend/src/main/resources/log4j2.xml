@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
 	<Appenders>
-		<File name="LogToFile" fileName="logs/project0.log">
+		<File name="LogToFile" fileName="C:/Users/glennuy/Git/glenn-syham/projects/project1/ers-backend/logs/project1.log">
 			<PatternLayout
 				pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
 		</File>
@@ -12,4 +12,4 @@
 		</Root>
 	</Loggers>
 </Configuration>
-	
+		

@@ -31,6 +31,9 @@ import com.revature.services.UserService;
 import com.revature.services.ValidateService;
 import com.revature.util.CorsFix;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  */
@@ -48,7 +51,7 @@ public class UserServlet extends HttpServlet {
 	private ReimbursementService rs = new ReimbursementService();
 	private AuthService as = new AuthService();
 	private ValidateService vs = new ValidateService();
-
+	private static Logger log = LogManager.getLogger(UserServlet.class);
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -80,6 +83,7 @@ public class UserServlet extends HttpServlet {
 				
 				if(vs.checkUserId(req, resp, id)) {
 					try (PrintWriter pw = resp.getWriter()) {
+						log.info("Reimbursement by Author");
 						User u = us.getUserById(id);
 						List<Reimbursement> reimburse = rs.getByAuthor(u);
 						List<ReimbursementDTO> reimDTO = new ArrayList<>();
@@ -90,6 +94,7 @@ public class UserServlet extends HttpServlet {
 
 					} catch (ReimbursementNotFoundException | UserNotFoundException e) {
 						// TODO: handle exception
+						log.info("User Not found");
  						vs.messageWrite(req, resp, 404);
 						e.printStackTrace();
 					}			
@@ -99,7 +104,9 @@ public class UserServlet extends HttpServlet {
 			} else {
 				int id = Integer.parseInt(pathInfo.substring(1));
 				try (PrintWriter pw = resp.getWriter()) {
+					log.info("User Profile");
 					User u = us.getUserById(id);
+					
 					ProfileDTO profileDTO = new ProfileDTO(u);
 					resp.setStatus(200);
 
@@ -107,6 +114,7 @@ public class UserServlet extends HttpServlet {
 					pw.close();
 				} catch (UserNotFoundException e) {
 					// TODO: handle exception
+					log.info("User Not found");
 					vs.messageWrite(req, resp, 404);
 					e.printStackTrace();
 				}
@@ -141,6 +149,7 @@ public class UserServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		if(vs.checkUserId(req, resp, id)) {
 			try {
+				log.info("Update User");
 				boolean bool = us.updatetUser(u);
 				try (PrintWriter pw = resp.getWriter()) {
 					pw.write(om.writeValueAsString(u));
@@ -149,6 +158,7 @@ public class UserServlet extends HttpServlet {
 				}
 			} catch (UserNotUpdatedException e) {
 				// TODO Auto-generated catch block
+				log.info("User Update Failed");
 				vs.messageWrite(req, resp, 404);
 				e.printStackTrace();
 			}			

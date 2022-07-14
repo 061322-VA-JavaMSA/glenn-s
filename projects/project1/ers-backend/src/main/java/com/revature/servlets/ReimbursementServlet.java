@@ -30,6 +30,10 @@ import com.revature.services.UserService;
 import com.revature.services.ValidateService;
 import com.revature.util.CorsFix;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ReimbursementServlet extends HttpServlet {
 	private ReimbursementService rs = new ReimbursementService();
 	private ReimbursementStatusService rss = new ReimbursementStatusService();
@@ -38,6 +42,7 @@ public class ReimbursementServlet extends HttpServlet {
 	private AuthService as = new AuthService();
 	private ValidateService vs = new ValidateService();
 	private ObjectMapper om = new ObjectMapper();
+	private static Logger log = LogManager.getLogger(ReimbursementServlet.class);
 
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,7 +71,7 @@ public class ReimbursementServlet extends HttpServlet {
 				resp.setStatus(200);
 
 			} else {
-				// this is just a test
+				log.info("Get single Reimbursement by id"); 
 				int id = Integer.parseInt(pathInfo.substring(1));
 				try {
 					ReimbursementDTO reimDTO = new ReimbursementDTO(rs.getByID(id));
@@ -75,6 +80,7 @@ public class ReimbursementServlet extends HttpServlet {
 					pw.close();
 				} catch (ReimbursementNotFoundException e) {
 					// TODO Auto-generated catch block
+					log.info("Reimbursement Not Found"); 
 					vs.messageWrite(req, resp, 404);
 					e.printStackTrace();
 				}
@@ -94,7 +100,7 @@ public class ReimbursementServlet extends HttpServlet {
 		ReqReimbursementDTO newReimbursementDTO = om.readValue(reqBody, ReqReimbursementDTO.class);
 		Reimbursement newReimbursement = new Reimbursement();
 		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-
+		log.info("Create Reimbursement");	
 		try {
 			newReimbursement.setAmount(newReimbursementDTO.getAmount());
 			newReimbursement.setDescription(newReimbursementDTO.getDescription());
@@ -102,6 +108,7 @@ public class ReimbursementServlet extends HttpServlet {
 			newReimbursement.setReim_status(rss.getReimbursementStatusById(1));
 			newReimbursement.setReim_type(rt.getReimbursementTypeById(newReimbursementDTO.getReimb_type_id()));
 			newReimbursement.setSubmitted(timestamp1);
+			log.info(newReimbursement);	
 			Reimbursement newR = rs.insertReimbursement(newReimbursement);
 			try (PrintWriter pw = resp.getWriter()) {
 				pw.write(1);
@@ -110,6 +117,7 @@ public class ReimbursementServlet extends HttpServlet {
 		} catch (ReimbursementNotCreatedException | UserNotFoundException | ReimbursementStatusNotFoundException
 				| ReimbursementTypeNotFoundException e) {
 			// TODO Auto-generated catch block
+			log.info("Reimbursement Not Created");	
 			vs.messageWrite(req, resp, 404);
 			e.printStackTrace();
 		}
@@ -129,10 +137,11 @@ public class ReimbursementServlet extends HttpServlet {
  			int id = Integer.parseInt(pathInfo.substring(1));
  			if (vs.checkManager(req, resp) == true) {
 				statusDTO.setId(id);
-			
+				log.info("Update Reimbursement");	
+
 				try {
 					ReimbursementDTO reimDTO = new ReimbursementDTO(rs.getByID(id));
-				 
+					log.info(id);	
    					if(reimDTO.getReim_status().getReimb_status().equals("pending")) {
  						rs.setStatusByID(statusDTO.getId(), statusDTO.getUser_id(), statusDTO.getStatus());
  						try (PrintWriter pw = resp.getWriter()) {
@@ -146,6 +155,7 @@ public class ReimbursementServlet extends HttpServlet {
  					}					
 				} catch (ReimbursementNotFoundException e) {
 					// TODO Auto-generated catch block
+					log.info("Update Reimbursement Not Found");	
 					vs.messageWrite(req, resp, 404);
 
 					e.printStackTrace();

@@ -5,19 +5,16 @@ package com.revature.models;
 
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.ColumnTransformer;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-
 /**
  *
  */
@@ -30,7 +27,10 @@ public class User {
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 	
-	@Column(nullable = false)
+ 	@ColumnTransformer(forColumn = "password",
+    read =  "project1.pgp_sym_decrypt(password::bytea, 'AES_KEY')",
+    write = "project1.pgp_sym_encrypt(?, 'AES_KEY')")
+    @Column(name = "password",  columnDefinition = "bytea", nullable = false)
 	private String password;
 	
 	@Column(nullable = false)

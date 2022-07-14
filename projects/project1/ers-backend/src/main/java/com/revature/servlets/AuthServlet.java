@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.UserDTO;
 import com.revature.exceptions.LoginException;
@@ -27,7 +30,7 @@ public class AuthServlet extends HttpServlet {
 	private AuthService as = new AuthService();
 	private ObjectMapper om = new ObjectMapper();
 	private ValidateService vs = new ValidateService();
-
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		CorsFix.addCorsHeader(req.getRequestURI(), res);
 
@@ -35,8 +38,7 @@ public class AuthServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		try {
 			User principal = as.login(username, password);
-
-			HttpSession session = req.getSession();
+ 			HttpSession session = req.getSession();
 			session.setAttribute("userId", principal.getId());
 			session.setAttribute("userName", principal.getUsername());
 			session.setAttribute("userRole", principal.getRole().getUser_role());
