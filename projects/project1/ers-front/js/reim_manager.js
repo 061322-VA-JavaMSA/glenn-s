@@ -221,27 +221,27 @@ async function viewSend(id) {
         let ul = document.createElement('ul');
 
         let resolved = (list.resolved != null) ? list.resolved.substring(0, 16) : "&nbsp;";
-        let resolver = (list.resolver != null) ? list.resolver.username : "&nbsp;"
+        let resolver = (list.resolver != null) ? (list.resolver.first_name + " " + list.resolver.last_name) : "&nbsp;"
         let button = document.createElement('button');
-        button.setAttribute('class', 'btn btn-info mr-1');
+        button.setAttribute('class', 'btn btn-primary btn-sm');
         button.addEventListener('click', viewTable);
 
-        button.innerHTML = "Click to return";
+        button.innerHTML = "Back";
 
         ul.setAttribute('class', 'list-group list-group-flush');
         single.innerHTML = "";
-        ul.innerHTML = `<li class="list-group-item"><span class="btn btn-primary">Amount</span>&nbsp; ${list.amount}</li>` +
-            `<li class="list-group-item"><span class="btn btn-primary">Description</span>&nbsp;  ${list.description}</li>` +
-            `<li class="list-group-item"><span class="btn btn-primary">Submitted</span>&nbsp;  ${list.submitted.substring(0, 16)}</li>` +
-            `<li class="list-group-item"><span class="btn btn-primary">Resolved</span>&nbsp;  ${resolved}</li>` +
-            `<li class="list-group-item"><span class="btn btn-primary">Resolver</span>&nbsp;  ${resolver}</li>` +
-            `<li class="list-group-item"><span class="btn btn-primary">Status</span>&nbsp;  ${list.reim_status.reimb_status}</li>` +
-            `<li class="list-group-item"><span class="btn btn-primary">Type</span>&nbsp;  ${list.reim_type.reimb_type}</li>`;
+        ul.innerHTML = `<li class="list-group-item"><span class="btn bg-dark text-white">Amount</span>&nbsp; ${list.amount}</li>` +
+            `<li class="list-group-item"><span class="btn bg-dark text-white">Description</span>&nbsp;  ${list.description}</li>` +
+            `` +
+            `<li class="list-group-item"><span class="btn bg-dark text-white">Resolved</span>&nbsp;  ${resolved}</li>` +
+            `<li class="list-group-item"><span class="btn bg-dark text-white">Resolver</span>&nbsp;  ${resolver}</li>` +
+            `<li class="list-group-item"><span class="btn bg-dark text-white">Status</span>&nbsp;  ${list.reim_status.reimb_status}</li>` +
+            `<li class="list-group-item"><span class="btn bg-dark text-white">Type</span>&nbsp;  ${list.reim_type.reimb_type}</li>`;
         single.append(button);
 
         single.append(ul);
-        document.getElementById("main-table").style.display = "none";
-        document.getElementById("view-single").style.display = "block";
+        document.getElementById("main-table").setAttribute('class', 'table mt-5 d-none');
+        document.getElementById("view-single").setAttribute('class', 'col-md-5 mt-5');
     } else if (response.status == 404) {
         Swal.fire({
             icon: 'error',
@@ -258,22 +258,24 @@ async function viewSend(id) {
 }
 
 function viewTable() {
-    document.getElementById("main-table").style.display = "block";
-    document.getElementById("view-single").style.display = "none";
+    document.getElementById("main-table").setAttribute('class', 'table mt-5');
+    document.getElementById("view-single").setAttribute('class', 'col-md-5 mt-5 d-none');
 }
 
 function createList(x, list, tr) {
     td = createTableData(x);
     tr.appendChild(td);
+    td = createTableData(list.submitted.substring(0, 16));
+    tr.appendChild(td);
+    td = createTableData(list.author.first_name + " " + list.author.last_name);
+    tr.appendChild(td);
     td = createTableData(list.amount);
     tr.appendChild(td);
     td = createTableData(list.description);
     tr.appendChild(td);
-    td = createTableData(list.submitted.substring(0, 16));
-    tr.appendChild(td);
     td = createTableData((list.resolved != null) ? list.resolved.substring(0, 16) : "&nbsp;");
     tr.appendChild(td);
-    td = createTableData((list.resolver != null) ? list.resolver.username : "&nbsp;");
+    td = createTableData((list.resolver != null) ? (list.resolver.first_name + " " + list.resolver.last_name) : "&nbsp;");
     tr.appendChild(td);
     td = createTableData(list.reim_status.reimb_status);
     tr.appendChild(td);

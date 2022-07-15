@@ -28,8 +28,8 @@ public class User {
 	private String username;
 	
  	@ColumnTransformer(forColumn = "password",
-    read =  "project1.pgp_sym_decrypt(password::bytea, 'AES_KEY')",
-    write = "project1.pgp_sym_encrypt(?, 'AES_KEY')")
+    read =  "project1.pgp_sym_decrypt(password::bytea, 'Revature')",
+    write = "project1.pgp_sym_encrypt(?, 'Revature')")
     @Column(name = "password",  columnDefinition = "bytea", nullable = false)
 	private String password;
 	

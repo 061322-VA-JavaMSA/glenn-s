@@ -4,8 +4,6 @@ if (!principal) {
 }
 async function reimbursement() {
 
-
-    console.log(`${apiUrl}/users/${principal.id}/reim`);
     let response = await fetch(`${apiUrl}/users/${principal.id}/reim`, {
         method: 'GET',
         credentials: 'include',
@@ -34,20 +32,12 @@ function tableReim(list) {
     for (i in list) {
         tr = document.createElement('tr');
 
-        // td = createTableData(x);
-        // td = createTableData(list[i].amount);
-        // td = createTableData(list[i].description);
-        // td = createTableData(list[i].submitted.substring(0, 16));
-        // td = createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;");
-        // td = createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;");
-        // td = createTableData(list[i].reim_status.reimb_status);
-        // td = createTableData(list[i].reim_type.reimb_type);
         tr.appendChild(createTableData(x));
         tr.appendChild(createTableData(list[i].amount));
         tr.appendChild(createTableData(list[i].description));
         tr.appendChild(createTableData(list[i].submitted.substring(0, 16)));
         tr.appendChild(createTableData((list[i].resolved != null) ? list[i].resolved.substring(0, 16) : "&nbsp;"));
-        tr.appendChild(createTableData((list[i].resolver != null) ? list[i].resolver.username : "&nbsp;"));
+        tr.appendChild(createTableData((list[i].resolver != null) ? (list[i].resolver.first_name + " " + list[i].resolver.last_name) : "&nbsp;"));
         tr.appendChild(createTableData(list[i].reim_status.reimb_status));
         tr.appendChild(createTableData(list[i].reim_type.reimb_type));
 

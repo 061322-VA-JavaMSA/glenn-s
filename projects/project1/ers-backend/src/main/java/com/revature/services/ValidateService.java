@@ -20,7 +20,7 @@ public class ValidateService {
 	
 	public boolean checkUserId(HttpServletRequest req, HttpServletResponse resp, int id) {
 		HttpSession session = req.getSession();
-		if(((Integer) session.getAttribute("userId")).intValue() != id) {
+		if(((Integer) session.getAttribute("userId")).intValue() != id && !session.getAttribute("userRole").toString().equals("manager")) {
 			messageWrite(req, resp, 401); 
 			return false;
 		}
