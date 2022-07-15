@@ -11,7 +11,6 @@ let nav_left = document.getElementById("nav-left");
 if (principalString && principalString !== null) {
     // converts the JSON string back to a JS object and assigns it to principal
     principal = JSON.parse(principalString);
-
     if (principal.role.user_role === 'manager') {
         createNavElement('Employees', nav_left, './users.html', null);
         createNavElement('Reimbursements', nav_left, './reimbursement_manager.html', null);
@@ -19,6 +18,10 @@ if (principalString && principalString !== null) {
         createNavElement('Reimbursements', nav_left, './reimbursement.html', null);
         createNavElement('Add Reimbursement', nav_left, './reim-add.html', null);
     }
+    if (document.getElementById("ers_title")) {
+        document.getElementById("ers_title").innerHTML = principal.role.user_role.toUpperCase();
+    }
+
 
     createNavElement('Profile', nav_right, './profile.html', null);
     createNavElement("Hello " + principal.first_name + ",", nav_right, null, null);

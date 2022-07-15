@@ -207,7 +207,6 @@ function appoveSendConfirm(id, tr, x) {
 }
 
 async function appoveSend(id, tr, x) {
-    console.log(principal.id);
     let response = await fetch(`${apiUrl}/reim/${id}`, {
         method: 'PUT',
         credentials: 'include',
