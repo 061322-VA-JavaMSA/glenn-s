@@ -76,7 +76,7 @@ function viewButtonReimUser(id) {
     /* <button type="button" class="btn btn-warning">View</button> */
     let button = document.createElement('button');
     button.setAttribute('class', 'btn btn-warning');
-    button.innerHTML = "View";
+    button.innerHTML = "Reimbursements";
     button.addEventListener('click', reim_user.bind(null, id));
     return button;
 }
