@@ -13,10 +13,10 @@ if (principalString && principalString !== null) {
     principal = JSON.parse(principalString);
 
     if (principal.role.user_role === 'manager') {
-        createNavElement('Users', nav_left, './users.html', null);
-        createNavElement('List Reimbursement', nav_left, './reimbursement_manager.html', null);
+        createNavElement('Employees', nav_left, './users.html', null);
+        createNavElement('Reimbursements', nav_left, './reimbursement_manager.html', null);
     } else {
-        createNavElement('List Reimbursement ', nav_left, './reimbursement.html', null);
+        createNavElement('Reimbursements', nav_left, './reimbursement.html', null);
         createNavElement('Add Reimbursement', nav_left, './reim-add.html', null);
     }
 
